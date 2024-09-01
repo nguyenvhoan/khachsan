@@ -1,7 +1,5 @@
-import 'package:appthoitiet/model/service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:booking/model/service.dart';
 import 'package:flutter/material.dart';
-import 'package:random_string/random_string.dart';
 
 class Service extends StatefulWidget {
   const Service({super.key});
