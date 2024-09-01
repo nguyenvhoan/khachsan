@@ -1,13 +1,9 @@
 import 'dart:io';
 
-import 'package:appthoitiet/model/room_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:random_string/random_string.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart'; // Import multi_select_flutter
+
 
 class Room extends StatefulWidget {
   const Room({super.key});
