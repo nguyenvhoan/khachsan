@@ -1,9 +1,9 @@
-import 'package:appthoitiet/Management/Romm.dart';
-import 'package:appthoitiet/Management/item.dart';
+
+import 'package:booking/Management/Room_type.dart';
+import 'package:booking/Management/item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:appthoitiet/Management/Room_type.dart';
-import 'package:appthoitiet/Management/Service.dart'; // Giả sử bạn có trang Service
+ // Giả sử bạn có trang Service
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
