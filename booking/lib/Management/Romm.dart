@@ -1,8 +1,15 @@
+
+
 import 'dart:io';
 
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:random_string/random_string.dart';
 
 
 class Room extends StatefulWidget {
@@ -36,7 +43,7 @@ class _RoomState extends State<Room> {
     _loadRoomTypes(); // Load room types when initializing
     _loadServices(); // Load services when initializing
   }
-
+  
   Future<void> _loadRoomTypes() async {
     try {
       QuerySnapshot snapshot = await _roomTypes.get();

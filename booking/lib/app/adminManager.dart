@@ -10,7 +10,7 @@ class Adminmanager extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      // drawer: Navbar(),
+      drawer: Drawer(),
       body: GestureDetector(
         onTap: () async {
           // final FirebaseFirestore db = FirebaseFirestore.instance;
