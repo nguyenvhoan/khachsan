@@ -1,7 +1,6 @@
-import 'package:appthoitiet/model/room_type.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
-import 'package:random_string/random_string.dart';
+
 
 class RoomType extends StatefulWidget {
   const RoomType({super.key});
