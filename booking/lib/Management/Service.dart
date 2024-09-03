@@ -1,3 +1,4 @@
+import 'package:booking/controller/nav_option_service.dart';
 import 'package:booking/model/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -9,57 +10,13 @@ class Service extends StatefulWidget {
   @override
   State<Service> createState() => _ServiceState();
 }
-
 class _ServiceState extends State<Service> {
   final TextEditingController _serviceController = TextEditingController();
-  final CollectionReference _item =
-      FirebaseFirestore.instance.collection('Service');
+  
   Stream<QuerySnapshot>? _stream;
   final ServiceModel _service = ServiceModel();
-  Future<void> _create([DocumentSnapshot? DocumentSnapshot]) async {
-    showBottomSheet(
-        context: context,
-        builder: (BuildContext ctx) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 2),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Center(
-                  child: Text('Create Service'),
-                ),
-                TextField(
-                  controller: _serviceController,
-                  decoration: const InputDecoration(
-                      labelText: 'Service', hintText: 'Wifi'),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        String Id = randomAlphaNumeric(10);
-                        final String service = _serviceController.text;
-                        _item.add({
-                          "service": service,
-                          "id": Id,
-                        });
-                        _serviceController.text = '';
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Create')),
-                )
-              ],
-            ),
-          );
-        });
-  }
+  
+  NavOptionService _navOptionService = NavOptionService();
 
   @override
   void initState() {
@@ -110,7 +67,7 @@ class _ServiceState extends State<Service> {
                                 GestureDetector(
                                   onTap: () {
                                     _serviceController.text = item["service"];
-                                    _editType(item.id);
+                                    _navOptionService.editType(item.id,context,_serviceController);
                                   },
                                   child: const Icon(
                                     Icons.edit,
@@ -140,72 +97,12 @@ class _ServiceState extends State<Service> {
               }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _create();
+          _navOptionService.create(context,_serviceController);
         },
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  Future<void> _editType(String id) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(Icons.cancel),
-                ),
-                const SizedBox(height: 10),
-                const Row(
-                  children: [
-                    Text(
-                      'Edit',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      'Detail',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _serviceController,
-                  decoration: const InputDecoration(
-                    labelText: 'service',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                await _service.updateService(id, _serviceController.text);
-                Navigator.pop(context);
-              },
-              child: const Text('Save'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
-        ),
-      );
+  
 }

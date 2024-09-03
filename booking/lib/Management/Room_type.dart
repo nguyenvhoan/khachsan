@@ -1,8 +1,8 @@
 
+import 'package:booking/controller/nav_option_room_type.dart';
 import 'package:booking/model/room_type.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:random_string/random_string.dart';
 
 
 class RoomType extends StatefulWidget {
@@ -11,59 +11,14 @@ class RoomType extends StatefulWidget {
   @override
   State<RoomType> createState() => _RoomTypeState();
 }
-
+NavOptionRoomType _navOptionRoomType = NavOptionRoomType();
 class _RoomTypeState extends State<RoomType> {
+    
   final TextEditingController _roomTypetController = TextEditingController();
-  final CollectionReference _item =
-      FirebaseFirestore.instance.collection('RoomType');
   Stream<QuerySnapshot>? _stream;
   final RoomTypeModel _roomType = RoomTypeModel();
 
-  Future<void> _create([DocumentSnapshot? DocumentSnapshot]) async {
-    //BottomSheet (một phần giao diện người dùng có thể trượt từ dưới cùng của màn hình).
-    showBottomSheet(
-        context: context,
-        builder: (BuildContext ctx) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 2),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Center(
-                  child: Text('Create Room Type'),
-                ),
-                TextField(
-                  controller: _roomTypetController,
-                  decoration: const InputDecoration(
-                      labelText: 'Type', hintText: 'Junior Suite'),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        String Id = randomAlphaNumeric(10);
-                        final String type = _roomTypetController.text;
-                        _item.add({
-                          "roomtype": type,
-                          "id": Id,
-                        });
-                        _roomTypetController.text = '';
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Create')),
-                )
-              ],
-            ),
-          );
-        });
-  }
+  
 
   @override
   void initState() {
@@ -115,7 +70,7 @@ class _RoomTypeState extends State<RoomType> {
                                   onTap: () {
                                     _roomTypetController.text =
                                         item["roomtype"];
-                                    _editType(item.id);
+                                    _navOptionRoomType.editType(item.id, context,_roomTypetController );
                                   },
                                   child: const Icon(
                                     Icons.edit,
@@ -147,72 +102,12 @@ class _RoomTypeState extends State<RoomType> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _create();
+          _navOptionRoomType.create(context,_roomTypetController);
         },
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  Future<void> _editType(String id) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(Icons.cancel),
-                ),
-                const SizedBox(height: 10),
-                const Row(
-                  children: [
-                    Text(
-                      'Edit',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      'Detail',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _roomTypetController,
-                  decoration: const InputDecoration(
-                    labelText: 'Type',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                await _roomType.updateType(id, _roomTypetController.text);
-                Navigator.pop(context);
-              },
-              child: const Text('Save'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
-        ),
-      );
+  
 }

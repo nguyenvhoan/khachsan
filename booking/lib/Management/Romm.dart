@@ -641,5 +641,5 @@ class _RoomState extends State<Room> {
     _priceController.dispose();
     _introduceController.dispose();
     super.dispose();
-  }
+  } 
 }
