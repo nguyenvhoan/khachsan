@@ -1,5 +1,4 @@
 
-import 'package:booking/user/widget/Slider.dart';
 import 'package:booking/user/widget/intro.dart';
 import 'package:booking/user/widget/signIn.dart';
 import 'package:flutter/material.dart';
