@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "403220053356",
+    "project_id": "ksan-12952",
+    "storage_bucket": "ksan-12952.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403220053356:android:846171e3b48f389acbc749",
+        "android_client_info": {
+          "package_name": "com.example.booking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAktqPqOPGBV65HizPYV0WXAWXTj_7LtyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
