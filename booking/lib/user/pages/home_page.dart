@@ -9,13 +9,19 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return  Scaffold(
+      backgroundColor: Colors.white,
+      
       appBar: AppBar
+      
         (
+          surfaceTintColor: Colors.white,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.white,
           title:Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Chữ "Otelia" nằm ở góc trái
-              Text(
+              const Text(
                 'Otelia',
                 style: TextStyle(
                   fontFamily: 'Candal',
@@ -24,10 +30,16 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
                 ),
               ),
               // Biểu tượng nằm ở góc phải
-              IconButton(
-                onPressed: () {},
-                icon: Image.asset('asset/images/icons/tb.png'),
-              ),
+               GestureDetector(
+
+                 child: Container(
+                  color: Colors.white ,
+                   child: Image.asset('asset/images/icons/tb.png', 
+                    fit: BoxFit.cover,
+                    
+                                 ),
+                 ),
+               ),
             ],
           ),
       ),
@@ -38,7 +50,9 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
               margin: EdgeInsets.all(15),
               child: Center(
                 child: Image.asset('asset/images/icons/background.png',
-                fit: BoxFit.cover,),
+                fit: BoxFit.cover,
+                height: size.height/5,
+                width: size.width ,),
               )
               ),
               Container(
@@ -71,17 +85,14 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
               ),
               StreamBuilder(
                 stream: db.collection('Room').snapshots(),
-               builder: (context, snapshot){
-                QuerySnapshot querySnapshot = snapshot.data!;
-                
-                
+               builder: (context, snapshot){  
                   if(snapshot.hasData){
                       return SingleChildScrollView(
                         child: Wrap(
                           children: snapshot.data!.docs.map<Widget>((documentSnapshot) {
                             Map<String, dynamic> thisItem =
                               documentSnapshot.data() as Map<String, dynamic>;
-                              print(thisItem);
+                              
                               return Container(
                                 margin: EdgeInsets.only(right: 10),
                               decoration: BoxDecoration(
@@ -107,7 +118,7 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
                                   Container(
                                     
                                       width: size.width/3,
-                                      height:size.width/4,
+                                      height:size.height/9,
                                       decoration: BoxDecoration(
                                         image: thisItem['img'] != null
                                             ? DecorationImage(
@@ -116,6 +127,7 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
                                               )
                                             : null,
                                         color: Colors.transparent,
+                                        
                                       ),
                                       child: thisItem['img'] == null
                                           ? const Icon(Icons.image,
@@ -129,7 +141,7 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(documentSnapshot['roomType'],
-                                          style: TextStyle(
+                                          style:const TextStyle(
                                             fontFamily: 'Candal',
                                             fontSize: 15,
                                             color: Colors.black
@@ -145,24 +157,26 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
                                     ),
                                     Text(documentSnapshot['price'].toString() +"/ night",
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
+                                    style:const TextStyle(
                                       color: Color(0xff57A5EC),
                                     ),),
-                                    SizedBox(height: 10,),
+                                      const SizedBox(height: 10,),
                                     GestureDetector(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        child: Text('View More', textAlign:TextAlign.center,
-                                        style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
-                                        ),
-                                        height: 26,
-                                        width: 127,
-                                        decoration: BoxDecoration(
-                                          color: Color(0xff1A4368),
-                                          borderRadius: BorderRadius.circular(25)
+                                      child: Center(
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          child: Text('View More', textAlign:TextAlign.center,
+                                          style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
                                           ),
-                                      
-                                        ),
+                                          height: 26,
+                                          width: 127,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff1A4368),
+                                            borderRadius: BorderRadius.circular(25)
+                                            ),
+                                        
+                                          ),
+                                      ),
                                     ),
                                 ],
                               ),
@@ -173,7 +187,11 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
                         ),
                       );
                   }
-                  return Container();
+                  else
+                  {
+                   return Center(child: CircularProgressIndicator());
+                  }
+                  
                }
                
                ),

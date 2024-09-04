@@ -33,8 +33,8 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       
-        body:    Container(   
-           height: MediaQuery.of(context).size.height / 1.4 , 
+        body: Container(   
+           height: MediaQuery.of(context).size.height / 1.8 , 
           decoration:const BoxDecoration(
             
                   color: Colors.white,
