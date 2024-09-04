@@ -21,9 +21,9 @@ class _SigninState extends State<Signin> {
     
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Container(
-           height: MediaQuery.of(context).size.height / 1.8 ,
+      
+        body: Container(
+           height: MediaQuery.of(context).size.height / 1.4 ,
           decoration:const  BoxDecoration(
                   color: Colors.white,
                   borderRadius:const BorderRadius.only(
@@ -184,8 +184,8 @@ class _SigninState extends State<Signin> {
               ),
             ),
           ),
-        ),
-      ),
+        )
+      
     );
   }
 }

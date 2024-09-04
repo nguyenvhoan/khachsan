@@ -32,9 +32,9 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) { 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Container(   
-           height: MediaQuery.of(context).size.height / 1.8 , 
+      
+        body:    Container(   
+           height: MediaQuery.of(context).size.height / 1.4 , 
           decoration:const BoxDecoration(
             
                   color: Colors.white,
@@ -299,7 +299,7 @@ class _SignUpState extends State<SignUp> {
           ),
           
         ),
-      ),
+      
     );
   }
 }
