@@ -1,5 +1,4 @@
 import 'package:booking/app/my_app.dart';
-import 'package:booking/user/pages/intro_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
