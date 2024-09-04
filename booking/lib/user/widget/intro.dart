@@ -1,11 +1,30 @@
+
+import 'package:booking/user/widget/signIn.dart';
+
 import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 class Intro extends StatelessWidget {
-  const Intro({super.key});
+  const Intro({super.key, required this.onGetStarted});
+  final VoidCallback  onGetStarted;
 
   @override
   Widget build(BuildContext context) {
+
+    return  Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+         height: MediaQuery.of(context).size.height / 1.8 ,
+        decoration:const BoxDecoration(
+        
+              color: Colors.white   ,
+              borderRadius:const BorderRadius.only(
+                topLeft: Radius.circular(30), 
+                topRight: Radius.circular(30), 
+              ),
+            ),
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -20,6 +39,7 @@ class Intro extends StatelessWidget {
             topRight: Radius.circular(30),
           ),
         ),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -36,13 +56,21 @@ class Intro extends StatelessWidget {
               height: 30,
             ),
             GestureDetector(
+              onTap:
+                onGetStarted,
+              
               child: Container(
                 alignment: Alignment.center,
+
+                child:  Text('Get Started', textAlign:TextAlign.center,
+                style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+
                 child: Text(
                   'Get Started',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.white),
+
                 ),
                 height: 50,
                 width: kIsWeb ? 350 : 200,
@@ -65,12 +93,22 @@ class Intro extends StatelessWidget {
                 ),
                 Text(
                   "Sign in",
-                  style: TextStyle(
+
+                    fontWeight: FontWeight.bold
+                  ),
+                  ),
+                  Text("Sign in", style: TextStyle(
+                    color: Color(0xff57A5EC),
+                  ),),
+                ],
+              )
+
                     color: Color(0xff57A5EC),
                   ),
                 ),
               ],
             )
+
           ],
         ),
       ),
