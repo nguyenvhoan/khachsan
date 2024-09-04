@@ -1,6 +1,6 @@
-
 import 'package:booking/user/widget/intro.dart';
 import 'package:booking/user/widget/signIn.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Landing extends StatefulWidget {
@@ -32,9 +32,14 @@ class _LandingState extends State<Landing> {
           Container(
             height: MediaQuery.of(context).size.height / 2,
             color: Colors.red,
-            child: Image.asset('asset/images/icons/intro.png', fit: BoxFit.cover,width: MediaQuery.sizeOf(context).width),
+            child: Image.asset(
+                kIsWeb
+                    ? 'asset/images/london-west-hollywood-los-angeles-california-102897-2.jpg'
+                    : 'asset/images/icons/intro.png',
+                fit: BoxFit.cover,
+                width: MediaQuery.sizeOf(context).width),
           ),
-          Expanded( 
+          Expanded(
             child: Stack(
               children: <Widget>[
                 PageView.builder(
@@ -51,20 +56,23 @@ class _LandingState extends State<Landing> {
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List<Widget>.generate(_pages.length, (int index) {
+                      children:
+                          List<Widget>.generate(_pages.length, (int index) {
                         return AnimatedContainer(
                           duration: Duration(milliseconds: 300),
                           height: 10,
                           width: (index == _currentPage) ? 30 : 10,
-                          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 30),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: (index == _currentPage) ? Colors.blue : Colors.blue.withOpacity(0.5),
+                            color: (index == _currentPage)
+                                ? Colors.blue
+                                : Colors.blue.withOpacity(0.5),
                           ),
                         );
                       }),
                     ),
-                    
                     const SizedBox(height: 50),
                   ],
                 ),
