@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:booking/Management/Discount.dart';
+import 'package:booking/Management/Restaurant.dart';
 import 'package:booking/Management/Romm.dart';
 import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/item.dart';
@@ -179,6 +180,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             setState(() {
                               _currentPage =
                                   const Discount(); // Thay thế bằng trang Service của bạn
+                            });
+                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                          },
+                        ),
+                        SidebarItem(
+                          title: 'Restaurant',
+                          icon: Icons.discount,
+                          onTap: () {
+                            setState(() {
+                              _currentPage =
+                                   Restaurant(); // Thay thế bằng trang Service của bạn
                             });
                             _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                           },

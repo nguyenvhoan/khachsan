@@ -1,3 +1,4 @@
+import 'package:booking/user/pages/table_page.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantPage extends StatelessWidget {
@@ -76,6 +77,9 @@ class RestaurantPage extends StatelessWidget {
                         ),
                         SizedBox(height: 10,),
                         GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TablePage()));
+                          },
                           child: Container( 
                             
                             width: 250,
