@@ -1,4 +1,5 @@
 import 'package:booking/user/pages/home_page.dart';
+import 'package:booking/user/pages/restaurant_page.dart';
 import 'package:booking/user/pages/room_page.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
   int myCurrentindex=0;
   List<Widget> get page => [
     HomePage(),
-    RoomPage()
+    RoomPage(),
+    RoomPage(),
+    RestaurantPage(),
   ] ;
   
 @override
