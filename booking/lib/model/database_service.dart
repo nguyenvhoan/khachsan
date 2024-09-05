@@ -128,6 +128,22 @@ Future<void> signIn(BuildContext context, String email,String password)async{
         }
       }
     }
+    Future<List<String>> getService() async {
+  List<String> services = [];
+
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Service').get();
+    
+    for (var doc in querySnapshot.docs) {
+      
+      services.add(doc['service']); 
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+  
+  return services;
+}
 
   
 

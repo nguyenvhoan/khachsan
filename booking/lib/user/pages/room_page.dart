@@ -1,10 +1,31 @@
+import 'package:booking/model/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class RoomPage extends StatelessWidget {
+class RoomPage extends StatefulWidget {
    RoomPage({super.key});
 
+  @override
+  State<RoomPage> createState() => _RoomPageState();
+}
+
+class _RoomPageState extends State<RoomPage> {
+  DatabaseService  _databaseService  =DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  List<String> services = [];
+  @override
+  void initState() {
+    super.initState();
+    fetchServices();
+    
+  }
+Future<void> fetchServices() async {
+    List<String> fetchedServices = await _databaseService.getService();
+    setState(() {
+      services = fetchedServices;
+    });
+    print(services);
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -17,7 +38,7 @@ class RoomPage extends StatelessWidget {
           title:const Row(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Chữ "Otelia" nằm ở góc trái
+              
              Text(
                 'Room',
                 style: TextStyle(
@@ -26,131 +47,181 @@ class RoomPage extends StatelessWidget {
                   fontSize: 35,
                 ),
               ),
-              // Biểu tượng nằm ở góc phải
+              
                
             ],
           ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(15), 
         child: Column(
-          
           children: [
-            
-                StreamBuilder(
-                  stream: db.collection('Room').snapshots(),
-                 builder: (context, snapshot){  
-                    if(snapshot.hasData){
-                        return SingleChildScrollView(    
-                          child: Wrap(
-                            alignment: WrapAlignment.center,
-                            direction: Axis.vertical,
-                            children: snapshot.data!.docs.map<Widget>((documentSnapshot) {
-                              Map<String, dynamic> thisItem =
-                                documentSnapshot.data() as Map<String, dynamic>;
-                                
-                                return Container(
-                                   margin: EdgeInsets.all(30),
-                                decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2), 
-                                    spreadRadius: 5,
-                                    blurRadius: 7, 
-                                    offset: Offset(0, 3), 
-                                  ),
-                                ],
-                                
-                              ),
-                              
-                              child: Container(
-                               
-                                child: Column(
-                                  
-                                  children: [
-                                    Container(
-                                      
-                                        constraints: BoxConstraints(
-                                        maxWidth: size.width / 1.25, // Sử dụng maxWidth thay vì width cố định
-                                      ),
-                                        height:size.height/9,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          image: thisItem['img'] != null
-                                              ? DecorationImage(
-                                                  image: NetworkImage(thisItem['img']),
-                                                  fit: BoxFit.cover,
-                                                )
+            Expanded(
+              child: StreamBuilder(
+                    stream: db.collection('Room').snapshots(),
+                   builder: (context, snapshot){  
+                      if(snapshot.hasData){
+                          return SingleChildScrollView( 
+                            scrollDirection:Axis.vertical,   
+                            child: Column(
+                              children: snapshot.data!.docs.map<Widget>((documentSnapshot) {
+                                Map<String, dynamic> thisItem = documentSnapshot.data() as Map<String, dynamic>;
+                                  return Container(
+                                     margin: EdgeInsets.all(30),
+                                  decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2), 
+                                      spreadRadius: 5,
+                                      blurRadius: 7, 
+                                      offset: Offset(0, 3), 
+                                    ),
+                                  ],                                
+                                ), 
+                                child: Container(                              
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,                           
+                                    children: [
+                                      Container(                                      
+                                          width : size.width / 1.3, 
+                                        
+                                          height:size.height/6,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20),
+                                            image: thisItem['img'] != null
+                                                ? DecorationImage(
+                                                    image: NetworkImage(thisItem['img']),
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : null,
+                                            color: Colors.transparent,
+                                          ),
+                                          child: thisItem['img'] == null
+                                              ? const Icon(Icons.image,
+                                                  size: 10)
                                               : null,
-                                          color: Colors.transparent,
-                                          
                                         ),
-                                        child: thisItem['img'] == null
-                                            ? const Icon(Icons.image,
-                                                size: 50) // Thay đổi kích thước icon nếu cần
-                                            : null,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(documentSnapshot['roomType'],
-                                            textAlign: TextAlign.center,
-                                            style:const TextStyle(
-                                              fontFamily: 'Candal',
-                                              fontSize: 15,
-                                              color: Colors.black
-                                            ),),
-                                            
-                                          ],
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Row(
+                                            mainAxisAlignment:MainAxisAlignment.center,
+                                            children: [
+                                              Text(documentSnapshot['roomType'],
+                                              textAlign: TextAlign.center ,
+                                              style:const TextStyle(
+                                                fontFamily: 'Candal',
+                                                fontSize: 18,
+                                                color: Colors.black
+                                              ),),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Text(documentSnapshot['price'].toString() +"/ night",
-                                      textAlign: TextAlign.center,
-                                      style:const TextStyle(
-                                        color: Color(0xff57A5EC),
-                                      ),),
-                                        const SizedBox(height: 10,),
-                                      GestureDetector(
-                                        child: Center(
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            child: Text('View More', textAlign:TextAlign.center,
-                                            style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                                        
+                                        
+                                          const SizedBox(height: 10,),
+              
+                                          Padding(
+                                            padding:EdgeInsets.only(left: 20,right: 20, bottom: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                                            children:[
+                                            Row(
+                                              children: services.map((services)
+                                              {
+                                                print('room: '+services);
+                                                return Container(
+                                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius: BorderRadius.circular(20),
+                                                  ),
+                                                  child: Text(
+                                                    services,
+                                                    style: TextStyle(color: Colors.white),
+                                                  ),
+                                                );
+                                              }).toList(),
                                             ),
-                                            height: 26,
-                                            width: 127,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xff1A4368),
-                                              borderRadius: BorderRadius.circular(25)
+                                            GestureDetector(
+                                              child: Center(
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  child: Text('View More', textAlign:TextAlign.center,
+                                                  style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                                                  ),
+                                                  height: 26,
+                                                  width: 127,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xff1A4368),
+                                                    borderRadius: BorderRadius.circular(25)
+                                                    ),
+                                                
+                                                  ),
                                               ),
-                                          
                                             ),
+                                            ] 
+                                             ),
+                                          ),
+                                        Container(
+                                          height: 1,
+                                          width: size.width/1.6,
+                                          color: Colors.grey
                                         ),
-                                      ),
-                                  ],
+                                         Padding(
+                                          padding: EdgeInsets.only( left: 20,right: 20),
+                                           child: Row(          
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                                             children: [
+                                              Row(
+              
+                                                children:[
+                                                  Text(documentSnapshot['price'].toString() ,              
+                                                style:const TextStyle(
+                                                  color: Color(0xff57A5EC),
+                                                  fontSize: 20,
+                                                  fontFamily: 'Cantral'
+                                                ),
+                                                
+                                                ),
+                                                Text('/ night', style: TextStyle(color: Colors.grey,fontFamily: 'Cantral', fontSize: 20),)
+              
+                                                ] 
+                                              ),
+                                              Row( 
+                                                crossAxisAlignment: CrossAxisAlignment.center   ,
+                                                children: [
+                                                  Image.asset('asset/images/icons/Star.png'),
+                                                  Text('  4.8')
+                                                ],
+                                              )
+                                             ]
+                                           ),
+                                         ),
+                                          ] 
+                                        ),
+                                    
+                                  
                                 ),
-                              ),
-                            );
-                            }).toList()
-                             
-                          ),
-                        );
-                    }
-                    else
-                    {
-                     return Center(child: CircularProgressIndicator());
-                    }
-                    
-                 }
-                 
-                 ),
-                
-          ]
+                              );
+                              }).toList()
+                               
+                            ),
+                          );
+                      }
+                      else
+                      {
+                       return Center(child: CircularProgressIndicator());
+                      }
+                      
+                   }
+                   
+                   ),
+            ),
+
+          ],
           
         ),
       ),
