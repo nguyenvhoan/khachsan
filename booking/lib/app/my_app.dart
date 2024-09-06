@@ -1,5 +1,5 @@
 import 'package:booking/Management/Dashboard.dart';
-import 'package:booking/Management/Discount.dart';
+
 import 'package:booking/app/adminManager.dart';
 import 'package:booking/user/pages/home_page.dart';
 import 'package:booking/user/pages/intro_page.dart';
