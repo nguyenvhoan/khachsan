@@ -153,22 +153,14 @@ Future<void> signIn(BuildContext context, String email,String password)async{
       try {
           db.collection('Request').doc('request '+ req['id']).set(req);
 
- Future<void> createTable(String id, int price,  int quant) async {
-      try {
-          db.collection('Restaurant').doc('table '+id).set({
-            'id':id,
-            'price':price,
-            'status':0,
-            'quant':quant
-          });
-
-        }
+      }
         catch(e){
           print(e.toString());
         }
     
+      }
 }
+ 
 
   
 
-}
