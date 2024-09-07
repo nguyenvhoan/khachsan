@@ -27,7 +27,7 @@ class DatabaseService {
         action: SnackBarAction(
         label: 'Đóng',
       onPressed: () {
-                                  // Xử lý khi người dùng bấm vào nút Đóng
+
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
         },
       ),
@@ -148,15 +148,27 @@ Future<void> signIn(BuildContext context, String email,String password)async{
   return services;
 }
 
+
  Future<void> createReq(Map<String,dynamic> req) async {
       try {
           db.collection('Request').doc('request '+ req['id']).set(req);
+
+ Future<void> createTable(String id, int price,  int quant) async {
+      try {
+          db.collection('Restaurant').doc('table '+id).set({
+            'id':id,
+            'price':price,
+            'status':0,
+            'quant':quant
+          });
+
         }
         catch(e){
           print(e.toString());
         }
     
 }
+
   
 
 }

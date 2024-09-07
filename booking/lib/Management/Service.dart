@@ -10,12 +10,13 @@ class Service extends StatefulWidget {
   @override
   State<Service> createState() => _ServiceState();
 }
+
 class _ServiceState extends State<Service> {
   final TextEditingController _serviceController = TextEditingController();
-  
+
   Stream<QuerySnapshot>? _stream;
   final ServiceModel _service = ServiceModel();
-  
+
   NavOptionService _navOptionService = NavOptionService();
 
   @override
@@ -51,8 +52,15 @@ class _ServiceState extends State<Service> {
                         margin: const EdgeInsets.only(
                             bottom: 5, top: 20, left: 20, right: 20),
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
+                          color: Colors
+                              .transparent, // Background color of the item
+                          border: Border.all(
+                            color: const Color.fromARGB(
+                                255, 83, 214, 250), // Border color
+                            // Border width
+                          ),
+                          borderRadius:
+                              BorderRadius.circular(8), // Border radius
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,18 +68,21 @@ class _ServiceState extends State<Service> {
                             Text(
                               "${item['service']}",
                               style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.white,
+                                  fontSize: 20),
                             ),
                             Row(
                               children: [
                                 GestureDetector(
                                   onTap: () {
                                     _serviceController.text = item["service"];
-                                    _navOptionService.editType(item.id,context,_serviceController);
+                                    _navOptionService.editType(
+                                        item.id, context, _serviceController);
                                   },
                                   child: const Icon(
                                     Icons.edit,
-                                    color: Colors.amber,
+                                    color: Color.fromARGB(255, 23, 127, 230),
                                   ),
                                 ),
                                 const SizedBox(width: 15),
@@ -82,7 +93,7 @@ class _ServiceState extends State<Service> {
                                   },
                                   child: const Icon(
                                     Icons.delete,
-                                    color: Colors.red,
+                                    color: Color.fromARGB(255, 230, 23, 23),
                                   ),
                                 )
                               ],
@@ -97,12 +108,10 @@ class _ServiceState extends State<Service> {
               }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _navOptionService.create(context,_serviceController);
+          _navOptionService.create(context, _serviceController);
         },
         child: const Icon(Icons.add),
       ),
     );
   }
-
-  
 }

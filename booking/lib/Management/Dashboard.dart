@@ -1,6 +1,8 @@
-import 'dart:developer';
 
-import 'package:booking/Management/Romm.dart';
+
+import 'package:booking/Management/Discount/DiscountListPage.dart';
+import 'package:booking/Management/Restaurant.dart';
+import 'package:booking/Management/Room/room_screen.dart';
 import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/item.dart';
 import 'package:flutter/foundation.dart';
@@ -116,21 +118,26 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: Row(
+                          child: Column(
                             children: [
                               CircleAvatar(
+                                radius:
+                                    30, // Đặt bán kính cho CircleAvatar để tạo hình tròn
                                 backgroundColor: Colors.white,
-                                child: Image.asset(
-                                  'assets/images/tn.JPG',
-                                  width: 50,
-                                  height: 50,
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    'asset/images/tn.JPG',
+
+                                    fit: BoxFit
+                                        .cover, // Đảm bảo hình ảnh lấp đầy hình tròn
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 10),
                               const Text(
                                 'Employee Management',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Color.fromARGB(255, 21, 142, 241),
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -166,7 +173,29 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           onTap: () {
                             setState(() {
                               _currentPage =
-                                  const Room(); // Thay thế bằng trang Service của bạn
+                                  RoomScreen(); // Thay thế bằng trang Service của bạn
+                            });
+                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                          },
+                        ),
+                        SidebarItem(
+                          title: 'Discount',
+                          icon: Icons.discount,
+                          onTap: () {
+                            setState(() {
+                              _currentPage =
+                                  DiscountListPage(); // Thay thế bằng trang Service của bạn
+                            });
+                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                          },
+                        ),
+                        SidebarItem(
+                          title: 'Restaurant',
+                          icon: Icons.discount,
+                          onTap: () {
+                            setState(() {
+                              _currentPage =
+                                   Restaurant(); // Thay thế bằng trang Service của bạn
                             });
                             _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                           },
