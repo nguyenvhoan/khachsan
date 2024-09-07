@@ -143,12 +143,15 @@ final FirebaseFirestore db = FirebaseFirestore.instance;
                                           
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(documentSnapshot['roomType'],
-                                            style:const TextStyle(
-                                              fontFamily: 'Candal',
-                                              fontSize: 15,
-                                              color: Colors.black
-                                            ),),
+                                            Expanded(
+                                              child: Text(documentSnapshot['roomType'],
+                                              maxLines: 1,
+                                              style:const TextStyle(
+                                                fontFamily: 'Candal',
+                                                fontSize: 15,
+                                                color: Colors.black
+                                              ),),
+                                            ),
                                             Row(
                                               children: [
                                                 Image.asset('asset/images/icons/Star.png'),

@@ -1,10 +1,11 @@
 import 'package:booking/model/database_service.dart';
+import 'package:booking/user/pages/detail_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class RoomPage extends StatefulWidget {
-   RoomPage({super.key});
-
+   RoomPage({super.key, required this.account});
+var account;
   @override
   State<RoomPage> createState() => _RoomPageState();
 }
@@ -65,8 +66,11 @@ Future<void> fetchServices() async {
                             scrollDirection:Axis.vertical,   
                             child: Column(
                               children: snapshot.data!.docs.map<Widget>((documentSnapshot) {
+                                
                                 Map<String, dynamic> thisItem = documentSnapshot.data() as Map<String, dynamic>;
+                                  print('data              '+thisItem!['img']);
                                   return Container(
+                                    
                                      margin: EdgeInsets.all(30),
                                   decoration: BoxDecoration(
                                   color: Colors.white,
@@ -109,6 +113,7 @@ Future<void> fetchServices() async {
                                             mainAxisAlignment:MainAxisAlignment.center,
                                             children: [
                                               Text(documentSnapshot['roomType'],
+                                              maxLines: 1,
                                               textAlign: TextAlign.center ,
                                               style:const TextStyle(
                                                 fontFamily: 'Candal',
@@ -122,30 +127,42 @@ Future<void> fetchServices() async {
                                         
                                           const SizedBox(height: 10,),
               
-                                          Padding(
-                                            padding:EdgeInsets.only(left: 20,right: 20, bottom: 10),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-                                            children:[
-                                            Row(
-                                              children: services.map((services)
-                                              {
-                                                print('room: '+services);
-                                                return Container(
-                                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black,
-                                                    borderRadius: BorderRadius.circular(20),
+                                         Padding(
+                                              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Expanded( // Sử dụng Expanded để chiếm không gian
+                                                    child: SingleChildScrollView(
+                                                      scrollDirection: Axis.horizontal,
+                                                      child: Row(
+                                                        children: services.map((service) {
+                                                          return Container(
+                                                            margin: EdgeInsets.symmetric(horizontal: 5),
+                                                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                                            decoration: BoxDecoration(
+                                                              color: Colors.black,
+                                                              borderRadius: BorderRadius.circular(20),
+                                                            ),
+                                                            child: Text(
+                                                              service,
+                                                              overflow: TextOverflow.ellipsis, // Đảm bảo chữ không bị tràn
+                                                              style: TextStyle(color: Colors.white),
+                                                            ),
+                                                          );
+                                                        }).toList(),
+                                                      ),
+                                                    ),
                                                   ),
-                                                  child: Text(
-                                                    services,
-                                                    style: TextStyle(color: Colors.white),
-                                                  ),
-                                                );
-                                              }).toList(),
-                                            ),
-                                            GestureDetector(
+                                                 
+                                            ] 
+                                             ),
+                                          ),
+                                          GestureDetector(
+                                            onTap:  (){
+                                              print('Số phòng :'+documentSnapshot.id);
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(codeRoom: documentSnapshot.id,account: widget.account,),));
+                                            },
                                               child: Center(
                                                 child: Container(
                                                   alignment: Alignment.center,
@@ -162,9 +179,7 @@ Future<void> fetchServices() async {
                                                   ),
                                               ),
                                             ),
-                                            ] 
-                                             ),
-                                          ),
+                                            SizedBox(height: 5,),
                                         Container(
                                           height: 1,
                                           width: size.width/1.6,
