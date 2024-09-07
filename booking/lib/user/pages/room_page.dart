@@ -29,8 +29,8 @@ Future<void> fetchServices() async {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return  Scaffold(
-      backgroundColor: Colors.white,   
+    return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           surfaceTintColor: Colors.white,
           foregroundColor: Colors.white,
