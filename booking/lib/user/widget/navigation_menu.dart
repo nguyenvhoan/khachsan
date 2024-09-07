@@ -7,7 +7,7 @@ class NavigationMenu extends StatefulWidget {
   var account;
 
   
-   NavigationMenu({super.key});
+   NavigationMenu({super.key, required this.account});
    
 
   @override
@@ -22,21 +22,21 @@ dynamic colorTheme() {
   }
 }
 class _NavigationMenuState extends State<NavigationMenu> {
-   late var account;
+   
    
   int myCurrentindex=0;
   List<Widget> get page => [
     HomePage(),
-    RoomPage(),
-    RoomPage(),
+    RoomPage(account:widget.account ,),
+    RoomPage(account:widget.account ,),
     RestaurantPage(),
   ] ;
   
 @override
   void initState() {
     super.initState();
-    account = widget.account;
-    print(account);
+    print('Đã đăng nhập với tài khoản '+ widget.account);
+    
   }
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:booking/user/pages/home_page.dart';
+import 'package:booking/user/widget/navigation_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,9 @@ Future<void> signIn(BuildContext context, String email,String password)async{
           ),
           
           );
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+          
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationMenu(account: userId,)));
+        
 
       }
       on FirebaseAuthException catch (e){
@@ -128,7 +131,7 @@ Future<void> signIn(BuildContext context, String email,String password)async{
         }
       }
     }
-    Future<List<String>> getService() async {
+  Future<List<String>> getService() async {
   List<String> services = [];
 
   try {
@@ -145,6 +148,15 @@ Future<void> signIn(BuildContext context, String email,String password)async{
   return services;
 }
 
+ Future<void> createReq(Map<String,dynamic> req) async {
+      try {
+          db.collection('Request').doc('request '+ req['id']).set(req);
+        }
+        catch(e){
+          print(e.toString());
+        }
+    
+}
   
 
 }

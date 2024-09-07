@@ -14,12 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NavigationMenu(),
+      home: Landing(),
       theme: ThemeData(
         primaryColor: Colors.white, 
         appBarTheme:const AppBarTheme(
-          backgroundColor: Color(0xff3CA0B6), // Màu nền của AppBar
-          foregroundColor: Colors.white, // Màu chữ trong AppBar
+          // backgroundColor: Color(0xff3CA0B6), // Màu nền của AppBar
+          // foregroundColor: Colors.white, // Màu chữ trong AppBar
         ),
         scaffoldBackgroundColor: Colors.white, // Màu nền cho toàn bộ Scaffold
       ),
