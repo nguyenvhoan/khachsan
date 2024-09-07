@@ -1,4 +1,5 @@
 
+import 'package:booking/user/pages/intro_page.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
 
 import 'package:flutter/material.dart';
@@ -11,14 +12,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      home: Landing(),
-      theme: ThemeData(
-        primaryColor: Colors.white, 
-        appBarTheme:const AppBarTheme(
+      
           // backgroundColor: Color(0xff3CA0B6), // Màu nền của AppBar
           // foregroundColor: Colors.white, // Màu chữ trong AppBar
 
-      home: NavigationMenu(),
+      home: Landing(),
       // home: NavigationMenu(),
       theme: ThemeData(
         primaryColor: Colors.white,

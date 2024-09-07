@@ -189,17 +189,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                           },
                         ),
-                        SidebarItem(
-                          title: 'Restaurant',
-                          icon: Icons.discount,
-                          onTap: () {
-                            setState(() {
-                              _currentPage =
-                                   Restaurant(); // Thay thế bằng trang Service của bạn
-                            });
-                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                          },
-                        ),
+                        // SidebarItem(
+                        //   title: 'Restaurant',
+                        //   icon: Icons.discount,
+                        //   onTap: () {
+                        //     setState(() {
+                        //       _currentPage =
+                        //            Restaurant(); // Thay thế bằng trang Service của bạn
+                        //     });
+                        //     _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
