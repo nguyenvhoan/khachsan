@@ -1,7 +1,7 @@
-
-
 import 'package:booking/Management/Discount/DiscountListPage.dart';
 import 'package:booking/Management/Restaurant.dart';
+import 'package:booking/Management/Restaurant/TableType.dart';
+import 'package:booking/Management/Restaurant/table_screen.dart';
 import 'package:booking/Management/Room/room_screen.dart';
 import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/item.dart';
@@ -146,6 +146,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           ),
                         ),
                         // Sidebar items
+
+                        const Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: const Text(
+                            'Hotel management',
+                            style: TextStyle(
+                              fontFamily: 'Candal',
+                              color: Color(0xff3CA0B6),
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
                         SidebarItem(
                           title: 'Type Room',
                           icon: Icons.hotel,
@@ -168,7 +180,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           },
                         ),
                         SidebarItem(
-                          title: 'Romm',
+                          title: 'Room',
                           icon: Icons.king_bed,
                           onTap: () {
                             setState(() {
@@ -189,17 +201,43 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                           },
                         ),
-                        // SidebarItem(
-                        //   title: 'Restaurant',
-                        //   icon: Icons.discount,
-                        //   onTap: () {
-                        //     setState(() {
-                        //       _currentPage =
-                        //            Restaurant(); // Thay thế bằng trang Service của bạn
-                        //     });
-                        //     _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                        //   },
-                        // ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: const Text(
+                            'Restaurant management',
+                            style: TextStyle(
+                              fontFamily: 'Candal',
+                              color: Color(0xff3CA0B6),
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+
+                        SidebarItem(
+                          title: 'Table Type',
+                          icon: Icons.table_bar,
+                          onTap: () {
+                            setState(() {
+                              _currentPage =
+                                  Tabletype(); // Thay thế bằng trang Service của bạn
+                            });
+                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                          },
+                        ),
+                        SidebarItem(
+                          title: 'Table ',
+                          icon: Icons.table_restaurant_outlined,
+                          onTap: () {
+                            setState(() {
+                              _currentPage =
+                                  TableScreen(); // Thay thế bằng trang Service của bạn
+                            });
+                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                          },
+                        ),
                       ],
                     ),
                   ),

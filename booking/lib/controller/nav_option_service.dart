@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 
 class NavOptionService {
-  final CollectionReference _item = FirebaseFirestore.instance.collection('Service');
-        final ServiceModel _service = ServiceModel();
+  final CollectionReference _item =
+      FirebaseFirestore.instance.collection('Service');
+  final ServiceModel _service = ServiceModel();
 
-
-  Future<void> create(BuildContext context, TextEditingController _serviceController) async {
-    showBottomSheet(
+  Future<void> create(
+      BuildContext context, TextEditingController _serviceController) async {
+    showModalBottomSheet(
         context: context,
+        isScrollControlled:
+            true, // Cho phép Modal mở rộng kích thước tùy thuộc vào nội dung
         builder: (BuildContext ctx) {
           return Padding(
             padding: EdgeInsets.only(
@@ -38,12 +41,22 @@ class NavOptionService {
                       onPressed: () async {
                         String Id = randomAlphaNumeric(10);
                         final String service = _serviceController.text;
-                        _item.add({
-                          "service": service,
-                          "id": Id,
-                        });
-                        _serviceController.text = '';
-                        Navigator.of(context).pop();
+                        if (service.isNotEmpty) {
+                          await _item.add({
+                            "service": service,
+                            "id": Id,
+                          });
+                          _serviceController.text = '';
+                          Navigator.of(context)
+                              .pop(); // Đóng Modal Bottom Sheet
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Service cannot be empty'),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
                       },
                       child: const Text('Create')),
                 )
@@ -52,7 +65,10 @@ class NavOptionService {
           );
         });
   }
-  Future<void> editType(String id, BuildContext context, TextEditingController _serviceController) => showDialog(
+
+  Future<void> editType(String id, BuildContext context,
+          TextEditingController _serviceController) =>
+      showDialog(
         context: context,
         builder: (context) => AlertDialog(
           content: SingleChildScrollView(

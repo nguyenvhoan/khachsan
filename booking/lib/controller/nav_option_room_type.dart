@@ -4,76 +4,76 @@ import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 
 class NavOptionRoomType {
-  final CollectionReference _item =  FirebaseFirestore.instance.collection('RoomType');
+  final CollectionReference _item =
+      FirebaseFirestore.instance.collection('RoomType');
   final RoomTypeModel _roomType = RoomTypeModel();
-  Future<void> create( BuildContext context, TextEditingController _roomTypeController) async {
-    //BottomSheet (một phần giao diện người dùng có thể trượt từ dưới cùng của màn hình).
-    showBottomSheet(
+  Future<void> create(
+      BuildContext context, TextEditingController _roomTypeController) async {
+    // Sử dụng showModalBottomSheet thay cho showBottomSheet
+    showModalBottomSheet(
         context: context,
+        isScrollControlled: true, // Điều chỉnh kích thước Modal theo nội dung
         builder: (BuildContext ctx) {
-          return GestureDetector(
-            onTap: () {
-            // Đóng BottomSheet khi người dùng chạm vào phía ngoài nội dung
-            Navigator.of(ctx).pop();  
-          },
-            child: Padding( 
-              padding: EdgeInsets.only(
-                  top: 20,
-                  left: 20,
-                  right: 20,
-                  bottom: MediaQuery.of(ctx).viewInsets.bottom + 2),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Center(
-                    child: Text('Create Room Type'),
-                  ),
-                  TextField(
-                    controller: _roomTypeController,
-                    decoration: const InputDecoration(
-                        labelText: 'Type', hintText: 'Junior Suite'),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          String id = randomAlphaNumeric(10);
-                          final String type = _roomTypeController.text;
-                          
-                           if (type.isNotEmpty) {
-                              await _item.add({
-                                "roomtype": type,
-                                "id": id,
-                              });
-                      _roomTypeController.clear();
-                      Navigator.of(context).pop(); // Đóng Modal Bottom Sheet
-                    } 
-                    else {
-                      // Hiển thị SnackBar
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content:  Text('Loại phòng không được để trống'),
-                          behavior: SnackBarBehavior.floating,
-                          margin:  EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          duration:  Duration(seconds: 2), // Thời gian hiển thị
-                        ),
-                      );
-                    }
-                          
-                        },
-                        child: const Text('Create')),
-                  )
-                ],
-              ),
+          return Padding(
+            padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 2),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Center(
+                  child: Text('Create Room Type'),
+                ),
+                TextField(
+                  controller: _roomTypeController,
+                  decoration: const InputDecoration(
+                      labelText: 'Type', hintText: 'Junior Suite'),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        String id = randomAlphaNumeric(10);
+                        final String type = _roomTypeController.text;
+
+                        if (type.isNotEmpty) {
+                          await _item.add({
+                            "roomtype": type,
+                            "id": id,
+                          });
+                          _roomTypeController.clear();
+                          Navigator.of(context)
+                              .pop(); // Đóng Modal Bottom Sheet
+                        } else {
+                          // Hiển thị SnackBar nếu loại phòng trống
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Room type cannot be left blank'),
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              duration:
+                                  Duration(seconds: 2), // Thời gian hiển thị
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Create')),
+                )
+              ],
             ),
           );
         });
-    }
-  
-  Future<void> editType(String id, BuildContext context, TextEditingController _roomTypetController ) => showDialog(
+  }
+
+  Future<void> editType(String id, BuildContext context,
+          TextEditingController _roomTypetController) =>
+      showDialog(
         context: context,
         builder: (context) => AlertDialog(
           content: SingleChildScrollView(
@@ -134,8 +134,4 @@ class NavOptionRoomType {
           ],
         ),
       );
-  
-
-  
-
 }
