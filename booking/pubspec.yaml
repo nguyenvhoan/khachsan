@@ -33,7 +33,7 @@ dependencies:
 
 
   # The following adds the Cupertino Icons font to your application.
-  fluttertoast: ^8.2.1  # Thêm dòng này
+  fluttertoast: ^8.2.8  # Thêm dòng này
   # Use with the CupertinoIcons class for iOS style icons.
   url_launcher: ^6.1.7
   image_picker: ^1.0.0
@@ -48,6 +48,8 @@ dependencies:
   firebase_auth: ^5.2.0
   flutter_svg:
   loading_animation_widget: ^1.2.1
+  momo_vn: ^2.0.2
+  flutter_zalopay_sdk: ^0.1.14
 
 dev_dependencies:
   flutter_test:

@@ -17,14 +17,15 @@ class _BookingPageState extends State<BookingPage> {
   TextEditingController cardNumberController =TextEditingController();
   TextEditingController cardholderController =TextEditingController();
   TextEditingController phoneNumberController =TextEditingController();
-  TextEditingController dayController =TextEditingController();
-  TextEditingController cccdController =TextEditingController();
-  
+  TextEditingController dayRentController =TextEditingController();
+  TextEditingController dayEndController =TextEditingController();
+  final _formkey = GlobalKey<FormState>();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Map<String, dynamic>? data; 
   Map<String, dynamic>? user; 
   List<dynamic> services = [];
    DatabaseService _databaseService = DatabaseService();
+   
   
   @override
   void initState() {
@@ -32,6 +33,39 @@ class _BookingPageState extends State<BookingPage> {
     getDataById(widget.codeRoom); 
     getUserById(widget.account);
   }
+  Future<void> _selectedStartDate() async{
+    DateTime? _picked=await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+    if(_picked!=null){
+      setState(() {
+        dayRentController.text=_picked.toString().split(" ")[0];
+        
+      });
+    }
+  }
+  Future<void> _selectedEndDate() async{
+    DateTime? _picked=await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(Duration(days: 1)),
+      firstDate: DateTime.now().add(Duration(days: 1)),
+      lastDate: DateTime(2100),
+    );
+    if(_picked!=null){
+      setState(() {
+        
+        dayEndController.text=_picked.toString().split(" ")[0];
+      });
+    }
+  }
+  int calculateDaysBetween(DateTime startDate, DateTime endDate) {
+  
+  return endDate.difference(startDate).inDays;
+}
+
 
   Future<void> getDataById(String id) async {
     try {
@@ -69,6 +103,9 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    DateTime a = DateTime.parse(dayRentController.text);
+    DateTime b = DateTime.parse(dayEndController.text);
+    int day=calculateDaysBetween(a, b);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Options', textAlign: TextAlign.center),
@@ -109,6 +146,7 @@ class _BookingPageState extends State<BookingPage> {
                         
                         
                         Form(
+                          key:  _formkey,
                           child: Column(
                             children: [
                               Container(
@@ -126,10 +164,16 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 height: 50,
                                 child: TextFormField(
+                                  validator: (value){
+                                    if(value==null||value.isEmpty){
+                                      return 'Bắt buộc nhập';
+                                    }
+                                  },
+                                  
                                   controller: cardNumberController,
                                   decoration: const InputDecoration(
                                   label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                                    
+                                    floatingLabelBehavior: FloatingLabelBehavior.never,
                                   focusedBorder:const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                   ),
@@ -155,6 +199,11 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 height: 50,
                                 child: TextFormField(
+                                  validator: (value){
+                                    if(value==null||value.isEmpty){
+                                      return 'Bắt buộc nhập';
+                                    }
+                                  },
                                   controller: cardholderController,
                                   decoration: const InputDecoration(
                                   label:Text( 'Card holder *', style:TextStyle(color: Color(0xffBEBCBC)),),
@@ -184,6 +233,11 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 height: 50,
                                 child: TextFormField(
+                                  validator: (value){
+                                    if(value==null||value.isEmpty){
+                                      return 'Bắt buộc nhập';
+                                    }
+                                  },
                                     controller: phoneNumberController,
                                   decoration: const InputDecoration(
                                   label:Text( 'Phone number *', style:TextStyle(color: Color(0xffBEBCBC)),),
@@ -216,9 +270,18 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 height: 50,
                                 child: TextFormField(
-                                  controller: dayController,
+                                  onTap: (){
+                                    _selectedStartDate();
+                                  },
+                                  validator: (value){
+                                    if(value==null||value.isEmpty){
+                                      return 'Bắt buộc nhập';
+                                    }
+                                  },
+                                  readOnly:   true,
+                                  controller: dayRentController,
                                   decoration: const InputDecoration(
-                                  label:Text( 'MM/YY *', style:TextStyle(color: Color(0xffBEBCBC)),),
+                                  label:Text( 'Start *', style:TextStyle(color: Color(0xffBEBCBC)),),
                                     
                                   focusedBorder:const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
@@ -245,9 +308,18 @@ class _BookingPageState extends State<BookingPage> {
                                 
                                 height: 50,
                                 child: TextFormField(
-                                  controller: cccdController,
+                                  onTap:  (){
+                                    _selectedEndDate();
+                                  },
+                                  validator: (value){
+                                    if(value==null||value.isEmpty){
+                                      return 'Bắt buộc nhập';
+                                    }
+                                  },
+                                  readOnly: true,
+                                  controller: dayEndController,
                                   decoration: const InputDecoration(
-                                  label:Text( 'CCCD *', style:TextStyle(color: Color(0xffBEBCBC)),),
+                                  label:Text( 'End *', style:TextStyle(color: Color(0xffBEBCBC)),),
                                     
                                   focusedBorder:const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
@@ -292,8 +364,8 @@ class _BookingPageState extends State<BookingPage> {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Quantity:'),
-                                          Text(data!['price'].toString()+' đ'),
+                                          Text('Quantity day:'),
+                                          Text(day.toString()+' Day'),
                                         ],
                                       ),
                                       SizedBox(height: 10,),
@@ -301,7 +373,7 @@ class _BookingPageState extends State<BookingPage> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
-                                          Text(data!['price'].toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                          Text((data!['price']*day).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
                                         ],
                                       ),
                                      
@@ -312,8 +384,11 @@ class _BookingPageState extends State<BookingPage> {
                               ),
                               SizedBox(height: 10,),
                                GestureDetector(
-                               
+                              
                               onTap: () {
+                                setState(() {
+                                  if(_formkey.currentState!.validate()){   
+                                  
                                 String id = randomAlphaNumeric(10);
                                  Map<String, dynamic> req =({
                                   'id':id,
@@ -324,18 +399,22 @@ class _BookingPageState extends State<BookingPage> {
                                   'idRoom':data!['Id'],
                                   'service':services,
                                   'roomType':data!['roomType'],
-                                  'price':data!['price'],
+                                  'price':data!['price']*day,
                                   'cardNumber':cardNumberController.text  ,
                                   'cardHolder':cardholderController.text,
                                   'phoneNumber':phoneNumberController.text,
-                                  'day':dayController.text  ,
-                                  'cccd':cccdController.text  ,       
+                                  'day':day  ,
+                                  'start':dayRentController.text,
+                                  'end':dayEndController.text  ,       
                                  });
                                  _databaseService.createReq(req);
                                 Navigator.push(
                                   context, 
                                   MaterialPageRoute(builder: (context) => Landing())
                                 );
+                                }
+                                
+                                }); 
                               },
                               child: Container(
                                 decoration: BoxDecoration(
