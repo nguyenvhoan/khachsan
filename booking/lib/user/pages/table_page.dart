@@ -9,19 +9,22 @@ class TablePage extends StatelessWidget {
   Widget build(BuildContext context) {
     DatabaseService  _databaseService  =DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title:const Text('    Types of dining tables', textAlign: TextAlign.center,) 
       ),
       body: Expanded(
         child: StreamBuilder(
-          stream: db.collection('Restaurant').snapshots(),
+          stream: db.collection('Table').snapshots(),
           builder: (context, snapshot){
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: snapshot.data!.docs.map<Widget>((documentSnapshot){
-                  
+                   Map<String, dynamic> thisItem =
+                                documentSnapshot.data() as Map<String, dynamic>;
                     return Container(
                       margin:EdgeInsets.all(15),
                       height: 150,
@@ -42,20 +45,39 @@ class TablePage extends StatelessWidget {
                         margin: EdgeInsets.all(10),
                         child: Row(
                           children: [
-                            Image.asset('asset/images/icons/table.png'),
+                            Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                        width: size.width/3,
+                                        height:size.height/7,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          image: thisItem['img'] != null
+                                              ? DecorationImage(
+                                                  image: NetworkImage(thisItem['img']),
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : null,
+                                          color: Colors.transparent,
+                                          
+                                        ),
+                                        child: thisItem['img'] == null
+                                            ? const Icon(Icons.image,
+                                                size: 50) // Thay đổi kích thước icon nếu cần
+                                            : null,
+                                      ),
                             Padding(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.all(10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(children: [
-                                    Text('Số bàn: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold),),
-                                    Text(documentSnapshot['id'],style: TextStyle(fontSize: 19),)
+                                    Text('Table type : ', style:TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                                   ]),
-                                  Text('Bàn dành cho '+documentSnapshot['quant'].toString()+' người', style:  TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
+                                  Text(documentSnapshot['tabletype'], style:  TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
                                   Row(children:[
                                     Text('Giá: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff57A5EC)),
                                     ),
+                                    SizedBox(height: 50,),
                                     Text(documentSnapshot['price'].toString(),style: TextStyle(fontSize: 19),)
                                   ] 
                                   ),

@@ -1,4 +1,6 @@
 import 'package:booking/user/pages/home_page.dart';
+import 'package:booking/user/pages/personal_detail.dart';
+import 'package:booking/user/widget/alert_update_profile.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +19,10 @@ class DatabaseService {
           {
             'name':name,
             'email':email,
-            'password':password 
+            'password':password ,
+            'address':'',
+            'day':'',
+            'img':'',
 
           }
         );
@@ -60,10 +65,10 @@ class DatabaseService {
 
 Future<void> signIn(BuildContext context, String email,String password)async{
       try{
-         String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+        String? userId = await getUserIdByEmail(email);
       print('User ID: $userId');
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Đăng nhập thành công',
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:const Text( 'Đăng nhập thành công',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18, ),
           ),
@@ -115,8 +120,8 @@ Future<void> signIn(BuildContext context, String email,String password)async{
           );
         }
         else if(e.code=='invalid-email'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Định dạng email không đúng',
-          textAlign: TextAlign.center,
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:const Text( 'Định dạng email không đúng',
+           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18, ),
           ),
           backgroundColor: Colors.black,
@@ -131,6 +136,25 @@ Future<void> signIn(BuildContext context, String email,String password)async{
         }
       }
     }
+    Future<String?> getUserIdByEmail(String email) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('user') // Tên bộ sưu tập
+        .where('email', isEqualTo: email) // Điều kiện tìm kiếm
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // Nếu tìm thấy tài liệu
+      return querySnapshot.docs.first.id; // Trả về ID của tài liệu đầu tiên
+    } else {
+      print('No user found with that email');
+      return null; // Không tìm thấy người dùng
+    }
+  } catch (e) {
+    print('Error getting user ID: $e');
+    return null; // Xử lý lỗi
+  }
+}
   Future<List<String>> getService() async {
   List<String> services = [];
 
@@ -159,6 +183,25 @@ Future<void> signIn(BuildContext context, String email,String password)async{
         }
     
       }
+      void updateUser(String userId, Map<String, dynamic>? updatedData, BuildContext context) async {
+    
+     bool? confirm = await AlertUpdateUser.showConfirmDialog(context);
+    if(confirm==true){
+      try {
+
+    await FirebaseFirestore.instance.collection('user').doc(userId).update(updatedData!);
+    print('User updated successfully');
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonalDetail(account: userId)));
+  }
+  catch (e) {
+    print('Error updating user: $e');
+  }
+    } 
+     else {
+      print('User cancelled the update .');
+    }
+   
+}
 }
  
 

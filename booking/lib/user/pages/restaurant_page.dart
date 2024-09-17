@@ -38,8 +38,6 @@ class RestaurantPage extends StatelessWidget {
                     fontFamily:   'Candal',
                     color: Color(0xff3CA0B6),
                     fontSize: 23,
-                   
-                    
                   ),
                   ),
                   const Text(

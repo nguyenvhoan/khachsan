@@ -1,6 +1,8 @@
 import 'package:booking/user/pages/home_page.dart';
+import 'package:booking/user/pages/profile_page.dart';
 import 'package:booking/user/pages/restaurant_page.dart';
 import 'package:booking/user/pages/room_page.dart';
+import 'package:booking/user/pages/voucher_page.dart';
 import 'package:flutter/material.dart';
 
 class NavigationMenu extends StatefulWidget {
@@ -28,8 +30,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
   List<Widget> get page => [
     HomePage(),
     RoomPage(account:widget.account ,),
-    RoomPage(account:widget.account ,),
+    VoucherPage(account: widget.account,),
     RestaurantPage(),
+    ProfilePage(account: widget.account,)
   ] ;
   
 @override

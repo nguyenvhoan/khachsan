@@ -1,4 +1,5 @@
 import 'package:booking/Management/Dashboard.dart';
+import 'package:booking/user/pages/Test.dart';
 import 'package:booking/user/pages/intro_page.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       // backgroundColor: Color(0xff3CA0B6), // Màu nền của AppBar
       // foregroundColor: Colors.white, // Màu chữ trong AppBar
 
-      home: Dashboard(),
+      home: Landing(),
       // home: NavigationMenu(),
       theme: ThemeData(
         primaryColor: Colors.white,

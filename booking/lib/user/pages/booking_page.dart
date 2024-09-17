@@ -1,6 +1,7 @@
 import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/booking_page.dart';
 import 'package:booking/user/pages/intro_page.dart';
+import 'package:booking/user/pages/payment_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
@@ -8,7 +9,7 @@ import 'package:random_string/random_string.dart';
 class BookingPage extends StatefulWidget {
   BookingPage({super.key, required this.codeRoom, required this.account});
   final String codeRoom; 
-  var account;
+  final String account; 
   @override
   State<BookingPage> createState() => _BookingPageState();
 }
@@ -103,9 +104,18 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    DateTime a = DateTime.parse(dayRentController.text);
-    DateTime b = DateTime.parse(dayEndController.text);
-    int day=calculateDaysBetween(a, b);
+    DateTime? a;
+DateTime? b;
+
+if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
+  try {
+    a = DateTime.parse(dayRentController.text);
+    b = DateTime.parse(dayEndController.text);
+  } catch (e) {
+    print("Error parsing date: $e");
+  }
+}
+    int day = (a != null && b != null) ? calculateDaysBetween(a, b) : 0;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Options', textAlign: TextAlign.center),
@@ -407,10 +417,10 @@ class _BookingPageState extends State<BookingPage> {
                                   'start':dayRentController.text,
                                   'end':dayEndController.text  ,       
                                  });
-                                 _databaseService.createReq(req);
+                                
                                 Navigator.push(
                                   context, 
-                                  MaterialPageRoute(builder: (context) => Landing())
+                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,))
                                 );
                                 }
                                 

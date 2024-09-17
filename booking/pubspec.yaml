@@ -48,8 +48,13 @@ dependencies:
   firebase_auth: ^5.2.0
   flutter_svg:
   loading_animation_widget: ^1.2.1
-  momo_vn: ^2.0.2
   flutter_zalopay_sdk: ^0.1.14
+  flutter_paypal: ^0.2.1
+  one_context: ^4.0.0
+  flutter_toast_bar: ^0.0.2
+  intl: ^0.19.0
+  http: ^1.2.2
+  image_cropper: ^8.0.2
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +78,12 @@ flutter:
     - family: Candal
       fonts:
         - asset: asset/fonts/Candal-Regular.ttf
+    - family: Cabin
+      fonts:
+        - asset: asset/fonts/CabinSketch-Bold.ttf
+    - family: Calis
+      fonts:
+        - asset: asset/fonts/Calistoga-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
