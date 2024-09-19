@@ -26,6 +26,7 @@ class DiscountListPage extends StatelessWidget {
               final imgUrl = discount['img'] as String;
               final docId = discounts[index].id;
               final point = discount['point'] as int? ?? 0;
+              final price = discount['price'] as int? ?? 0;
 
               return Padding(
                 padding:
@@ -95,6 +96,13 @@ class DiscountListPage extends StatelessWidget {
                                     color: Color.fromARGB(255, 240, 38, 38),
                                     fontWeight: FontWeight.bold),
                               ),
+                              const SizedBox(height: 5),
+                              Text(
+                                'Price: $price',
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 240, 38, 38),
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                         ),
@@ -114,6 +122,9 @@ class DiscountListPage extends StatelessWidget {
                               TextEditingController pointController =
                                   TextEditingController(
                                       text: discount['point'].toString());
+                              TextEditingController priceController =
+                                  TextEditingController(
+                                      text: discount['price'].toString());
 
                               await _navOptionDiscount.editType(
                                 docId,
@@ -121,6 +132,7 @@ class DiscountListPage extends StatelessWidget {
                                 nameController,
                                 introController,
                                 pointController,
+                                priceController,
                               );
                             } else if (value == 'delete') {
                               // Confirm and delete
@@ -152,6 +164,7 @@ class DiscountListPage extends StatelessWidget {
         onPressed: () {
           _navOptionDiscount.create(
             context,
+            TextEditingController(),
             TextEditingController(),
             TextEditingController(),
             TextEditingController(),

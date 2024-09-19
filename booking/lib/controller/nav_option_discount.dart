@@ -86,6 +86,7 @@ class NavOptionDiscount {
     TextEditingController _nameController,
     TextEditingController _introduController,
     TextEditingController _pointController,
+    TextEditingController _priceController,
   ) async {
     showModalBottomSheet(
       context: context,
@@ -135,6 +136,14 @@ class NavOptionDiscount {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    TextField(
+                      controller: _priceController,
+                      decoration: const InputDecoration(
+                        labelText: 'Price',
+                        hintText: '1000 vnd',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     Center(
                       child: ElevatedButton(
                         onPressed: () async {
@@ -164,9 +173,12 @@ class NavOptionDiscount {
                           final String name = _nameController.text;
                           final String introduc = _introduController.text;
                           final String pointText = _pointController.text;
+                          final String priceText = _priceController.text;
                           final int? point = int.tryParse(pointText);
+                          final int? price = int.tryParse(priceText);
 
                           if (point != null &&
+                              price != null &&
                               name.isNotEmpty &&
                               imgUrl != null) {
                             await FirebaseFirestore.instance
@@ -176,11 +188,13 @@ class NavOptionDiscount {
                               "id": randomAlphaNumeric(10),
                               "introduc": introduc,
                               "point": point,
+                              "price": price,
                               "img": imgUrl,
                             });
                             _nameController.clear();
                             _introduController.clear();
                             _pointController.clear();
+                            _priceController.clear();
                             Navigator.of(ctx).pop(); // Đóng BottomSheet
                           } else {
                             ScaffoldMessenger.of(ctx).showSnackBar(
@@ -216,6 +230,7 @@ class NavOptionDiscount {
     TextEditingController _nameController,
     TextEditingController _introController,
     TextEditingController _pointController,
+    TextEditingController _priceController,
   ) async {
     showDialog(
       context: context,
@@ -276,6 +291,14 @@ class NavOptionDiscount {
                   border: OutlineInputBorder(),
                 ),
               ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _priceController,
+                decoration: const InputDecoration(
+                  labelText: 'Price',
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ],
           ),
         ),
@@ -286,6 +309,7 @@ class NavOptionDiscount {
                 "name": _nameController.text,
                 "introduc": _introController.text,
                 "point": int.tryParse(_pointController.text) ?? 0,
+                "price": int.tryParse(_priceController.text)
               });
               Navigator.pop(context);
             },
