@@ -27,6 +27,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
    
    
   int myCurrentindex=0;
+  void onTabTapped(int index) {
+    setState(() {
+      myCurrentindex = index;
+    });
+  }
   List<Widget> get page => [
     HomePage(),
     RoomPage(account:widget.account ,),

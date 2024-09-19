@@ -41,6 +41,8 @@ class _LandingState extends State<Landing> {
   Widget build(BuildContext context) {
     
       return Container(
+        width: double.infinity,
+        height: double.infinity,
           
         child : Stack(
           fit: StackFit.loose,
@@ -48,25 +50,25 @@ class _LandingState extends State<Landing> {
               
               Container(
                 
-                height: MediaQuery.of(context).size.height / 2,
+                height: MediaQuery.of(context).size.height / 2.2,
                 
                 child: Image.asset('asset/images/icons/intro.png', fit: BoxFit.cover,width: MediaQuery.sizeOf(context).width),
               ),
               
               
               Positioned(
-                top: 380,
+                top: 320,
                 child: Container(
                   
                   decoration: BoxDecoration(  
-                    color: Colors.transparent,
+                    color: Colors.white,
                     borderRadius:   BorderRadius.circular(50),
                   ),
                   
                   width:  MediaQuery.of(context).size.width,
                   
                   child: Container(
-                height:MediaQuery.sizeOf(context).height/2,
+                height:MediaQuery.sizeOf(context).height,
                 child: Expanded( 
                   child: Stack(
                     children: <Widget>[

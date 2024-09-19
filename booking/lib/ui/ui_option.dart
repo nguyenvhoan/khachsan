@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_context/one_context.dart';
 
 class UiOption {
   static void showAlertDialog(String message, BuildContext ctx, {String title = ' '}) {
@@ -25,5 +26,21 @@ class UiOption {
         );
       },
     );
+  }
+  static showDialogSuccessPayment(){
+    OneContext().showDialog(builder: (ctx)
+    {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          
+        ),
+        actions: [
+          ElevatedButton(onPressed: (){
+            Navigator.of(ctx).pop();
+          }, child: Text('ok'))
+        ],
+      );
+    });
   }
 }

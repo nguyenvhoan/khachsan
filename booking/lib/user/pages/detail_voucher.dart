@@ -1,3 +1,4 @@
+import 'package:booking/user/pages/voucher_page.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -95,6 +96,24 @@ class _DetailVoucherState extends State<DetailVoucher> {
                         ),
                 
                 ),
+                Positioned(
+                    top: 20,
+                    left: 10,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: IconButton(onPressed: (){
+                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>VoucherPage(account: widget.account)));
+                        Navigator.pop(context);
+                      }, icon: Icon(Icons.undo,
+                      color: Colors.white,)
+                      ),
+                      
+                      
+                    ),
+                    ),
                
                   
               ] 

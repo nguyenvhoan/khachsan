@@ -27,12 +27,13 @@ class _BookingPageState extends State<BookingPage> {
   List<dynamic> services = [];
    DatabaseService _databaseService = DatabaseService();
    
-  
+  int? score;
   @override
   void initState() {
     super.initState();
     getDataById(widget.codeRoom); 
     getUserById(widget.account);
+    getScoreUser(widget.account);
   }
   Future<void> _selectedStartDate() async{
     DateTime? _picked=await showDatePicker(
@@ -48,6 +49,12 @@ class _BookingPageState extends State<BookingPage> {
       });
     }
   }
+  Future<void> getScoreUser(String account) async{
+    
+       score = await _databaseService.getScore(account);
+        print('score  '+score.toString());
+
+  }
   Future<void> _selectedEndDate() async{
     DateTime? _picked=await showDatePicker(
       context: context,
@@ -62,10 +69,12 @@ class _BookingPageState extends State<BookingPage> {
       });
     }
   }
+  
   int calculateDaysBetween(DateTime startDate, DateTime endDate) {
   
   return endDate.difference(startDate).inDays;
 }
+Timestamp now = Timestamp.now();
 
 
   Future<void> getDataById(String id) async {
@@ -415,7 +424,9 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                                   'phoneNumber':phoneNumberController.text,
                                   'day':day  ,
                                   'start':dayRentController.text,
-                                  'end':dayEndController.text  ,       
+                                  'end':dayEndController.text  , 
+                                  'score':score,
+                                  'time': now,     
                                  });
                                 
                                 Navigator.push(

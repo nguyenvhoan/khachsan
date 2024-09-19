@@ -155,14 +155,14 @@ Future<void> _selectedStartDate() async{
                           borderRadius: BorderRadius.circular(30),
                       ),
                       child: IconButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage(account: widget.account)));
-                      }, icon: Icon(Icons.undo,
+                        Navigator.pop(context);
+                      }, icon: Image.asset('asset/images/icons/icon_back.png'),
                       color: Colors.white,)
                       ),
                       
                       
                     ),
-                    ),
+                    
                     
                 ] 
                 ),

@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:booking/user/pages/Test.dart';
+import 'package:booking/user/pages/booking_history.dart';
 import 'package:booking/user/pages/intro_page.dart';
 import 'package:booking/user/pages/edit_personal_page.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
@@ -20,7 +22,7 @@ var account;
 
 class _ProfilePageState extends State<ProfilePage> {
     Map<String, dynamic>? user; 
-    final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
     File? imageFile;
   TextEditingController fullNameController = TextEditingController();
 
@@ -170,23 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   ),
-                  Positioned(
-                    top: 20,
-                    left: 10,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: IconButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationMenu(account: widget.account,)));
-                      }, icon: Icon(Icons.undo,
-                      color: Colors.white,)
-                      ),
-                      
-                      
-                    ),
-                    ),
+                  
                   
               ] 
               ),
@@ -265,20 +251,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ],
                                   ),
                                 ),
-                                const Padding(
+                                 Padding(
                                   padding: EdgeInsets.only(bottom: 10),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(width: 10,),
-                                      Icon(Icons.home),
-                                      SizedBox(width: 10,),
-                                      Text('Booking History', 
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                      ),
-                                    ],
+                                  child: GestureDetector(
+                                    onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account,)));
+                                      },
+                                    child:const Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.home),
+                                        SizedBox(width: 10,),
+                                        Text('Booking History', 
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const Padding(
@@ -318,12 +309,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: const Color.fromARGB(255, 242, 236, 236),
                             borderRadius: BorderRadius.circular(20)
                           ),
-                          child:const Padding(
+                          child: Padding(
                             padding: EdgeInsets.all(15),
                             child:  Column(
                               children: [
                                  
-                                 Padding(
+                                 const Padding(
                                   padding: EdgeInsets.only(bottom: 10),
                                   child: Row(
                                     children: [
@@ -339,7 +330,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ],
                                   ),
                                 ),
-                                 Padding(
+                                const Padding(
                                   padding: EdgeInsets.only(bottom: 10),
                                   child: Row(
                                     children: [
@@ -353,6 +344,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       ),
                                     ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PointUser(account: widget.account,)));
+                                    },
+                                    child:const Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.point_of_sale),
+                                        SizedBox(width: 10,),
+                                        Text('Point', 
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 

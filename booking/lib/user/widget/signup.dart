@@ -81,21 +81,19 @@ class _SignUpState extends State<SignUp> {
                             style: const TextStyle(
                               color: Colors.black ,
                             ),  
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: 50,
+                            cursorColor: Colors.black, 
+                            decoration:const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
-                              ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
                               labelText: 'FullName',
-                              labelStyle: const TextStyle(
+                              labelStyle:  TextStyle(
                                 color: Color(0xff57A5EC), 
                               ),
-                              prefixIcon: const Icon(
+                              prefixIcon:  Icon(
                                 Icons.email,
                                 color: Colors.black,
                               ),
@@ -117,23 +115,19 @@ class _SignUpState extends State<SignUp> {
                             style: const TextStyle(
                               color: Colors.black ,
                             ),  
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(vertical: 10.0),          
-              
-                              border: OutlineInputBorder(
-                                
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: 50,
+                            cursorColor: Colors.black, 
+                            decoration:const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
-                              ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
                               labelText: 'Phone or Gmail',
-                              labelStyle: const TextStyle(
+                              labelStyle:  TextStyle(
                                 color: Color(0xff57A5EC), 
                               ),
-                              prefixIcon: const Icon(
+                              prefixIcon:  Icon(
                                 Icons.email,
                                 color: Colors.black,
                               ),
@@ -155,16 +149,14 @@ class _SignUpState extends State<SignUp> {
                             style: const TextStyle(
                               color: Colors.black,
                             ),
+                            cursorColor: Colors.black, 
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: 50,
+                              enabledBorder:const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
-                              ),
+                                focusedBorder:const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
                               labelText: 'Password',
                               labelStyle: const TextStyle(
                                 color: Color(0xff57A5EC), 
@@ -184,7 +176,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                          const SizedBox(height: 10,),
                           TextFormField( 
                                   validator: (value){
                               if(value==null||value!=_passwordController.text){
@@ -196,16 +188,14 @@ class _SignUpState extends State<SignUp> {
                             style: const TextStyle(
                               color: Colors.black,
                             ),
+                            cursorColor: Colors.black, 
                             decoration: InputDecoration(
-                               contentPadding: EdgeInsets.symmetric(vertical: 10.0),          
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: 50,
+                              enabledBorder:const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
-                              ),
+                                focusedBorder:const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
                               labelText: 'Confirm Password',
                               labelStyle: const TextStyle(
                                 color: Color(0xff57A5EC), 

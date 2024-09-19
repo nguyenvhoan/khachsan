@@ -72,7 +72,7 @@ Future<void> fetchServices() async {
                                   print('data              '+thisItem!['img']);
                                   return Container(
                                     
-                                     margin: EdgeInsets.all(30),
+                                     margin: EdgeInsets.only(right:30,left:30,bottom:10, top:10),
                                   decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),

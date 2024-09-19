@@ -26,7 +26,7 @@ class _SigninState extends State<Signin> {
            height: MediaQuery.of(context).size.height / 1.8 ,
           decoration:const  BoxDecoration(
                   color: Colors.white,
-                  borderRadius:const BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30), 
                     topRight: Radius.circular(30), 
                   ),
@@ -61,21 +61,22 @@ class _SigninState extends State<Signin> {
                             controller: _emailController,
                             style: const TextStyle(
                               color: Colors.black ,
-                            ),  
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: 50,
+                            ), 
+                            cursorColor: Colors.black, 
+                            decoration:const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
-                              ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                
+                              
                               labelText: 'Gmail',
-                              labelStyle: const TextStyle(
+                              labelStyle:  TextStyle(
                                 color: Color(0xff57A5EC), // Thay đổi màu của labelText
                               ),
-                              prefixIcon: const Icon(
+                              prefixIcon:  Icon(
                                 Icons.email,
                                 color: Colors.black,
                               ),
@@ -95,15 +96,15 @@ class _SigninState extends State<Signin> {
                             style: const TextStyle(
                               color: Colors.black,
                             ),
+                            cursorColor: Colors.black, 
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: 50,
+                              enabledBorder:const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
-                              ),
+                                focusedBorder:const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                              
                               labelText: 'Password',
                               labelStyle: const TextStyle(
                                 color: Color(0xff57A5EC), // Thay đổi màu của labelText

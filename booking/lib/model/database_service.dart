@@ -23,6 +23,8 @@ class DatabaseService {
             'address':'',
             'day':'',
             'img':'',
+            'score':'',
+            'scoreUsed':'',
 
           }
         );
@@ -183,6 +185,15 @@ Future<void> signIn(BuildContext context, String email,String password)async{
         }
     
       }
+      Future<void> createHistory(String account, Map<String, dynamic> req) async {
+          try {
+            await db.collection('user').doc(account).set({
+              'History': req,
+            }, SetOptions(merge: true)); // Sử dụng merge để tránh ghi đè dữ liệu khác
+          } catch (e) {
+            print('Lỗi khi tạo lịch sử: ${e.toString()}');
+          }
+        }
       void updateUser(String userId, Map<String, dynamic>? updatedData, BuildContext context) async {
     
      bool? confirm = await AlertUpdateUser.showConfirmDialog(context);
@@ -202,7 +213,137 @@ Future<void> signIn(BuildContext context, String email,String password)async{
     }
    
 }
+Future<int?> getScore(String email) async {
+  try {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(email) // Sử dụng email làm ID tài liệu
+        .get();
+
+    if (documentSnapshot.exists) {
+      var data = documentSnapshot.data() as Map<String, dynamic>?;
+
+      if (data != null && data['score'] != null) {
+     
+        return data['score'] as int?;
+      } else {
+        print('Score not found for user with email: $email');
+        return null; 
+      }
+    } else {
+      print('No user found with that email');
+      return null; 
+    }
+  } catch (e) {
+    print('Error getting user score: $e');
+    return null; // Xử lý lỗi
+  }
 }
+Future<void> updateScore(String email, int newScore) async {
+  try {
+    int? currentScore = await getScore(email);
+
+    if (currentScore != null) {
+      int updatedScore = currentScore + newScore;
+
+      await FirebaseFirestore.instance.collection('user').doc(email).update({
+        'score': updatedScore, 
+      });
+    } else {
+      print('Current score is null. Cannot update.');
+    }
+  } catch (e) {
+    print('Error updating user score: $e');
+  }
+}
+
+Future<List<Map<String, dynamic>>> getRequestsByUserEmail(String email) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('Request')
+          .where('idUser', isEqualTo: email)
+          .get();
+
+      List<Map<String, dynamic>> requests = querySnapshot.docs.map((doc) {
+        return {
+          'id': doc.id, // ID của document
+          ...doc.data() as Map<String, dynamic> // Dữ liệu của document
+        };
+      }).toList();
+
+      return requests;
+    } catch (e) {
+      print("Error getting requests: $e");
+      return [];
+    }
+  }
+
+Future<void> exchangePoint(String email, int newScore,List<Map<String, dynamic>> voucher,BuildContext context, Function onSuccess) async {
+  
+   bool? confirm = await AlertUpdateUser.showConfirmDialogVoucher(context);
+   if(confirm==true){
+  try {
+    int? currentScore = await getScore(email);
+    int? usedScore = await getUsedScore(email);
+
+    if (currentScore != null) {
+      if (newScore > currentScore) {
+        print('New score exceeds current score. Cannot update.');
+        return; 
+      }
+
+      int updatedScore = currentScore - newScore;
+      int updateUsedScore= usedScore! + newScore;
+      await FirebaseFirestore.instance.collection('user').doc(email).update({
+        'scoreUsed':updateUsedScore,
+        'score': updatedScore,
+        'voucher': voucher,
+      });
+
+      print('Score updated successfully to $updatedScore.');
+    } else {
+      print('Current score is null. Cannot update.');
+    }
+  } catch (e) {
+    print('Error updating user score: $e');
+  }
+   }
+   else {
+      print('User cancelled the update .');
+    }
+}
+Future<int?> getUsedScore(String email) async {
+  try {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(email) // Sử dụng email làm ID tài liệu
+        .get();
+
+    if (documentSnapshot.exists) {
+      var data = documentSnapshot.data() as Map<String, dynamic>?;
+
+      if (data != null && data['scoreUsed'] != null) {
+     
+        return data['scoreUsed'] as int?;
+      } else {
+        print('Score not found for user with email: $email');
+        return null; 
+      }
+    } else {
+      print('No user found with that email');
+      return null; 
+    }
+  } catch (e) {
+    print('Error getting user score: $e');
+    return null; // Xử lý lỗi
+  }
+}
+
+   
+
+}
+
+
  
 
   
