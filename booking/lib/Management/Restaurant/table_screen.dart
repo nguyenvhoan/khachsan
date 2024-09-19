@@ -22,6 +22,7 @@ class TableScreenState extends State<TableScreen> {
       FirebaseFirestore.instance.collection('Table');
   final CollectionReference _tableTypes =
       FirebaseFirestore.instance.collection('TableType');
+  final TextEditingController _dayController = TextEditingController();
 
   Stream<QuerySnapshot>? _stream;
   String imageUrl = '';
@@ -59,6 +60,7 @@ class TableScreenState extends State<TableScreen> {
           priceController: _priceController,
           selectedTableType: _selectedTableType,
           roomTypeOptions: _tableTypeOptions,
+          dayController: _dayController,
           onRoomTypeChanged: (String? newValue) {
             setState(() {
               _selectedTableType = newValue;
@@ -86,10 +88,12 @@ class TableScreenState extends State<TableScreen> {
             await _item.add({
               "Id": randomAlphaNumeric(10),
               "price": price,
+              "day": _dayController.text,
               "img": imageUrl,
               "tabletype": tableType,
+              "status": "Empty"
             });
-
+            _dayController.clear();
             _priceController.clear();
             _selectedTableType = null;
             imageUrl = ''; // Reset image URL after submission
@@ -201,6 +205,54 @@ class TableScreenState extends State<TableScreen> {
                                   ),
                                   TextSpan(
                                     text: "${thisItem['price']} VND/Table",
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "Date: ",
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 31, 144, 243),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${thisItem['day']} ",
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "Status: ",
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 31, 144, 243),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${thisItem['status']} ",
                                     style: const TextStyle(
                                       fontFamily: 'Courier',
                                       fontSize: 20,

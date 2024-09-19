@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class TableForm extends StatelessWidget {
+class TableForm extends StatefulWidget {
   final TextEditingController priceController;
+  final TextEditingController dayController;
   final String? selectedTableType;
   final List<String> roomTypeOptions;
   final Function(String?) onRoomTypeChanged;
@@ -15,8 +16,28 @@ class TableForm extends StatelessWidget {
     required this.roomTypeOptions,
     required this.onRoomTypeChanged,
     required this.onPickImage,
+    required this.dayController,
     required this.onSubmit,
   }) : super(key: key);
+
+  @override
+  _TableFormState createState() => _TableFormState();
+}
+
+class _TableFormState extends State<TableForm> {
+  Future<void> _selectedStartDate() async {
+    DateTime? _picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+    if (_picked != null) {
+      setState(() {
+        widget.dayController.text = _picked.toString().split(" ")[0];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +52,60 @@ class TableForm extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
-            controller: priceController,
-            decoration: InputDecoration(labelText: 'Enter Price'),
+            controller: widget.priceController,
+            decoration: const InputDecoration(labelText: 'Enter Price'),
             keyboardType: TextInputType.number,
           ),
           DropdownButtonFormField<String>(
-            value: selectedTableType,
-            decoration: InputDecoration(labelText: 'Select Table Type'),
-            onChanged: onRoomTypeChanged,
-            items: roomTypeOptions.map((String value) {
+            value: widget.selectedTableType,
+            decoration: const InputDecoration(labelText: 'Select Table Type'),
+            onChanged: widget.onRoomTypeChanged,
+            items: widget.roomTypeOptions.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
               );
             }).toList(),
           ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: onPickImage,
-            child: Text('Pick Image'),
+          const SizedBox(
+            height: 10,
           ),
-          SizedBox(height: 10),
+          Container(
+            height: 50,
+            child: TextFormField(
+              onTap: () {
+                _selectedStartDate();
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Bắt buộc nhập';
+                }
+              },
+              readOnly: true,
+              controller: widget.dayController,
+              decoration: const InputDecoration(
+                label: Text(
+                  'Day *',
+                  style: TextStyle(color: Color(0xffBEBCBC)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
           ElevatedButton(
-            onPressed: onSubmit,
-            child: Text('Submit'),
+            onPressed: widget.onPickImage,
+            child: const Text('Pick Image'),
+          ),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: widget.onSubmit,
+            child: const Text('Submit'),
           ),
         ],
       ),
