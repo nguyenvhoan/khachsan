@@ -1,4 +1,5 @@
 import 'package:booking/Management/Discount/DiscountListPage.dart';
+import 'package:booking/Management/Order/order_screen.dart';
 import 'package:booking/Management/Restaurant.dart';
 import 'package:booking/Management/Restaurant/TableType.dart';
 import 'package:booking/Management/Restaurant/table_screen.dart';
@@ -113,132 +114,159 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   child: Container(
                     width: sidebarWidth,
                     color: const Color(0xFF1f1d2c),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                radius:
-                                    30, // Đặt bán kính cho CircleAvatar để tạo hình tròn
-                                backgroundColor: Colors.white,
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    'asset/images/tn.JPG',
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  radius:
+                                      30, // Đặt bán kính cho CircleAvatar để tạo hình tròn
+                                  backgroundColor: Colors.white,
+                                  child: ClipOval(
+                                    child: Image.asset(
+                                      'asset/images/tn.JPG',
 
-                                    fit: BoxFit
-                                        .cover, // Đảm bảo hình ảnh lấp đầy hình tròn
+                                      fit: BoxFit
+                                          .cover, // Đảm bảo hình ảnh lấp đầy hình tròn
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                'Employee Management',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 21, 142, 241),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Employee Management',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 21, 142, 241),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          // Sidebar items
+
+                          const Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: const Text(
+                              'Hotel management',
+                              style: TextStyle(
+                                fontFamily: 'Candal',
+                                color: Color(0xff3CA0B6),
+                                fontSize: 15,
                               ),
-                            ],
-                          ),
-                        ),
-                        // Sidebar items
-
-                        const Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: const Text(
-                            'Hotel management',
-                            style: TextStyle(
-                              fontFamily: 'Candal',
-                              color: Color(0xff3CA0B6),
-                              fontSize: 15,
                             ),
                           ),
-                        ),
-                        SidebarItem(
-                          title: 'Type Room',
-                          icon: Icons.hotel,
-                          onTap: () {
-                            setState(() {
-                              _currentPage = const RoomType();
-                            });
-                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                          },
-                        ),
-                        SidebarItem(
-                          title: 'Service',
-                          icon: Icons.star,
-                          onTap: () {
-                            setState(() {
-                              _currentPage =
-                                  const Service(); // Thay thế bằng trang Service của bạn
-                            });
-                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                          },
-                        ),
-                        SidebarItem(
-                          title: 'Room',
-                          icon: Icons.king_bed,
-                          onTap: () {
-                            setState(() {
-                              _currentPage =
-                                  RoomScreen(); // Thay thế bằng trang Service của bạn
-                            });
-                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                          },
-                        ),
-                        SidebarItem(
-                          title: 'Discount',
-                          icon: Icons.discount,
-                          onTap: () {
-                            setState(() {
-                              _currentPage =
-                                  DiscountListPage(); // Thay thế bằng trang Service của bạn
-                            });
-                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                          },
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: const Text(
-                            'Restaurant management',
-                            style: TextStyle(
-                              fontFamily: 'Candal',
-                              color: Color(0xff3CA0B6),
-                              fontSize: 15,
+                          SidebarItem(
+                            title: 'Type Room',
+                            icon: Icons.hotel,
+                            onTap: () {
+                              setState(() {
+                                _currentPage = const RoomType();
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Service',
+                            icon: Icons.star,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    const Service(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Room',
+                            icon: Icons.king_bed,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    RoomScreen(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Discount',
+                            icon: Icons.discount,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    DiscountListPage(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: const Text(
+                              'Restaurant management',
+                              style: TextStyle(
+                                fontFamily: 'Candal',
+                                color: Color(0xff3CA0B6),
+                                fontSize: 15,
+                              ),
                             ),
                           ),
-                        ),
 
-                        SidebarItem(
-                          title: 'Table Type',
-                          icon: Icons.table_bar,
-                          onTap: () {
-                            setState(() {
-                              _currentPage =
-                                  Tabletype(); // Thay thế bằng trang Service của bạn
-                            });
-                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                          },
-                        ),
-                        SidebarItem(
-                          title: 'Table ',
-                          icon: Icons.table_restaurant_outlined,
-                          onTap: () {
-                            setState(() {
-                              _currentPage =
-                                  TableScreen(); // Thay thế bằng trang Service của bạn
-                            });
-                            _toggleDrawer(); // Đóng sidebar sau khi chọn mục
-                          },
-                        ),
-                      ],
+                          SidebarItem(
+                            title: 'Table Type',
+                            icon: Icons.table_bar,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    Tabletype(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Table ',
+                            icon: Icons.table_restaurant_outlined,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    TableScreen(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: const Text(
+                              'Manage bookings  ',
+                              style: TextStyle(
+                                fontFamily: 'Candal',
+                                color: Color(0xff3CA0B6),
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          SidebarItem(
+                            title: 'Order ',
+                            icon: Icons.shopping_cart_outlined,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    OrderScreen(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

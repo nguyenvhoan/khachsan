@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
     return OneNotification(
         builder: (_, __) => MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Dashboard(),
-              // home: Landing(),
+              // home: Dashboard(),
+              home: Landing(),
               theme: ThemeData(
                   primaryColor: Colors.white,
                   appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
