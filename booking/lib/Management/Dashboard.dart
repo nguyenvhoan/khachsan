@@ -3,7 +3,8 @@ import 'package:booking/Management/Order/order_screen.dart';
 import 'package:booking/Management/Restaurant.dart';
 import 'package:booking/Management/Restaurant/TableType.dart';
 import 'package:booking/Management/Restaurant/table_screen.dart';
-import 'package:booking/Management/Room/room_screen.dart';
+import 'package:booking/Management/RoomType/room_screen.dart';
+import 'package:booking/Management/Room/roomtype_screen.dart';
 import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/item.dart';
 import 'package:flutter/foundation.dart';
@@ -20,7 +21,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   late AnimationController _controller;
   // Biến trạng thái để theo dõi nội dung hiện tại
-  Widget _currentPage = const RoomType();
+  Widget _currentPage = const RoomScreen();
 
   @override
   void initState() {
@@ -165,7 +166,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             icon: Icons.hotel,
                             onTap: () {
                               setState(() {
-                                _currentPage = const RoomType();
+                                _currentPage = const RoomScreen();
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -187,7 +188,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    RoomScreen(); // Thay thế bằng trang Service của bạn
+                                    RoomtypeScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -257,6 +258,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           SidebarItem(
                             title: 'Order ',
                             icon: Icons.shopping_cart_outlined,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    OrderScreen(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'The booking has been arranged ',
+                            icon: Icons.list_alt,
                             onTap: () {
                               setState(() {
                                 _currentPage =

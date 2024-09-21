@@ -1,6 +1,6 @@
-import 'package:booking/Management/Room/RoomForm.dart';
-import 'package:booking/Management/Room/room_delete_dialog.dart';
-import 'package:booking/Management/Room/room_edit_dialog.dart';
+import 'package:booking/Management/RoomType/RoomForm.dart';
+import 'package:booking/Management/RoomType/room_delete_dialog.dart';
+import 'package:booking/Management/RoomType/room_edit_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:random_string/random_string.dart';
@@ -17,10 +17,10 @@ class _RoomScreenState extends State<RoomScreen> {
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _introduceController = TextEditingController();
+  final TextEditingController _floorController = TextEditingController();
   final CollectionReference _item =
-      FirebaseFirestore.instance.collection('Room');
-  final CollectionReference _roomTypes =
       FirebaseFirestore.instance.collection('RoomType');
+
   final CollectionReference _service =
       FirebaseFirestore.instance.collection('Service');
   Stream<QuerySnapshot>? _stream;
@@ -33,24 +33,9 @@ class _RoomScreenState extends State<RoomScreen> {
   @override
   void initState() {
     super.initState();
-    _stream = FirebaseFirestore.instance.collection('Room').snapshots();
-    _loadRoomTypes();
-    _loadServices();
-  }
+    _stream = FirebaseFirestore.instance.collection('RoomType').snapshots();
 
-  Future<void> _loadRoomTypes() async {
-    try {
-      QuerySnapshot snapshot = await _roomTypes.get();
-      List<String> roomTypes =
-          snapshot.docs.map((doc) => doc['roomtype'] as String).toList();
-      setState(() {
-        _roomTypeOptions = roomTypes;
-      });
-    } catch (e) {
-      print('Error loading room types: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to load room types.')));
-    }
+    _loadServices();
   }
 
   Future<void> _loadServices() async {
@@ -77,15 +62,16 @@ class _RoomScreenState extends State<RoomScreen> {
           numberController: _numberController,
           priceController: _priceController,
           introduceController: _introduceController,
-          selectedRoomType: _selectedRoomType,
-          roomTypeOptions: _roomTypeOptions,
+          // floorController: _floorController,
+          // selectedRoomType: _selectedRoomType,
+          // roomTypeOptions: _roomTypeOptions,
           selectedServices: _selectedServices,
           serviceOptions: _serviceOptions,
-          onRoomTypeChanged: (String? newValue) {
-            setState(() {
-              _selectedRoomType = newValue;
-            });
-          },
+          // onRoomTypeChanged: (String? newValue) {
+          //   setState(() {
+          //     _selectedRoomType = newValue;
+          //   });
+          // },
           onServicesChanged: (List<String> values) {
             setState(() {
               _selectedServices = values;
@@ -108,6 +94,7 @@ class _RoomScreenState extends State<RoomScreen> {
             }
             final String number = _numberController.text;
             final int price = int.tryParse(_priceController.text) ?? 0;
+            final int floor = int.tryParse(_floorController.text) ?? 0;
             final String introduce = _introduceController.text;
             final String roomType = _selectedRoomType ?? 'Unknown';
             final List<String> services =
@@ -118,15 +105,17 @@ class _RoomScreenState extends State<RoomScreen> {
               "number": number,
               "price": price,
               "intro": introduce,
-              "status": "empty",
+              // "floor": floor,
+              // "status": "empty",
               "img": imageUrl,
-              "roomType": roomType,
+              // "roomType": roomType,
               "services": services,
             });
             _numberController.clear();
             _priceController.clear();
             _introduceController.clear();
-            _selectedRoomType = null;
+            // // _floorController.clear();
+            // _selectedRoomType = null;
             _selectedServices = [];
             Navigator.of(context).pop();
           },
@@ -149,6 +138,13 @@ class _RoomScreenState extends State<RoomScreen> {
           if (snapshot.hasData) {
             QuerySnapshot querySnapshot = snapshot.data!;
             List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+
+            // Sắp xếp các tài liệu theo số phòng
+            documents.sort((a, b) {
+              String numberA = a['number'] ?? '';
+              String numberB = b['number'] ?? '';
+              return numberA.compareTo(numberB); // So sánh theo thứ tự số
+            });
             return ListView.builder(
               itemCount: documents.length,
               itemBuilder: (BuildContext context, int index) {
@@ -239,33 +235,6 @@ class _RoomScreenState extends State<RoomScreen> {
                                   ),
                                   TextSpan(
                                     text: "${thisItem['price']} VND/Night",
-                                    style: const TextStyle(
-                                      fontFamily:
-                                          'Courier', // Thay đổi font chữ
-                                      fontSize: 14,
-                                      color:
-                                          Colors.white, // Màu chữ của giá trị
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  const TextSpan(
-                                    text: "Room Type: ",
-                                    style: TextStyle(
-                                      fontFamily:
-                                          'Courier', // Thay đổi font chữ
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 31, 144, 243),
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: "${thisItem['roomType']}",
                                     style: const TextStyle(
                                       fontFamily:
                                           'Courier', // Thay đổi font chữ

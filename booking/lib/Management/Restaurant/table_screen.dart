@@ -1,10 +1,10 @@
 import 'package:booking/Management/Restaurant/TableForm.dart';
 import 'package:booking/Management/Restaurant/table_delete_dialog.dart';
 import 'package:booking/Management/Restaurant/table_edit_dialog.dart';
-import 'package:booking/Management/Room/RoomForm.dart';
-import 'package:booking/Management/Room/image_picker_util.dart';
-import 'package:booking/Management/Room/room_delete_dialog.dart';
-import 'package:booking/Management/Room/room_edit_dialog.dart';
+import 'package:booking/Management/RoomType/RoomForm.dart';
+import 'package:booking/Management/RoomType/image_picker_util.dart';
+import 'package:booking/Management/RoomType/room_delete_dialog.dart';
+import 'package:booking/Management/RoomType/room_edit_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:random_string/random_string.dart';

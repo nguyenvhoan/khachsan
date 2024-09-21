@@ -1,3 +1,4 @@
+import 'package:booking/Management/Order/room_selection_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -326,34 +327,34 @@ class _OrderScreenState extends State<OrderScreen> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(height: 5),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: "Time: ",
-                                          style: TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 31, 144, 243),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: "${thisItem['time']} ",
-                                          style: const TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
                                 ],
                               ),
                             ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: PopupMenuButton<String>(
+                            onSelected: (value) async {
+                              if (value == 'Select Room') {
+                                // Sử dụng ID yêu cầu từ thisItem
+                                await showRoomSelectionDialog(
+                                  context,
+                                  thisItem['roomType'],
+                                  thisItem[
+                                      'id'], // Thay 'requestId' bằng tên trường thực tế
+                                );
+                              }
+                            },
+                            itemBuilder: (BuildContext context) {
+                              return [
+                                const PopupMenuItem<String>(
+                                  value: 'Select Room',
+                                  child: Text('Select Room'),
+                                ),
+                                // Thêm các mục menu khác nếu cần
+                              ];
+                            },
                           ),
                         ),
                       ],
