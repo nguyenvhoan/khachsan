@@ -282,6 +282,31 @@ class _OrderScreenState extends State<OrderScreen> {
                                     text: TextSpan(
                                       children: [
                                         const TextSpan(
+                                          text: "RoomNumber: ",
+                                          style: TextStyle(
+                                            fontFamily: 'Courier',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromARGB(
+                                                255, 31, 144, 243),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: "${thisItem['roomNumber']} ",
+                                          style: const TextStyle(
+                                            fontFamily: 'Courier',
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        const TextSpan(
                                           text: "Name: ",
                                           style: TextStyle(
                                             fontFamily: 'Courier',

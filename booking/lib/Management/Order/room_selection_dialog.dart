@@ -69,14 +69,16 @@ Future<void> showRoomSelectionDialog(
   );
 }
 
-// Hàm cập nhật thông tin yêu cầu
 Future<void> updateRequestWithRoom(String id, String roomNumber) async {
   final CollectionReference _requestCollection =
       FirebaseFirestore.instance.collection('Request');
 
+  // In ra ID để kiểm tra
+  print('Updating request with ID: $id and room number: $roomNumber');
+
   try {
     await _requestCollection.doc(id).update({
-      'roomNumber': roomNumber, // Hoặc tên trường khác phù hợp
+      'roomNumber': roomNumber, // Thêm trường mới roomNumber vào tài liệu
     });
     print('Updated successfully with id: $id');
   } catch (e) {

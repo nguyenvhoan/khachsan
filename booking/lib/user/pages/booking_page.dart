@@ -8,82 +8,81 @@ import 'package:random_string/random_string.dart';
 
 class BookingPage extends StatefulWidget {
   BookingPage({super.key, required this.codeRoom, required this.account});
-  final String codeRoom; 
-  final String account; 
+  final String codeRoom;
+  final String account;
   @override
   State<BookingPage> createState() => _BookingPageState();
 }
 
 class _BookingPageState extends State<BookingPage> {
-  TextEditingController cardNumberController =TextEditingController();
-  TextEditingController cardholderController =TextEditingController();
-  TextEditingController phoneNumberController =TextEditingController();
-  TextEditingController dayRentController =TextEditingController();
-  TextEditingController dayEndController =TextEditingController();
+  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController cardholderController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController dayRentController = TextEditingController();
+  TextEditingController dayEndController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   final FirebaseFirestore db = FirebaseFirestore.instance;
-  Map<String, dynamic>? data; 
-  Map<String, dynamic>? user; 
+  Map<String, dynamic>? data;
+  Map<String, dynamic>? user;
   List<dynamic> services = [];
-   DatabaseService _databaseService = DatabaseService();
-   
+  DatabaseService _databaseService = DatabaseService();
+
   int? score;
   @override
   void initState() {
     super.initState();
-    getDataById(widget.codeRoom); 
+    getDataById(widget.codeRoom);
     getUserById(widget.account);
     getScoreUser(widget.account);
   }
-  Future<void> _selectedStartDate() async{
-    DateTime? _picked=await showDatePicker(
+
+  Future<void> _selectedStartDate() async {
+    DateTime? _picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
-    if(_picked!=null){
+    if (_picked != null) {
       setState(() {
-        dayRentController.text=_picked.toString().split(" ")[0];
-        
+        dayRentController.text = _picked.toString().split(" ")[0];
       });
     }
   }
-  Future<void> getScoreUser(String account) async{
-    
-       score = await _databaseService.getScore(account);
-        print('score  '+score.toString());
 
+  Future<void> getScoreUser(String account) async {
+    score = await _databaseService.getScore(account);
+    print('score  ' + score.toString());
   }
-  Future<void> _selectedEndDate() async{
-    DateTime? _picked=await showDatePicker(
+
+  Future<void> _selectedEndDate() async {
+    DateTime? _picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now().add(Duration(days: 1)),
       firstDate: DateTime.now().add(Duration(days: 1)),
       lastDate: DateTime(2100),
     );
-    if(_picked!=null){
+    if (_picked != null) {
       setState(() {
-        
-        dayEndController.text=_picked.toString().split(" ")[0];
+        dayEndController.text = _picked.toString().split(" ")[0];
       });
     }
   }
-  
-  int calculateDaysBetween(DateTime startDate, DateTime endDate) {
-  
-  return endDate.difference(startDate).inDays;
-}
-Timestamp now = Timestamp.now();
 
+  int calculateDaysBetween(DateTime startDate, DateTime endDate) {
+    return endDate.difference(startDate).inDays;
+  }
+
+  Timestamp now = Timestamp.now();
 
   Future<void> getDataById(String id) async {
     try {
-      DocumentSnapshot documentSnapshot = await db.collection('Room').doc(id).get();
+      DocumentSnapshot documentSnapshot =
+          await db.collection('Room').doc(id).get();
 
       if (documentSnapshot.exists) {
         setState(() {
-          data = documentSnapshot.data() as Map<String, dynamic>?; 
+          data = documentSnapshot.data() as Map<String, dynamic>?;
           services = data?['services'] ?? []; // Lấy dịch vụ
         });
       } else {
@@ -93,14 +92,15 @@ Timestamp now = Timestamp.now();
       print('Lỗi khi lấy dữ liệu: $e');
     }
   }
+
   Future<void> getUserById(String id) async {
     try {
-      DocumentSnapshot documentSnapshot = await db.collection('user').doc(id).get();
+      DocumentSnapshot documentSnapshot =
+          await db.collection('user').doc(id).get();
 
       if (documentSnapshot.exists) {
         setState(() {
-          user = documentSnapshot.data() as Map<String, dynamic>?; 
-          
+          user = documentSnapshot.data() as Map<String, dynamic>?;
         });
       } else {
         print('Tài liệu không tồn tại');
@@ -114,22 +114,22 @@ Timestamp now = Timestamp.now();
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     DateTime? a;
-DateTime? b;
+    DateTime? b;
 
-if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
-  try {
-    a = DateTime.parse(dayRentController.text);
-    b = DateTime.parse(dayEndController.text);
-  } catch (e) {
-    print("Error parsing date: $e");
-  }
-}
+    if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
+      try {
+        a = DateTime.parse(dayRentController.text);
+        b = DateTime.parse(dayEndController.text);
+      } catch (e) {
+        print("Error parsing date: $e");
+      }
+    }
     int day = (a != null && b != null) ? calculateDaysBetween(a, b) : 0;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Options', textAlign: TextAlign.center),
       ),
-      body: data != null 
+      body: data != null
           ? Stack(
               children: [
                 SingleChildScrollView(
@@ -138,319 +138,381 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(                                      
+                        Container(
                           width: double.infinity,
                           height: size.height / 4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: data?['img'] != null
-                              ? DecorationImage(
-                                  image: NetworkImage(data!['img']),
-                                  fit: BoxFit.cover,
-                                )
-                              : null,
+                                ? DecorationImage(
+                                    image: NetworkImage(data!['img']),
+                                    fit: BoxFit.cover,
+                                  )
+                                : null,
                             color: Colors.transparent,
                           ),
                           child: data?['img'] == null
-                            ? const Icon(Icons.image, size: 10)
-                            : null,
+                              ? const Icon(Icons.image, size: 10)
+                              : null,
                         ),
                         Center(
                           child: Text(
                             data?['roomType'] ?? '',
-                            style: TextStyle(fontFamily: 'Candal', fontSize: 25),
+                            style:
+                                TextStyle(fontFamily: 'Candal', fontSize: 25),
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        
-                        
                         Form(
-                          key:  _formkey,
+                          key: _formkey,
                           child: Column(
                             children: [
                               Container(
-                                
-                                decoration:BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: Offset(0, 2), 
-                                ),
-                              ],
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 3,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
                                 height: 50,
                                 child: TextFormField(
-                                  validator: (value){
-                                    if(value==null||value.isEmpty){
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
                                       return 'Bắt buộc nhập';
                                     }
                                   },
-                                  
                                   controller: cardNumberController,
                                   decoration: const InputDecoration(
-                                  label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                                  focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
+                                    label: Text(
+                                      'Enter card number *',
+                                      style:
+                                          TextStyle(color: Color(0xffBEBCBC)),
+                                    ),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                ),
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 10,
+                              ),
                               Container(
-                                
-                                decoration:BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: Offset(0, 2), 
-                                ),
-                              ],
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 3,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
                                 height: 50,
                                 child: TextFormField(
-                                  validator: (value){
-                                    if(value==null||value.isEmpty){
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
                                       return 'Bắt buộc nhập';
                                     }
                                   },
                                   controller: cardholderController,
                                   decoration: const InputDecoration(
-                                  label:Text( 'Card holder *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                                    
-                                  focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
+                                    label: Text(
+                                      'Card holder *',
+                                      style:
+                                          TextStyle(color: Color(0xffBEBCBC)),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                ),
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 10,
+                              ),
                               Container(
-                                
-                                decoration:BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: Offset(0, 2), 
-                                ),
-                              ],
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 3,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
                                 height: 50,
                                 child: TextFormField(
-                                  validator: (value){
-                                    if(value==null||value.isEmpty){
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
                                       return 'Bắt buộc nhập';
                                     }
                                   },
-                                    controller: phoneNumberController,
+                                  controller: phoneNumberController,
                                   decoration: const InputDecoration(
-                                  label:Text( 'Phone number *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                                    
-                                  focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
+                                    label: Text(
+                                      'Phone number *',
+                                      style:
+                                          TextStyle(color: Color(0xffBEBCBC)),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                ),
                                 ),
                               ),
-                               SizedBox(height: 10,),
+                              SizedBox(
+                                height: 10,
+                              ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     width: 150,
-                                decoration:BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: Offset(0, 2), 
-                                ),
-                              ],
-                                ),
-                                height: 50,
-                                child: TextFormField(
-                                  onTap: (){
-                                    _selectedStartDate();
-                                  },
-                                  validator: (value){
-                                    if(value==null||value.isEmpty){
-                                      return 'Bắt buộc nhập';
-                                    }
-                                  },
-                                  readOnly:   true,
-                                  controller: dayRentController,
-                                  decoration: const InputDecoration(
-                                  label:Text( 'Start *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                                    
-                                  focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          spreadRadius: 3,
+                                          blurRadius: 7,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    height: 50,
+                                    child: TextFormField(
+                                      onTap: () {
+                                        _selectedStartDate();
+                                      },
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Bắt buộc nhập';
+                                        }
+                                      },
+                                      readOnly: true,
+                                      controller: dayRentController,
+                                      decoration: const InputDecoration(
+                                        label: Text(
+                                          'Start *',
+                                          style: TextStyle(
+                                              color: Color(0xffBEBCBC)),
+                                        ),
+                                        focusedBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
+                                  Container(
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          spreadRadius: 3,
+                                          blurRadius: 7,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    height: 50,
+                                    child: TextFormField(
+                                      onTap: () {
+                                        _selectedEndDate();
+                                      },
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Bắt buộc nhập';
+                                        }
+                                      },
+                                      readOnly: true,
+                                      controller: dayEndController,
+                                      decoration: const InputDecoration(
+                                        label: Text(
+                                          'End *',
+                                          style: TextStyle(
+                                              color: Color(0xffBEBCBC)),
+                                        ),
+                                        focusedBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                ),
-                              ),
-                              Container(
-                                width:150,
-                                decoration:BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: Offset(0, 2), 
-                                ),
-                              ],
-                                ),
-                                
-                                height: 50,
-                                child: TextFormField(
-                                  onTap:  (){
-                                    _selectedEndDate();
-                                  },
-                                  validator: (value){
-                                    if(value==null||value.isEmpty){
-                                      return 'Bắt buộc nhập';
-                                    }
-                                  },
-                                  readOnly: true,
-                                  controller: dayEndController,
-                                  decoration: const InputDecoration(
-                                  label:Text( 'End *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                                    
-                                  focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                ),
-                                ),
-                              ),
                                 ],
                               ),
-                              SizedBox(height: 10,),
-                              Text('Price and summary', textAlign: TextAlign.start,),
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Price and summary',
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xffD9D9D9),
-                                  borderRadius: BorderRadius.circular(20)
-                                ),
-                                width:double.infinity,
+                                    color: Color(0xffD9D9D9),
+                                    borderRadius: BorderRadius.circular(20)),
+                                width: double.infinity,
                                 child: Padding(
                                   padding: EdgeInsets.all(15),
                                   child: Column(
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Total Discounts:'),
-                                          Text(data!['price'].toString()+' đ'),
+                                          Text(
+                                              data!['price'].toString() + ' đ'),
                                         ],
                                       ),
-                                      SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Total Room Price:'),
-                                          Text(data!['price'].toString()+' đ'),
+                                          Text(
+                                              data!['price'].toString() + ' đ'),
                                         ],
                                       ),
-                                      SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Quantity day:'),
-                                          Text(day.toString()+' Day'),
+                                          Text(day.toString() + ' Day'),
                                         ],
                                       ),
-                                      SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
-                                          Text((data!['price']*day).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                          Text(
+                                            'Total Cost:',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                              (data!['price'] * day)
+                                                      .toString() +
+                                                  ' đ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
                                         ],
                                       ),
-                                     
                                     ],
-                                    
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 10,),
-                               GestureDetector(
-                              
-                              onTap: () {
-                                setState(() {
-                                  if(_formkey.currentState!.validate()){   
-                                  
-                                String id = randomAlphaNumeric(10);
-                                 Map<String, dynamic> req =({
-                                  'id':id,
-                                  'idUser':widget.account,
-                                  'nameUser':user!['name'],
-                                  'emailUser':user!['email'],
-                                  'img':data!['img'],
-                                  'idRoom':data!['Id'],
-                                  'service':services,
-                                  'roomType':data!['roomType'],
-                                  'price':data!['price']*day,
-                                  'cardNumber':cardNumberController.text  ,
-                                  'cardHolder':cardholderController.text,
-                                  'phoneNumber':phoneNumberController.text,
-                                  'day':day  ,
-                                  'start':dayRentController.text,
-                                  'end':dayEndController.text  , 
-                                  'score':score,
-                                  'time': now,     
-                                 });
-                                
-                                Navigator.push(
-                                  context, 
-                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,))
-                                );
-                                }
-                                
-                                }); 
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xff1A4368), 
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                                  child: Text(
-                                    'Compplete payment',
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (_formkey.currentState!.validate()) {
+                                      String id = randomAlphaNumeric(10);
+                                      Map<String, dynamic> req = ({
+                                        'id': id,
+                                        'idUser': widget.account,
+                                        'nameUser': user!['name'],
+                                        'emailUser': user!['email'],
+                                        'img': data!['img'],
+                                        'idRoom': data!['Id'],
+                                        'service': services,
+                                        'roomType': data!['roomType'],
+                                        'price': data!['price'] * day,
+                                        'cardNumber': cardNumberController.text,
+                                        'cardHolder': cardholderController.text,
+                                        'phoneNumber':
+                                            phoneNumberController.text,
+                                        'day': day,
+                                        'start': dayRentController.text,
+                                        'end': dayEndController.text,
+                                        'score': score,
+                                        'time': now,
+                                        'numberRoom': "null",
+                                      });
+
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => PaymentPage(
+                                                    codeRoom: widget.codeRoom,
+                                                    account: widget.account,
+                                                    req: req,
+                                                  )));
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff1A4368),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 25),
+                                    child: Text(
+                                      'Compplete payment',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
                             ],
                           ),
                         )
@@ -458,11 +520,11 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                     ),
                   ),
                 ),
-                
               ],
             )
           : Center(
-              child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
+              child:
+                  CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
             ),
     );
   }

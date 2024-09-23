@@ -212,7 +212,7 @@ class _RoomtypeScreenState extends State<RoomtypeScreen> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: "${thisItem['roomType']} VND/Night",
+                                    text: "${thisItem['roomType']}",
                                     style: const TextStyle(
                                       fontFamily:
                                           'Courier', // Thay đổi font chữ
