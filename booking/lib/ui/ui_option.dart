@@ -1,3 +1,4 @@
+import 'package:booking/user/pages/transaction_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:one_context/one_context.dart';
 
@@ -27,7 +28,7 @@ class UiOption {
       },
     );
   }
-  static showDialogSuccessPayment(){
+  static showDialogSuccessPayment(Map<String,dynamic> req){
     OneContext().showDialog(builder: (ctx)
     {
       return AlertDialog(
@@ -38,7 +39,11 @@ class UiOption {
         actions: [
           ElevatedButton(onPressed: (){
             Navigator.of(ctx).pop();
-          }, child: Text('ok'))
+          }, child: TextButton(
+            onPressed: (){
+              Navigator.push(ctx, MaterialPageRoute(builder: (ctx)=>TransactionDetail(req: req)));
+            },
+            child: Text('ok')))
         ],
       );
     });

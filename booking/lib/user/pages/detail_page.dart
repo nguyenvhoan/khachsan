@@ -26,7 +26,7 @@ class _DetailPageState extends State<DetailPage> {
 
   Future<void> getDataById(String id) async {
     try {
-      DocumentSnapshot documentSnapshot = await db.collection('Room').doc(id).get();
+      DocumentSnapshot documentSnapshot = await db.collection('RoomType').doc(id).get();
 
       if (documentSnapshot.exists) {
         setState(() {
@@ -76,7 +76,7 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                         Center(
                           child: Text(
-                            data?['roomType'] ?? '',
+                            data?['number'] ?? '',
                             style: TextStyle(fontFamily: 'Candal', fontSize: 25),
                             textAlign: TextAlign.center,
                           ),

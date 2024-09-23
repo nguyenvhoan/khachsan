@@ -110,8 +110,6 @@ class _DetailVoucherState extends State<DetailVoucher> {
                       }, icon: Icon(Icons.undo,
                       color: Colors.white,)
                       ),
-                      
-                      
                     ),
                     ),
                

@@ -213,6 +213,7 @@ Future<void> signIn(BuildContext context, String email,String password)async{
     }
    
 }
+
 Future<int?> getScore(String email) async {
   try {
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -284,7 +285,6 @@ Future<void> exchangePoint(String email, int newScore,List<Map<String, dynamic>>
    if(confirm==true){
   try {
     int? currentScore = await getScore(email);
-    int? usedScore = await getUsedScore(email);
 
     if (currentScore != null) {
       if (newScore > currentScore) {
@@ -293,9 +293,7 @@ Future<void> exchangePoint(String email, int newScore,List<Map<String, dynamic>>
       }
 
       int updatedScore = currentScore - newScore;
-      int updateUsedScore= usedScore! + newScore;
       await FirebaseFirestore.instance.collection('user').doc(email).update({
-        'scoreUsed':updateUsedScore,
         'score': updatedScore,
         'voucher': voucher,
       });
@@ -338,6 +336,7 @@ Future<int?> getUsedScore(String email) async {
     return null; // Xử lý lỗi
   }
 }
+
 
    
 

@@ -2,6 +2,7 @@ import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/booking_page.dart';
 import 'package:booking/user/pages/intro_page.dart';
 import 'package:booking/user/pages/payment_page.dart';
+import 'package:booking/user/widget/bottom_choose_dis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
@@ -16,15 +17,19 @@ class BookingPage extends StatefulWidget {
 
 class _BookingPageState extends State<BookingPage> {
   TextEditingController cardNumberController =TextEditingController();
-  TextEditingController cardholderController =TextEditingController();
-  TextEditingController phoneNumberController =TextEditingController();
+ TextEditingController phoneNumberController =TextEditingController();
   TextEditingController dayRentController =TextEditingController();
   TextEditingController dayEndController =TextEditingController();
   final _formkey = GlobalKey<FormState>();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Map<String, dynamic>? data; 
   Map<String, dynamic>? user; 
+  Map<String, dynamic>? vou;
   List<dynamic> services = [];
+  List<dynamic> voucher= [];
+      String discount='0'; 
+      int index=-1; 
+
    DatabaseService _databaseService = DatabaseService();
    
   int? score;
@@ -35,6 +40,7 @@ class _BookingPageState extends State<BookingPage> {
     getUserById(widget.account);
     getScoreUser(widget.account);
   }
+  
   Future<void> _selectedStartDate() async{
     DateTime? _picked=await showDatePicker(
       context: context,
@@ -79,7 +85,7 @@ Timestamp now = Timestamp.now();
 
   Future<void> getDataById(String id) async {
     try {
-      DocumentSnapshot documentSnapshot = await db.collection('Room').doc(id).get();
+      DocumentSnapshot documentSnapshot = await db.collection('RoomType').doc(id).get();
 
       if (documentSnapshot.exists) {
         setState(() {
@@ -100,6 +106,7 @@ Timestamp now = Timestamp.now();
       if (documentSnapshot.exists) {
         setState(() {
           user = documentSnapshot.data() as Map<String, dynamic>?; 
+          voucher=user?['voucher'];
           
         });
       } else {
@@ -114,7 +121,7 @@ Timestamp now = Timestamp.now();
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     DateTime? a;
-DateTime? b;
+    DateTime? b;
 
 if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
   try {
@@ -125,6 +132,7 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
   }
 }
     int day = (a != null && b != null) ? calculateDaysBetween(a, b) : 0;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Options', textAlign: TextAlign.center),
@@ -157,7 +165,7 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                         ),
                         Center(
                           child: Text(
-                            data?['roomType'] ?? '',
+                            data?['number'] ?? '',
                             style: TextStyle(fontFamily: 'Candal', fontSize: 25),
                             textAlign: TextAlign.center,
                           ),
@@ -203,43 +211,59 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                                 ),
                               ),
                               SizedBox(height: 10,),
-                              Container(
-                                
-                                decoration:BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: Offset(0, 2), 
-                                ),
-                              ],
-                                ),
-                                height: 50,
-                                child: TextFormField(
-                                  validator: (value){
-                                    if(value==null||value.isEmpty){
-                                      return 'Bắt buộc nhập';
-                                    }
-                                  },
-                                  controller: cardholderController,
-                                  decoration: const InputDecoration(
-                                  label:Text( 'Card holder *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                                    
-                                  focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
+                              GestureDetector(
+                                onTap: (){
+                                  List<dynamic> voucher = user?['voucher'];
+                                  print('--------------------------------------------------------------------');
+                                  print('Voucher for ${user?['name']} : ${voucher}');
+                                   print('---------------------------------------------------------------------');
+                                  BottomChooseDis.showBottom(context, voucher, (selectedDiscount) {
+                                      setState(() {
+                                        discount = selectedDiscount; // Cập nhật discount
+                                      });
+                                    },(indexs){
+                                      setState(() {
+                                        index=indexs;
+                                      });
+                                    },
+                                    index
+                                    );
+                                  
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text('Bạn đã được giảm: ${discount}VND',
+                                    style: TextStyle(
+                                      color: Color(0xffBEBCBC),
+                                      fontSize: 17
+                                    ),),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
+                                  decoration:BoxDecoration(
+                                    border: Border.all(
+                                    width: 1,
+                                    color: Colors.grey
                                   ),
-                                ),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                    BoxShadow(
+                                    color: Colors.black.withOpacity(0.1), 
+                                    spreadRadius: 3,
+                                    blurRadius: 7, 
+                                    offset: Offset(0, 2), 
+                                  ),
+                                ],
+                                  ),
+                                  height: 50,
                                 ),
                               ),
+                              
                               SizedBox(height: 10,),
                               Container(
                                 
                                 decoration:BoxDecoration(
+                                  
                                   color: Colors.white,
                                   boxShadow: [
                                   BoxShadow(
@@ -247,6 +271,7 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                                   spreadRadius: 3,
                                   blurRadius: 7, 
                                   offset: Offset(0, 2), 
+                                  
                                 ),
                               ],
                                 ),
@@ -368,7 +393,7 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Total Discounts:'),
-                                          Text(data!['price'].toString()+' đ'),
+                                          Text(discount+' VNĐ'),
                                         ],
                                       ),
                                       SizedBox(height: 10,),
@@ -392,7 +417,7 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
-                                          Text((data!['price']*day).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                          Text((data!['price']*day-int.parse(discount)).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
                                         ],
                                       ),
                                      
@@ -417,10 +442,10 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                                   'img':data!['img'],
                                   'idRoom':data!['Id'],
                                   'service':services,
-                                  'roomType':data!['roomType'],
-                                  'price':data!['price']*day,
+                                  'roomType':data!['number'],
+                                  'price':data!['price']*day-int.parse(discount),
                                   'cardNumber':cardNumberController.text  ,
-                                  'cardHolder':cardholderController.text,
+                                  'discount':discount,
                                   'phoneNumber':phoneNumberController.text,
                                   'day':day  ,
                                   'start':dayRentController.text,
@@ -431,7 +456,7 @@ if (dayRentController.text.isNotEmpty && dayEndController.text.isNotEmpty) {
                                 
                                 Navigator.push(
                                   context, 
-                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,))
+                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,idVoucher: voucher[index]['id'],))
                                 );
                                 }
                                 
