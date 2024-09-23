@@ -16,20 +16,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-<<<<<<< HEAD
-  TextEditingController cardNumberController = TextEditingController();
-  TextEditingController cardholderController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController dayRentController = TextEditingController();
-  TextEditingController dayEndController = TextEditingController();
-  final _formkey = GlobalKey<FormState>();
-  final FirebaseFirestore db = FirebaseFirestore.instance;
-  Map<String, dynamic>? data;
-  Map<String, dynamic>? user;
-  List<dynamic> services = [];
-  DatabaseService _databaseService = DatabaseService();
 
-=======
   TextEditingController cardNumberController =TextEditingController();
  TextEditingController phoneNumberController =TextEditingController();
   TextEditingController dayRentController =TextEditingController();
@@ -46,7 +33,7 @@ class _BookingPageState extends State<BookingPage> {
 
    DatabaseService _databaseService = DatabaseService();
    
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
+
   int? score;
   @override
   void initState() {
@@ -55,15 +42,12 @@ class _BookingPageState extends State<BookingPage> {
     getUserById(widget.account);
     getScoreUser(widget.account);
   }
-<<<<<<< HEAD
-
-  Future<void> _selectedStartDate() async {
-    DateTime? _picked = await showDatePicker(
-=======
   
+
+ 
+
   Future<void> _selectedStartDate() async{
     DateTime? _picked=await showDatePicker(
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
@@ -75,6 +59,9 @@ class _BookingPageState extends State<BookingPage> {
       });
     }
   }
+    
+  
+
 
   Future<void> getScoreUser(String account) async {
     score = await _databaseService.getScore(account);
@@ -101,14 +88,9 @@ class _BookingPageState extends State<BookingPage> {
 
   Timestamp now = Timestamp.now();
 
-  Future<void> getDataById(String id) async {
+  Future<void>getDataById  (String id) async {
     try {
-<<<<<<< HEAD
-      DocumentSnapshot documentSnapshot =
-          await db.collection('Room').doc(id).get();
-=======
       DocumentSnapshot documentSnapshot = await db.collection('RoomType').doc(id).get();
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
 
       if (documentSnapshot.exists) {
         setState(() {
@@ -130,13 +112,9 @@ class _BookingPageState extends State<BookingPage> {
 
       if (documentSnapshot.exists) {
         setState(() {
-<<<<<<< HEAD
-          user = documentSnapshot.data() as Map<String, dynamic>?;
-=======
           user = documentSnapshot.data() as Map<String, dynamic>?; 
           voucher=user?['voucher'];
           
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
         });
       } else {
         print('Tài liệu không tồn tại');
@@ -194,14 +172,8 @@ class _BookingPageState extends State<BookingPage> {
                         ),
                         Center(
                           child: Text(
-<<<<<<< HEAD
-                            data?['roomType'] ?? '',
-                            style:
-                                TextStyle(fontFamily: 'Candal', fontSize: 25),
-=======
                             data?['number'] ?? '',
                             style: TextStyle(fontFamily: 'Candal', fontSize: 25),
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -248,62 +220,6 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                 ),
                               ),
-<<<<<<< HEAD
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      spreadRadius: 3,
-                                      blurRadius: 7,
-                                      offset: Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                height: 50,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Bắt buộc nhập';
-                                    }
-                                  },
-                                  controller: cardholderController,
-                                  decoration: const InputDecoration(
-                                    label: Text(
-                                      'Card holder *',
-                                      style:
-                                          TextStyle(color: Color(0xffBEBCBC)),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      spreadRadius: 3,
-                                      blurRadius: 7,
-                                      offset: Offset(0, 2),
-                                    ),
-                                  ],
-=======
                               SizedBox(height: 10,),
                               GestureDetector(
                                 onTap: (){
@@ -368,7 +284,6 @@ class _BookingPageState extends State<BookingPage> {
                                   
                                 ),
                               ],
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                 ),
                                 height: 50,
                                 child: TextFormField(
@@ -512,12 +427,7 @@ class _BookingPageState extends State<BookingPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Total Discounts:'),
-<<<<<<< HEAD
-                                          Text(
-                                              data!['price'].toString() + ' đ'),
-=======
                                           Text(discount+' VNĐ'),
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                         ],
                                       ),
                                       SizedBox(
@@ -550,86 +460,14 @@ class _BookingPageState extends State<BookingPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-<<<<<<< HEAD
-                                          Text(
-                                            'Total Cost:',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                              (data!['price'] * day)
-                                                      .toString() +
-                                                  ' đ',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-=======
                                           Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
                                           Text((data!['price']*day-int.parse(discount)).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-<<<<<<< HEAD
-                              SizedBox(
-                                height: 10,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    if (_formkey.currentState!.validate()) {
-                                      String id = randomAlphaNumeric(10);
-                                      Map<String, dynamic> req = ({
-                                        'id': id,
-                                        'idUser': widget.account,
-                                        'nameUser': user!['name'],
-                                        'emailUser': user!['email'],
-                                        'img': data!['img'],
-                                        'idRoom': data!['Id'],
-                                        'service': services,
-                                        'roomType': data!['roomType'],
-                                        'price': data!['price'] * day,
-                                        'cardNumber': cardNumberController.text,
-                                        'cardHolder': cardholderController.text,
-                                        'phoneNumber':
-                                            phoneNumberController.text,
-                                        'day': day,
-                                        'start': dayRentController.text,
-                                        'end': dayEndController.text,
-                                        'score': score,
-                                        'time': now,
-                                        'numberRoom': "null",
-                                      });
-
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => PaymentPage(
-                                                    codeRoom: widget.codeRoom,
-                                                    account: widget.account,
-                                                    req: req,
-                                                  )));
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0xff1A4368),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 25),
-                                    child: Text(
-                                      'Compplete payment',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-=======
                               SizedBox(height: 10,),
                                GestureDetector(
                               
@@ -656,6 +494,7 @@ class _BookingPageState extends State<BookingPage> {
                                   'end':dayEndController.text  , 
                                   'score':score,
                                   'time': now,     
+                                  'numberRoom':null,
                                  });
                                 
                                 Navigator.push(
@@ -676,10 +515,10 @@ class _BookingPageState extends State<BookingPage> {
                                   child: Text(
                                     'Compplete payment',
                                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
->>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                   ),
                                 ),
                               ),
+                               )
                             ],
                           ),
                         )
@@ -696,3 +535,5 @@ class _BookingPageState extends State<BookingPage> {
     );
   }
 }
+
+
