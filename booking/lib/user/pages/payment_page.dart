@@ -10,8 +10,9 @@ import 'package:one_context/one_context.dart';
 const String transactionDetailUrl = '/transaction_detail';
 
 class PaymentPage extends StatefulWidget {
-  PaymentPage({super.key, required this.codeRoom, this.account, required this.req});
+  PaymentPage({super.key, required this.codeRoom, this.account, required this.req, required this.idVoucher});
   var codeRoom, account;
+  var idVoucher;
   Map<String, dynamic> req;
 
   @override
@@ -35,6 +36,9 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('--------------------------------------------');
+    print(widget.idVoucher);
+    print('--------------------------------------------');
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment'),
@@ -91,7 +95,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     await _databaseService.createReq(widget.req);
                     await _databaseService.updateScore(widget.account, widget.req['price']);
 
-UiOption.showDialogSuccessPayment();
+                  UiOption.showDialogSuccessPayment(widget.req);
                   },
                   onError: (error) {
                     print("onError: $error");

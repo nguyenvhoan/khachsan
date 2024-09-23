@@ -1,4 +1,5 @@
 import 'package:booking/model/database_service.dart';
+import 'package:booking/user/pages/dining_table.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -41,50 +42,58 @@ class TablePage extends StatelessWidget {
                                   ),
                                 ],
                       ),
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                        width: size.width/3,
-                                        height:size.height/7,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          image: thisItem['img'] != null
-                                              ? DecorationImage(
-                                                  image: NetworkImage(thisItem['img']),
-                                                  fit: BoxFit.cover,
-                                                )
-                                              : null,
-                                          color: Colors.transparent,
+                      child: GestureDetector(
+                        onTap: (){
+                                Navigator.push(context,
+                                MaterialPageRoute(builder: (context)=>DiningTable(table: thisItem,)));
+                              },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              
+                                 Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                            width: size.width/3,
+                                            height:size.height/7,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20),
+                                              image: thisItem['img'] != null
+                                                  ? DecorationImage(
+                                                      image: NetworkImage(thisItem['img']),
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : null,
+                                              color: Colors.transparent,
+                                              
+                                            ),
+                                            child: thisItem['img'] == null
+                                                ? const Icon(Icons.image,
+                                                    size: 50) // Thay đổi kích thước icon nếu cần
+                                                : null,
                                           
-                                        ),
-                                        child: thisItem['img'] == null
-                                            ? const Icon(Icons.image,
-                                                size: 50) // Thay đổi kích thước icon nếu cần
-                                            : null,
-                                      ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(children: [
-                                    Text('Table type : ', style:TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                                  ]),
-                                  Text(documentSnapshot['tabletype'], style:  TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
-                                  Row(children:[
-                                    Text('Giá: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff57A5EC)),
-                                    ),
-                                    SizedBox(height: 50,),
-                                    Text(documentSnapshot['price'].toString(),style: TextStyle(fontSize: 19),)
-                                  ] 
-                                  ),
-                                ],
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding:const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Row(children: [
+                                      Text('Table type : ', style:TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                                    ]),
+                                    Text(documentSnapshot['tabletype'], style:  TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
+                                    Row(children:[
+                                     const Text('Giá: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff57A5EC)),
+                                      ),
+                                      SizedBox(height: 50,),
+                                      Text(documentSnapshot['price'].toString(),style: TextStyle(fontSize: 19),)
+                                    ] 
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     );

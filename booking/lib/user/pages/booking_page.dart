@@ -2,6 +2,7 @@ import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/booking_page.dart';
 import 'package:booking/user/pages/intro_page.dart';
 import 'package:booking/user/pages/payment_page.dart';
+import 'package:booking/user/widget/bottom_choose_dis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
@@ -15,6 +16,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
+<<<<<<< HEAD
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController cardholderController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -27,6 +29,24 @@ class _BookingPageState extends State<BookingPage> {
   List<dynamic> services = [];
   DatabaseService _databaseService = DatabaseService();
 
+=======
+  TextEditingController cardNumberController =TextEditingController();
+ TextEditingController phoneNumberController =TextEditingController();
+  TextEditingController dayRentController =TextEditingController();
+  TextEditingController dayEndController =TextEditingController();
+  final _formkey = GlobalKey<FormState>();
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  Map<String, dynamic>? data; 
+  Map<String, dynamic>? user; 
+  Map<String, dynamic>? vou;
+  List<dynamic> services = [];
+  List<dynamic> voucher= [];
+      String discount='0'; 
+      int index=-1; 
+
+   DatabaseService _databaseService = DatabaseService();
+   
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
   int? score;
   @override
   void initState() {
@@ -35,9 +55,15 @@ class _BookingPageState extends State<BookingPage> {
     getUserById(widget.account);
     getScoreUser(widget.account);
   }
+<<<<<<< HEAD
 
   Future<void> _selectedStartDate() async {
     DateTime? _picked = await showDatePicker(
+=======
+  
+  Future<void> _selectedStartDate() async{
+    DateTime? _picked=await showDatePicker(
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
@@ -77,8 +103,12 @@ class _BookingPageState extends State<BookingPage> {
 
   Future<void> getDataById(String id) async {
     try {
+<<<<<<< HEAD
       DocumentSnapshot documentSnapshot =
           await db.collection('Room').doc(id).get();
+=======
+      DocumentSnapshot documentSnapshot = await db.collection('RoomType').doc(id).get();
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
 
       if (documentSnapshot.exists) {
         setState(() {
@@ -100,7 +130,13 @@ class _BookingPageState extends State<BookingPage> {
 
       if (documentSnapshot.exists) {
         setState(() {
+<<<<<<< HEAD
           user = documentSnapshot.data() as Map<String, dynamic>?;
+=======
+          user = documentSnapshot.data() as Map<String, dynamic>?; 
+          voucher=user?['voucher'];
+          
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
         });
       } else {
         print('Tài liệu không tồn tại');
@@ -125,6 +161,7 @@ class _BookingPageState extends State<BookingPage> {
       }
     }
     int day = (a != null && b != null) ? calculateDaysBetween(a, b) : 0;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Options', textAlign: TextAlign.center),
@@ -157,9 +194,14 @@ class _BookingPageState extends State<BookingPage> {
                         ),
                         Center(
                           child: Text(
+<<<<<<< HEAD
                             data?['roomType'] ?? '',
                             style:
                                 TextStyle(fontFamily: 'Candal', fontSize: 25),
+=======
+                            data?['number'] ?? '',
+                            style: TextStyle(fontFamily: 'Candal', fontSize: 25),
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -206,6 +248,7 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                 ),
                               ),
+<<<<<<< HEAD
                               SizedBox(
                                 height: 10,
                               ),
@@ -260,6 +303,72 @@ class _BookingPageState extends State<BookingPage> {
                                       offset: Offset(0, 2),
                                     ),
                                   ],
+=======
+                              SizedBox(height: 10,),
+                              GestureDetector(
+                                onTap: (){
+                                  List<dynamic> voucher = user?['voucher'];
+                                  print('--------------------------------------------------------------------');
+                                  print('Voucher for ${user?['name']} : ${voucher}');
+                                   print('---------------------------------------------------------------------');
+                                  BottomChooseDis.showBottom(context, voucher, (selectedDiscount) {
+                                      setState(() {
+                                        discount = selectedDiscount; // Cập nhật discount
+                                      });
+                                    },(indexs){
+                                      setState(() {
+                                        index=indexs;
+                                      });
+                                    },
+                                    index
+                                    );
+                                  
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text('Bạn đã được giảm: ${discount}VND',
+                                    style: TextStyle(
+                                      color: Color(0xffBEBCBC),
+                                      fontSize: 17
+                                    ),),
+                                  ),
+                                  decoration:BoxDecoration(
+                                    border: Border.all(
+                                    width: 1,
+                                    color: Colors.grey
+                                  ),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                    BoxShadow(
+                                    color: Colors.black.withOpacity(0.1), 
+                                    spreadRadius: 3,
+                                    blurRadius: 7, 
+                                    offset: Offset(0, 2), 
+                                  ),
+                                ],
+                                  ),
+                                  height: 50,
+                                ),
+                              ),
+                              
+                              SizedBox(height: 10,),
+                              Container(
+                                
+                                decoration:BoxDecoration(
+                                  
+                                  color: Colors.white,
+                                  boxShadow: [
+                                  BoxShadow(
+                                  color: Colors.black.withOpacity(0.1), 
+                                  spreadRadius: 3,
+                                  blurRadius: 7, 
+                                  offset: Offset(0, 2), 
+                                  
+                                ),
+                              ],
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                 ),
                                 height: 50,
                                 child: TextFormField(
@@ -403,8 +512,12 @@ class _BookingPageState extends State<BookingPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Total Discounts:'),
+<<<<<<< HEAD
                                           Text(
                                               data!['price'].toString() + ' đ'),
+=======
+                                          Text(discount+' VNĐ'),
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                         ],
                                       ),
                                       SizedBox(
@@ -437,6 +550,7 @@ class _BookingPageState extends State<BookingPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
+<<<<<<< HEAD
                                           Text(
                                             'Total Cost:',
                                             style: TextStyle(
@@ -448,12 +562,17 @@ class _BookingPageState extends State<BookingPage> {
                                                   ' đ',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold)),
+=======
+                                          Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
+                                          Text((data!['price']*day-int.parse(discount)).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
+<<<<<<< HEAD
                               SizedBox(
                                 height: 10,
                               ),
@@ -510,6 +629,54 @@ class _BookingPageState extends State<BookingPage> {
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
                                     ),
+=======
+                              SizedBox(height: 10,),
+                               GestureDetector(
+                              
+                              onTap: () {
+                                setState(() {
+                                  if(_formkey.currentState!.validate()){   
+                                  
+                                String id = randomAlphaNumeric(10);
+                                 Map<String, dynamic> req =({
+                                  'id':id,
+                                  'idUser':widget.account,
+                                  'nameUser':user!['name'],
+                                  'emailUser':user!['email'],
+                                  'img':data!['img'],
+                                  'idRoom':data!['Id'],
+                                  'service':services,
+                                  'roomType':data!['number'],
+                                  'price':data!['price']*day-int.parse(discount),
+                                  'cardNumber':cardNumberController.text  ,
+                                  'discount':discount,
+                                  'phoneNumber':phoneNumberController.text,
+                                  'day':day  ,
+                                  'start':dayRentController.text,
+                                  'end':dayEndController.text  , 
+                                  'score':score,
+                                  'time': now,     
+                                 });
+                                
+                                Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,idVoucher: voucher[index]['id'],))
+                                );
+                                }
+                                
+                                }); 
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xff1A4368), 
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                                  child: Text(
+                                    'Compplete payment',
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+>>>>>>> d87c7bbc99e3506c8620229a8a53f96a53948f2c
                                   ),
                                 ),
                               ),

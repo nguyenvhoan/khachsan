@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
               ]),
         ),
         StreamBuilder(
-            stream: db.collection('Room').snapshots(),
+            stream: db.collection('RoomType').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
@@ -142,7 +142,7 @@ class HomePage extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        documentSnapshot['roomType'],
+                                        documentSnapshot['number'],
                                         maxLines: 1,
                                         style: const TextStyle(
                                             fontFamily: 'Candal',

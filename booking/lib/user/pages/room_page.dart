@@ -59,7 +59,7 @@ Future<void> fetchServices() async {
           children: [
             Expanded(
               child: StreamBuilder(
-                    stream: db.collection('Room').snapshots(),
+                    stream: db.collection('RoomType').snapshots(),
                    builder: (context, snapshot){  
                       if(snapshot.hasData){
                           return SingleChildScrollView( 
@@ -71,7 +71,7 @@ Future<void> fetchServices() async {
                                   print('data              '+thisItem!['img']);
                                   return Container(
                                     
-                                     margin: EdgeInsets.all(30),
+                                     margin: EdgeInsets.all(25),
                                   decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
@@ -112,7 +112,7 @@ Future<void> fetchServices() async {
                                           child: Row(
                                             mainAxisAlignment:MainAxisAlignment.center,
                                             children: [
-                                              Text(documentSnapshot['roomType'],
+                                              Text(documentSnapshot['number'],
                                               maxLines: 1,
                                               textAlign: TextAlign.center ,
                                               style:const TextStyle(
