@@ -1,4 +1,5 @@
 import 'package:booking/Management/Discount/DiscountListPage.dart';
+import 'package:booking/Management/Map/map_screen.dart';
 import 'package:booking/Management/Order/order_screen.dart';
 import 'package:booking/Management/Restaurant.dart';
 import 'package:booking/Management/Restaurant/TableType.dart';
@@ -200,6 +201,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               setState(() {
                                 _currentPage =
                                     DiscountListPage(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Map Room',
+                            icon: Icons.map,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    MapScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },

@@ -103,7 +103,7 @@ Future<void> updateRoomStatus(String roomNumber) async {
 
     // Cập nhật trạng thái phòng thành 'full'
     await _roomCollection.doc(roomId).update({
-      'status': 'full',
+      'status': 'servicing',
     });
   } else {
     print('Room not found');

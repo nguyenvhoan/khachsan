@@ -37,8 +37,15 @@ class TableScreenState extends State<TableScreen> {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+          if (snapshot.hasData) {
+            QuerySnapshot querySnapshot = snapshot.data!;
+            List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+            // Sắp xếp các tài liệu
+            documents.sort((a, b) {
+              String numberA = a['tabletype'] ?? '';
+              String numberB = b['tabletype'] ?? '';
+              return numberA.compareTo(numberB); // So sánh theo thứ tự số
+            });
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return const Center(child: Text('No tables found.'));
