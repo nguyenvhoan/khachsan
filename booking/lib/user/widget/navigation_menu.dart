@@ -36,7 +36,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     HomePage(),
     RoomPage(account:widget.account ,),
     VoucherPage(account: widget.account,),
-    RestaurantPage(),
+    RestaurantPage(account: widget.account,),
     ProfilePage(account: widget.account,)
   ] ;
   

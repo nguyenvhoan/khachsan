@@ -95,7 +95,7 @@ class _BookingPageState extends State<BookingPage> {
       if (documentSnapshot.exists) {
         setState(() {
           data = documentSnapshot.data() as Map<String, dynamic>?;
-          services = data?['services'] ?? []; // Lấy dịch vụ
+          services = data?['services'] ?? []; 
         });
       } else {
         print('Tài liệu không tồn tại');
@@ -495,6 +495,7 @@ class _BookingPageState extends State<BookingPage> {
                                   'score':score,
                                   'time': now,     
                                   'numberRoom':null,
+                                  'requestType':'room'
                                  });
                                 
                                 Navigator.push(

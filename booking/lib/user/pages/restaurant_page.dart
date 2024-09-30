@@ -2,8 +2,8 @@ import 'package:booking/user/pages/table_page.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantPage extends StatelessWidget {
-  const RestaurantPage({super.key});
-
+   RestaurantPage({super.key, required this.account});
+  var account;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +76,7 @@ class RestaurantPage extends StatelessWidget {
                         SizedBox(height: 10,),
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TablePage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TablePage(account: account,)));
                           },
                           child: Container( 
                             

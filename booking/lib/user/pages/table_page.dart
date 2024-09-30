@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class TablePage extends StatelessWidget {
-  const TablePage({super.key});
-
+   TablePage({super.key, required this.account});
+  var account;
   @override
   Widget build(BuildContext context) {
     DatabaseService  _databaseService  =DatabaseService();
@@ -18,7 +18,7 @@ class TablePage extends StatelessWidget {
       ),
       body: Expanded(
         child: StreamBuilder(
-          stream: db.collection('Table').snapshots(),
+          stream: db.collection('TableType').snapshots(),
           builder: (context, snapshot){
             return SingleChildScrollView(
               child: Column(
@@ -45,7 +45,7 @@ class TablePage extends StatelessWidget {
                       child: GestureDetector(
                         onTap: (){
                                 Navigator.push(context,
-                                MaterialPageRoute(builder: (context)=>DiningTable(table: thisItem,)));
+                                MaterialPageRoute(builder: (context)=>DiningTable(table: thisItem,account: account,)));
                               },
                         child: Container(
                           margin: EdgeInsets.all(10),

@@ -1,5 +1,5 @@
-import 'package:booking/Management/Dashboard.dart';
 import 'package:booking/user/pages/Test.dart';
+import 'package:booking/user/pages/TestZlp.dart';
 import 'package:booking/user/pages/intro_page.dart';
 
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return OneNotification(
         builder: (_, __) => MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Dashboard(),
+              home: Dashboard1(title: 'ddddd',version: 'ddddd'),
               // home: Landing(),
               theme: ThemeData(
                   primaryColor: Colors.white,

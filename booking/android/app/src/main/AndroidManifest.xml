@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.INTERNET"/>
+
     
     <application
         android:label="booking"
@@ -21,9 +23,25 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+              <meta-data
+            android:name="com.vng.zalo.sdk.APP_ID"
+            android:value="2554" />
+             <meta-data
+            android:name="com.vng.zalo.sdk.URI_SCHEME"
+            android:value="demozpdk://app" />
+             <meta-data
+            android:name="com.vng.zalo.sdk.ENVIRONMENT"
+            android:value="SANDBOX" /> // OR value="PRODUCTION"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
