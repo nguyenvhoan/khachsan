@@ -43,7 +43,10 @@ class _NavigationMenuState extends State<NavigationMenu> {
 @override
   void initState() {
     super.initState();
+    print('---------------------------------------------------------------');
     print('Đã đăng nhập với tài khoản '+ widget.account);
+        print('---------------------------------------------------------------');
+
     
   }
   @override

@@ -12,6 +12,13 @@ class DiningTable extends StatefulWidget {
 }
 
 class _DiningTableState extends State<DiningTable> {
+  @override
+  void initState() {
+    super.initState();
+    getUserById(widget.account);
+          
+  }
+  Timestamp now = Timestamp.now();
   String dayStart='';
   String dayEnd='';
   int quantity=1; 
@@ -47,7 +54,7 @@ class _DiningTableState extends State<DiningTable> {
       print('Lỗi khi lấy dữ liệu: $e');
     }
   }
-Timestamp now = Timestamp.now();
+
   Future<void> _selectedEndDate() async{
     DateTime? _picked=await showDatePicker(
       context: context,
@@ -456,11 +463,12 @@ Timestamp now = Timestamp.now();
                                   'start':dayStart,
                                   'end':dayEnd , 
                                   'time': now,     
+                                  'phoneNumber':'',
                                   'numberTable':'null',
-                                  'requestType':'room'
+                                  'requestType':'table'
                                  });
                                  print(req);
-                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'], req: req, idVoucher: 'idVoucher')));
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'],account: widget.account, req: req, idVoucher: 'idVoucher')));
                             
                           
                         },

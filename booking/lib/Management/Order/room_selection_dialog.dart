@@ -12,6 +12,9 @@ Future<void> showRoomSelectionDialog(
 
   List<String> roomList =
       roomSnapshot.docs.map((doc) => doc['number'] as String).toList();
+      print('-------------------------------------------------');
+print('Room List :${roomList}');
+print('-------------------------------------------------');
 
   // Kiểm tra xem danh sách có trống hay không
   if (roomList.isEmpty) {

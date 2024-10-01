@@ -1,3 +1,4 @@
+import 'package:booking/Management/Dashboard.dart';
 import 'package:booking/user/pages/Test.dart';
 import 'package:booking/user/pages/TestZlp.dart';
 import 'package:booking/user/pages/intro_page.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return OneNotification(
         builder: (_, __) => MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Dashboard1(title: 'ddddd',version: 'ddddd'),
+              home: Dashboard(),
               // home: Landing(),
               theme: ThemeData(
                   primaryColor: Colors.white,

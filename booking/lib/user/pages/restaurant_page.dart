@@ -2,6 +2,7 @@ import 'package:booking/user/pages/table_page.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantPage extends StatelessWidget {
+
    RestaurantPage({super.key, required this.account});
   var account;
   @override

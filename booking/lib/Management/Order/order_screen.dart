@@ -71,326 +71,345 @@ class _OrderScreenState extends State<OrderScreen> {
                       document.data() as Map<String, dynamic>;
 
                   return Container(
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.only(
-                        top: 20, left: 25, right: 25, bottom: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 83, 214, 250),
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        // Hình ảnh
-                        Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: thisItem['img'] != null
-                                ? DecorationImage(
-                                    image: NetworkImage(thisItem['img']),
-                                    fit: BoxFit.cover,
-                                  )
-                                : null,
-                            color: Colors.transparent,
-                          ),
-                          child: thisItem['img'] == null
-                              ? const Icon(Icons.image, size: 50)
-                              : null,
-                        ),
-                        const SizedBox(width: 10),
-                        // Thông tin
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                const TextSpan(
-                                                  text: "Room Type: ",
-                                                  style: TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        255, 31, 144, 243),
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text:
-                                                      "${thisItem['roomType']}",
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                const TextSpan(
-                                                  text: "Day: ",
-                                                  style: TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        255, 31, 144, 243),
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: "${thisItem['day']} ",
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                const TextSpan(
-                                                  text: "Start: ",
-                                                  style: TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        255, 31, 144, 243),
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: "${thisItem['start']} ",
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                const TextSpan(
-                                                  text: "End: ",
-                                                  style: TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        255, 31, 144, 243),
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: "${thisItem['end']} ",
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                const TextSpan(
-                                                  text: "Price: ",
-                                                  style: TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromARGB(
-                                                        255, 31, 144, 243),
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text:
-                                                      "${thisItem['price']}VND/Room ",
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Courier',
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 50,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: "Email: ",
-                                          style: TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 31, 144, 243),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: "${thisItem['emailUser']}",
-                                          style: const TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: "RoomNumber: ",
-                                          style: TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 31, 144, 243),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: "${thisItem['roomNumber']} ",
-                                          style: const TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: "Name: ",
-                                          style: TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 31, 144, 243),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: "${thisItem['nameUser']} ",
-                                          style: const TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: "Phone: ",
-                                          style: TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 31, 144, 243),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: "${thisItem['phoneNumber']} ",
-                                          style: const TextStyle(
-                                            fontFamily: 'Courier',
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: PopupMenuButton<String>(
-                            onSelected: (value) async {
-                              if (value == 'Select Room') {
-                                // Sử dụng ID yêu cầu từ thisItem
-                                await showRoomSelectionDialog(
-                                  context,
-                                  thisItem['roomType'],
-                                  thisItem[
-                                      'id'], // Thay 'requestId' bằng tên trường thực tế
-                                );
-                              }
-                            },
-                            itemBuilder: (BuildContext context) {
-                              return [
-                                const PopupMenuItem<String>(
-                                  value: 'Select Room',
-                                  child: Text('Select Room'),
-                                ),
-                                // Thêm các mục menu khác nếu cần
-                              ];
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                    child: Type(thisItem: thisItem, type: 'table',)
+                    );
                 },
               );
             } else {
               return const Center(child: Text('No request found.'));
             }
           }),
+    );
+  }
+}
+
+class Type extends StatelessWidget {
+   Type({
+    super.key,
+    required this.thisItem,
+    required this.type,
+  });
+  var type;
+
+  final Map<String, dynamic> thisItem;
+
+  @override
+  Widget build(BuildContext context) {
+    
+    return Container(
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.only(
+          top: 20, left: 25, right: 25, bottom: 5),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(
+          color: const Color.fromARGB(255, 83, 214, 250),
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          // Hình ảnh
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: thisItem['img'] != null
+                  ? DecorationImage(
+                      image: NetworkImage(thisItem['img']),
+                      fit: BoxFit.cover,
+                    )
+                  : null,
+              color: Colors.transparent,
+            ),
+            child: thisItem['img'] == null
+                ? const Icon(Icons.image, size: 50)
+                : null,
+          ),
+          const SizedBox(width: 10),
+          // Thông tin
+          Expanded(
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "Room Type: ",
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(
+                                          255, 31, 144, 243),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        "${thisItem['roomType']}",
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "Day: ",
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(
+                                          255, 31, 144, 243),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${thisItem['day']} ",
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "Start: ",
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(
+                                          255, 31, 144, 243),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${thisItem['start']} ",
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "End: ",
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(
+                                          255, 31, 144, 243),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${thisItem['end']} ",
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "Price: ",
+                                    style: TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(
+                                          255, 31, 144, 243),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        "${thisItem['price']}VND/Room ",
+                                    style: const TextStyle(
+                                      fontFamily: 'Courier',
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: "Email: ",
+                            style: TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(
+                                  255, 31, 144, 243),
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${thisItem['emailUser']}",
+                            style: const TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: "RoomNumber: ",
+                            style: TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(
+                                  255, 31, 144, 243),
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${thisItem['roomNumber']} ",
+                            style: const TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: "Name: ",
+                            style: TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(
+                                  255, 31, 144, 243),
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${thisItem['nameUser']} ",
+                            style: const TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: "Phone: ",
+                            style: TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(
+                                  255, 31, 144, 243),
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${thisItem['phoneNumber']} ",
+                            style: const TextStyle(
+                              fontFamily: 'Courier',
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: PopupMenuButton<String>(
+              onSelected: (value) async {
+                if (value == 'Select Room') {
+                  // Sử dụng ID yêu cầu từ thisItem
+                  await showRoomSelectionDialog(
+                    context,
+                    thisItem['roomType'],
+                    thisItem[
+                        'id'], // Thay 'requestId' bằng tên trường thực tế
+                  );
+                }
+              },
+              itemBuilder: (BuildContext context) {
+                return [
+                  const PopupMenuItem<String>(
+                    value: 'Select Room',
+                    child: Text('Select Room'),
+                  ),
+                  // Thêm các mục menu khác nếu cần
+                ];
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

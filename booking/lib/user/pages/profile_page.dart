@@ -255,7 +255,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   padding: EdgeInsets.only(bottom: 10),
                                   child: GestureDetector(
                                     onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account,)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account,type: 'room',)));
                                       },
                                     child:const Row(
                                       children: [
@@ -272,20 +272,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                const Padding(
+                                 Padding(
                                   padding: EdgeInsets.only(bottom: 10),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(width: 10,),
-                                      Icon(Icons.restaurant),
-                                      SizedBox(width: 10,),
-                                      Text('Dining Table History', 
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                      ),
-                                    ],
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account, type: 'table',)));
+                                    },
+                                    child:const Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.restaurant),
+                                        SizedBox(width: 10,),
+                                        Text('Dining Table History', 
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -321,7 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       SizedBox(width: 10,),
                                       Icon(Icons.question_mark),
                                       SizedBox(width: 10,),
-                                      Text('Booking History', 
+                                      Text('Help and Support', 
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold
@@ -330,20 +335,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ],
                                   ),
                                 ),
-                                const Padding(
+                                 Padding(
                                   padding: EdgeInsets.only(bottom: 10),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(width: 10,),
-                                      Icon(Icons.dangerous),
-                                      SizedBox(width: 10,),
-                                      Text('Dining Table History', 
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                      ),
-                                    ],
+                                  child: GestureDetector(
+                                    onTap: (){
+                                    },
+                                    child:const  Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.dangerous),
+                                        SizedBox(width: 10,),
+                                        Text('About Us', 
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Padding(

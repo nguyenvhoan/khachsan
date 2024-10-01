@@ -37,7 +37,8 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     print('--------------------------------------------');
-    print(widget.idVoucher);
+    print('Đang thanh toán với id tài khoản :${widget.account}');
+    print('Mã giảm giá ${widget.idVoucher}');
     print('--------------------------------------------');
     return Scaffold(
       appBar: AppBar(
@@ -94,6 +95,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     // Cập nhật dữ liệu
                     await _databaseService.createReq(widget.req);
                     await _databaseService.updateScore(widget.account, widget.req['price']);
+
 
                   UiOption.showDialogSuccessPayment(widget.req);
                   },

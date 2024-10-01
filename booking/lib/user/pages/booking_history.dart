@@ -7,8 +7,9 @@ import 'package:intl/intl.dart';
 
 
 class BookingHistory extends StatefulWidget {
-   BookingHistory({super.key , required this.account});
-var account;
+   BookingHistory({super.key , required this.account, required this.type});
+var account, type;
+
   @override
   State<BookingHistory> createState() => _BookingHistoryState();
 }
@@ -37,6 +38,9 @@ Future<void> fetchServices() async {
 
   @override
   Widget build(BuildContext context) {
+    print('-----------------------------------------------------------------------');
+    print('type booking :${widget.type}');
+    print('-----------------------------------------------------------------------');
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
     backgroundColor: Colors.white,
@@ -62,7 +66,7 @@ Future<void> fetchServices() async {
           children: [
             Expanded(
               child: StreamBuilder(
-                    stream: db.collection('Request').where('idUser', isEqualTo: widget.account).snapshots(),
+                    stream: db.collection('Request').where('idUser', isEqualTo: widget.account, ).where('requestType', isEqualTo: widget.type).snapshots(),
                    builder: (context, snapshot){  
                       if(snapshot.hasData){
                           return SingleChildScrollView( 

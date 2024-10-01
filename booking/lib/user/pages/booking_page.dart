@@ -483,7 +483,7 @@ class _BookingPageState extends State<BookingPage> {
                                   'emailUser':user!['email'],
                                   'img':data!['img'],
                                   'idRoom':data!['Id'],
-                                  'service':services,
+                                'service':services,
                                   'roomType':data!['number'],
                                   'price':data!['price']*day-int.parse(discount),
                                   'cardNumber':cardNumberController.text  ,
@@ -496,6 +496,7 @@ class _BookingPageState extends State<BookingPage> {
                                   'time': now,     
                                   'numberRoom':null,
                                   'requestType':'room'
+                                  
                                  });
                                 
                                 Navigator.push(
