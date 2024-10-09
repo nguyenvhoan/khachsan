@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\nguyenhoan\\baitap\\Calculator\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{68DDA727-F313-4BFE-B3BC-52BC51D76435}|CalculatorTester\\CalculatorTester.csproj|D:\\nguyenhoan\\baitap\\Calculator\\calculatortester\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{68DDA727-F313-4BFE-B3BC-52BC51D76435}|CalculatorTester\\CalculatorTester.csproj|solutionrelative:calculatortester\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|d:\\nguyenhoan\\baitap\\calculator\\calculator\\testdata.csv||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|solutionrelative:calculator\\testdata.csv||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|D:\\nguyenhoan\\baitap\\Calculator\\calculator\\calculation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|solutionrelative:calculator\\calculation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|D:\\nguyenhoan\\baitap\\Calculator\\calculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|solutionrelative:calculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|D:\\nguyenhoan\\baitap\\Calculator\\calculator\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7BBA939-BE8A-4C80-ABEF-B81A2AADD65C}|Calculator\\Calculator.csproj|solutionrelative:calculator\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestData.csv",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\TestData.csv",
+              "RelativeDocumentMoniker": "Calculator\\TestData.csv",
+              "ToolTip": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\TestData.csv",
+              "RelativeToolTip": "Calculator\\TestData.csv",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002120|",
+              "WhenOpened": "2024-10-05T11:18:35.167Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap\\Calculator\\CalculatorTester\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "CalculatorTester\\UnitTest1.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap\\Calculator\\CalculatorTester\\UnitTest1.cs",
+              "RelativeToolTip": "CalculatorTester\\UnitTest1.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAcwAkAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T11:06:11.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Calculation.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\Calculation.cs",
+              "RelativeDocumentMoniker": "Calculator\\Calculation.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\Calculation.cs",
+              "RelativeToolTip": "Calculator\\Calculation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T11:05:33.256Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "Calculator\\Form1.Designer.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\Form1.Designer.cs",
+              "RelativeToolTip": "Calculator\\Form1.Designer.cs",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAowKoAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T11:03:27.771Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\Form1.cs",
+              "RelativeDocumentMoniker": "Calculator\\Form1.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap\\Calculator\\Calculator\\Form1.cs [Design]",
+              "RelativeToolTip": "Calculator\\Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T11:03:03.477Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

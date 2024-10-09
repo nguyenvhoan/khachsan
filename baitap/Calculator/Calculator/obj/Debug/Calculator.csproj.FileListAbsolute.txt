@@ -1,0 +1,10 @@
+D:\nguyenhoan\baitap\Calculator\Calculator\bin\Debug\Calculator.exe.config
+D:\nguyenhoan\baitap\Calculator\Calculator\bin\Debug\Calculator.exe
+D:\nguyenhoan\baitap\Calculator\Calculator\bin\Debug\Calculator.pdb
+D:\nguyenhoan\baitap\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+D:\nguyenhoan\baitap\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+D:\nguyenhoan\baitap\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+D:\nguyenhoan\baitap\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\nguyenhoan\baitap\Calculator\Calculator\obj\Debug\Calculator.exe
+D:\nguyenhoan\baitap\Calculator\Calculator\obj\Debug\Calculator.pdb
+D:\nguyenhoan\baitap\Calculator\Calculator\bin\Debug\TestData.csv

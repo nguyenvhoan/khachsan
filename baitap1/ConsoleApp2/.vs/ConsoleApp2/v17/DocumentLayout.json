@@ -1,0 +1,198 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\test\\hinhchunhattest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|solutionrelative:test\\hinhchunhattest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\consoleapp2\\hinhchunhat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|solutionrelative:consoleapp2\\hinhchunhat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\consoleapp2\\diem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|solutionrelative:consoleapp2\\diem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\test\\radixtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|solutionrelative:test\\radixtest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\consoleapp2\\radix.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|solutionrelative:consoleapp2\\radix.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\test\\testb2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|solutionrelative:test\\testb2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11802F17-E613-471C-9594-FA9DA029F057}|Test\\Test.csproj|solutionrelative:test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\consoleapp2\\polymonial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|solutionrelative:consoleapp2\\polymonial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\consoleapp2\\bai1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|solutionrelative:consoleapp2\\bai1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|d:\\nguyenhoan\\baitap1\\consoleapp2\\consoleapp2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31B795C7-DB2F-4A7C-926C-0E52EEB5D728}|ConsoleApp2\\ConsoleApp2.csproj|solutionrelative:consoleapp2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HinhChuNhatTest.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\HinhChuNhatTest.cs",
+              "RelativeDocumentMoniker": "Test\\HinhChuNhatTest.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\HinhChuNhatTest.cs",
+              "RelativeToolTip": "Test\\HinhChuNhatTest.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAwwEIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T13:24:12.388Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HinhChuNhat.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\HinhChuNhat.cs",
+              "RelativeDocumentMoniker": "ConsoleApp2\\HinhChuNhat.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\HinhChuNhat.cs",
+              "RelativeToolTip": "ConsoleApp2\\HinhChuNhat.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA1wBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T13:23:16.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Diem.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Diem.cs",
+              "RelativeDocumentMoniker": "ConsoleApp2\\Diem.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Diem.cs",
+              "RelativeToolTip": "ConsoleApp2\\Diem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T13:22:58.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RadixTest.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\RadixTest.cs",
+              "RelativeDocumentMoniker": "Test\\RadixTest.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\RadixTest.cs",
+              "RelativeToolTip": "Test\\RadixTest.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAAEYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T13:15:00.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Radix.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Radix.cs",
+              "RelativeDocumentMoniker": "ConsoleApp2\\Radix.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Radix.cs",
+              "RelativeToolTip": "ConsoleApp2\\Radix.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAUwBQAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T13:07:30.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TestB2.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\TestB2.cs",
+              "RelativeDocumentMoniker": "Test\\TestB2.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\TestB2.cs",
+              "RelativeToolTip": "Test\\TestB2.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAA6wB8AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T12:42:51.975Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Polymonial.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Polymonial.cs",
+              "RelativeDocumentMoniker": "ConsoleApp2\\Polymonial.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Polymonial.cs",
+              "RelativeToolTip": "ConsoleApp2\\Polymonial.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB0AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T12:38:35.884Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "Test\\UnitTest1.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\Test\\UnitTest1.cs",
+              "RelativeToolTip": "Test\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T12:12:24.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Program.cs",
+              "RelativeDocumentMoniker": "ConsoleApp2\\Program.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Program.cs",
+              "RelativeToolTip": "ConsoleApp2\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T12:11:55.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Bai1.cs",
+              "DocumentMoniker": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Bai1.cs",
+              "RelativeDocumentMoniker": "ConsoleApp2\\Bai1.cs",
+              "ToolTip": "D:\\nguyenhoan\\baitap1\\ConsoleApp2\\ConsoleApp2\\Bai1.cs",
+              "RelativeToolTip": "ConsoleApp2\\Bai1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T12:12:04.305Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

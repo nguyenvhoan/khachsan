@@ -1,0 +1,17 @@
+D:\nguyenhoan\tesst1\tesst1\bin\Debug\net8.0-windows\tesst1.exe
+D:\nguyenhoan\tesst1\tesst1\bin\Debug\net8.0-windows\tesst1.deps.json
+D:\nguyenhoan\tesst1\tesst1\bin\Debug\net8.0-windows\tesst1.runtimeconfig.json
+D:\nguyenhoan\tesst1\tesst1\bin\Debug\net8.0-windows\tesst1.dll
+D:\nguyenhoan\tesst1\tesst1\bin\Debug\net8.0-windows\tesst1.pdb
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.Form1.resources
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.csproj.GenerateResource.cache
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.GeneratedMSBuildEditorConfig.editorconfig
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.AssemblyInfoInputs.cache
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.AssemblyInfo.cs
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.csproj.CoreCompileInputs.cache
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.sourcelink.json
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.dll
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\refint\tesst1.dll
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.pdb
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\tesst1.genruntimeconfig.cache
+D:\nguyenhoan\tesst1\tesst1\obj\Debug\net8.0-windows\ref\tesst1.dll

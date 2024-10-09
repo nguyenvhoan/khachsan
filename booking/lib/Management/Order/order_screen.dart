@@ -45,42 +45,67 @@ class _OrderScreenState extends State<OrderScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF2A2A40),
-      body: StreamBuilder<QuerySnapshot>(
-          stream: _stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                  child: Text('Some error occurred: ${snapshot.error}'));
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-              QuerySnapshot querySnapshot = snapshot.data!;
-              List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color(0xFF2A2A40),
+    body: StreamBuilder<QuerySnapshot>(
+      stream: _stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('Some error occurred: ${snapshot.error}'));
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+          QuerySnapshot querySnapshot = snapshot.data!;
+          List<QueryDocumentSnapshot> documents = querySnapshot.docs;
 
-              return ListView.builder(
-                itemCount: documents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  QueryDocumentSnapshot document = documents[index];
-                  Map<String, dynamic> thisItem =
-                      document.data() as Map<String, dynamic>;
+          
+          List<Widget> children = [];
+           children.add(const Center(child: Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text('DANH SÁCH BÀN', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)
+            )
+            )
+            )
+            );
 
-                  return Container(
-                    child: Type(thisItem: thisItem, type: 'table',)
-                    );
-                },
-              );
-            } else {
-              return const Center(child: Text('No request found.'));
+
+          for (var document in documents) {
+            Map<String, dynamic> thisItem = document.data() as Map<String, dynamic>;
+            if (thisItem['requestType'] == 'table') {
+              children.add(Type(thisItem: thisItem, type: 'table'));
             }
-          }),
-    );
-  }
+          }
+
+          children.add(const Center(child: Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text('DANH SÁCH PHÒNG', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)
+            )
+            )
+            )
+            );
+
+          
+          for (var document in documents) {
+            Map<String, dynamic> thisItem = document.data() as Map<String, dynamic>;
+            if (thisItem['requestType'] == 'room') {
+              children.add(Type(thisItem: thisItem, type: 'room'));
+            }
+          }
+
+          return ListView(
+            children: children,
+          );
+        } else {
+          return const Center(child: Text('No request found.'));
+        }
+      },
+    ),
+  );
+}
 }
 
 class Type extends StatelessWidget {
@@ -95,8 +120,8 @@ class Type extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    return Container(
+    if(thisItem['requestType']==type){
+        return Container(
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(
           top: 20, left: 25, right: 25, bottom: 5),
@@ -388,12 +413,15 @@ class Type extends StatelessWidget {
             child: PopupMenuButton<String>(
               onSelected: (value) async {
                 if (value == 'Select Room') {
+                  print('------------------------------------------------');
+                  print(thisItem);
+                  print('------------------------------------------------');
+
                   // Sử dụng ID yêu cầu từ thisItem
                   await showRoomSelectionDialog(
                     context,
-                    thisItem['roomType'],
-                    thisItem[
-                        'id'], // Thay 'requestId' bằng tên trường thực tế
+                    
+                    thisItem // Thay 'requestId' bằng tên trường thực tế
                   );
                 }
               },
@@ -411,5 +439,9 @@ class Type extends StatelessWidget {
         ],
       ),
     );
+
+    }
+    else return Container(    );
+    
   }
 }
