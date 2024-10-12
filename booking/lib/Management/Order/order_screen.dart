@@ -441,7 +441,7 @@ class Type extends StatelessWidget {
     );
 
     }
-    else return Container(    );
+    else return Container();
     
   }
 }

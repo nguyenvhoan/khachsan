@@ -1,6 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+bool checkDay(DateTime a, DateTime target){
+  if(a.day==target.day&&a.month==target.month&&a.year==target.year){
+    return true;
+  }
+  else return false;
+}
+bool getSTT(Map<String, dynamic> room, Map<String, dynamic> req) {
+  if (!room['user'].isEmpty) {
+    DateTime userStart = DateTime.parse(room['user']['start']);
+    DateTime userEnd = DateTime.parse(room['user']['end']);
+    DateTime reqStart = DateTime.parse(req['start']);
+    DateTime reqEnd = DateTime.parse(req['end']);
+    print(reqEnd.toString());
+    print(userStart.toString());
+    print('status ${reqEnd.isAfter(userStart)}' );
+    if(userEnd.isBefore(reqStart))
+      return false;
+    
 
+  }
+  
+  return true;
+}
+Color getColor(Map<String, dynamic> room, Map<String, dynamic> req) {
+  if (!room['user'].isEmpty) {
+    DateTime userStart = DateTime.parse(room['user']['start']);
+    DateTime userEnd = DateTime.parse(room['user']['end']);
+    DateTime reqStart = DateTime.parse(req['start']);
+    DateTime reqEnd = DateTime.parse(req['end']);
+    print(reqEnd.toString());
+    print(userStart.toString());
+    print('status ${reqEnd.isAfter(userStart)}' );
+    if(userEnd.isBefore(reqStart))
+      return Colors.blue;
+    
+
+  }
+  
+  return Colors.white;
+}
+String datetodate(String date){
+  DateTime dateTime = DateTime.parse(date);
+  
+  // Định dạng lại thành chuỗi mới
+  String formattedDate = '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year}';
+  return formattedDate;
+}
 Future<void> showRoomSelectionDialog(
     BuildContext context, Map<String,dynamic> req) async {
   final CollectionReference _roomCollection =
@@ -78,30 +124,37 @@ print('-------------------------------------------------');
                     print(room['user']);
                     room['user'].isNotEmpty?targetDate= DateTime.parse(room['user']['start']):print('hh');
                     print(targetDate);
+                    print(!room['user'].isEmpty&&(DateTime.parse(req['end']).isBefore(DateTime.parse(room['user']['start']))));
                 return Container(
-                  width: 100, 
+                  width: 150, 
                   height: 100, 
                   margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: (today.year == targetDate.year &&
-                            today.month == targetDate.month &&
-                             today.day == targetDate.day)?
-                             Colors.blue : Colors.white,
+                    color: getColor(room, req),
                     border: Border.all(
                       width: 1, 
                       color: Colors.grey
                     )
                   ),
                   child: ListTile(
-                    title: Center(child: Text(room['number'],
+                    title: Center(child: Text(
+                    
+                    room['user'].isEmpty?'${room['number']}\n'+'Trống':
+                    '${room['number']}\n'+
+                    'start:${datetodate(room['user']['start'])}\n'
+                    +'end:${datetodate(room['user']['end'])
+                    }',
+                    
+                    
+                    
                     style: TextStyle(
-
+                        fontSize: 16
                     ),)), 
                     onTap: () {
                       print(roomSnapshot.docs[index].id);
                       // Xử lý chọn phòng
-                      if(room['status']!='servicing'){
+                      if(getSTT(room, req)){
                         Navigator.of(context).pop(); 
                         req['roomNumber']=room['number'];
                       createBill(req);
@@ -120,6 +173,8 @@ print('-------------------------------------------------');
                         const SnackBar(content: Text('Arranged successfull')),
                       );
                       } 
+                      
+                      
                       else 
                       {
                         showDialog(
