@@ -32,8 +32,13 @@ class _NavigationMenuState extends State<NavigationMenu> {
       myCurrentindex = index;
     });
   }
+  void goToRoomTab() {
+    setState(() {
+      myCurrentindex = 1; // Chuyển đến tab Room
+    });
+  }
   List<Widget> get page => [
-    HomePage(),
+    HomePage(account: widget.account,goToRoomTab: goToRoomTab),
     RoomPage(account:widget.account ,),
     VoucherPage(account: widget.account,),
     RestaurantPage(account: widget.account,),
@@ -45,9 +50,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
     super.initState();
     print('---------------------------------------------------------------');
     print('Đã đăng nhập với tài khoản '+ widget.account);
-        print('---------------------------------------------------------------');
-
-    
+    print('---------------------------------------------------------------'); 
   }
   @override
   Widget build(BuildContext context) {

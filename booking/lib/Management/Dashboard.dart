@@ -8,6 +8,7 @@ import 'package:booking/Management/RoomType/room_screen.dart';
 import 'package:booking/Management/Room/roomtype_screen.dart';
 import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/item.dart';
+import 'package:booking/model/database_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:booking/Management/Service.dart';
@@ -23,10 +24,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   late AnimationController _controller;
   // Biến trạng thái để theo dõi nội dung hiện tại
   Widget _currentPage = const RoomScreen();
+  DatabaseService _databaseService =DatabaseService();
 
   @override
-  void initState() {
+  void initState() {  
+    _databaseService.deleteExpiredUsers();
     super.initState();
+    
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),

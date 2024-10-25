@@ -1,45 +1,48 @@
+import 'package:booking/model/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+DatabaseService  _databaseService =DatabaseService();
 bool checkDay(DateTime a, DateTime target){
   if(a.day==target.day&&a.month==target.month&&a.year==target.year){
     return true;
   }
   else return false;
 }
-bool getSTT(Map<String, dynamic> room, Map<String, dynamic> req) {
+
+bool? getSTT(Map<String, dynamic> room, Map<String, dynamic> req) {
   if (!room['user'].isEmpty) {
-    DateTime userStart = DateTime.parse(room['user']['start']);
-    DateTime userEnd = DateTime.parse(room['user']['end']);
-    DateTime reqStart = DateTime.parse(req['start']);
-    DateTime reqEnd = DateTime.parse(req['end']);
-    print(reqEnd.toString());
-    print(userStart.toString());
-    print('status ${reqEnd.isAfter(userStart)}' );
-    if(userEnd.isBefore(reqStart))
+    for(int i =0; i<room['user'].length;i++){
+
+    
+DateTime userStart = DateTime.parse(room['user'][i]['start']);
+DateTime userEnd = DateTime.parse(room['user'][i]['end']);
+DateTime reqStart = DateTime.parse(req['start']);
+DateTime reqEnd = DateTime.parse(req['end']);
+    if(reqEnd.isBefore(userEnd)&&reqEnd.isBefore(userStart))
       return false;
+    else if (reqStart.isAfter(userEnd)&&reqStart.isAfter(userStart))
+      return false;
+    else if (reqStart.isBefore(userStart)&&reqEnd.isBefore(userEnd)&&reqEnd.isAfter(userStart))
+      return true; 
+    else if (reqStart.isBefore(userStart)&&reqEnd.isAtSameMomentAs(userEnd)&&reqEnd.isAfter(userStart))
+      return true;
+    else if (reqStart.isAtSameMomentAs(userStart)&&reqEnd.isAtSameMomentAs(userEnd))
+      return true;   
+    else if (reqStart.isAfter(userStart)&&reqEnd.isAtSameMomentAs(userEnd)&&reqStart.isBefore(userEnd))
+      return true;   
+    else if (reqStart.isAfter(userStart)&&reqEnd.isAfter(userEnd)&&reqEnd.isAfter(userStart))
+      return true;
+    else if (reqStart.isBefore(userStart)&&reqEnd.isAfter(userEnd))
+      return true;  
+    else return false;
+    }
     
-
-  }
-  
-  return true;
 }
-Color getColor(Map<String, dynamic> room, Map<String, dynamic> req) {
-  if (!room['user'].isEmpty) {
-    DateTime userStart = DateTime.parse(room['user']['start']);
-    DateTime userEnd = DateTime.parse(room['user']['end']);
-    DateTime reqStart = DateTime.parse(req['start']);
-    DateTime reqEnd = DateTime.parse(req['end']);
-    print(reqEnd.toString());
-    print(userStart.toString());
-    print('status ${reqEnd.isAfter(userStart)}' );
-    if(userEnd.isBefore(reqStart))
-      return Colors.blue;
-    
-
-  }
-  
-  return Colors.white;
+else return false;
 }
+
+
+
 String datetodate(String date){
   DateTime dateTime = DateTime.parse(date);
   
@@ -56,27 +59,32 @@ Future<void> showRoomSelectionDialog(
   QuerySnapshot roomSnapshot =
       await _roomCollection.where('roomType', isEqualTo: req['roomType']).get();
   List<Map<String, dynamic>> roomList = roomSnapshot.docs.map((doc) {
-    doc['user']==null ? 
-    print('null'):
-    print(doc['user'].toString());
-  return {
-    'id':doc['id'] as String,
-    'number': doc['number'] as String,  
+  List<dynamic> users = doc['user'] ?? []; // Đảm bảo user là List
+  print('user: ${doc['user']}');
+  // Chỉ trả về thông tin phòng nếu users không rỗng
+  if (users.isEmpty) {
+   return{
+    'id': doc['id'] as String,
+    'number': doc['number'] as String,
     'status': doc['status'] as String,
-    'user':doc['user'] as Map<String,dynamic>
-
-    
-     
-  };
+    'user':doc['user'] as List<dynamic>,
+   };
+  }
   
+  return {
+    'id': doc['id'] as String,
+    'number': doc['number'] as String,
+    'status': doc['status'] as String,
+    'user':doc['user'] as List<dynamic>,
 
-}).toList();
+  };
+}).where((room) => room != null).cast<Map<String, dynamic>>().toList();
 changeStatusRoomEndDate();
 String doc=roomSnapshot.docs.first.id;
-      print('-------------------------------------------------');
+// print('-------------------------------------------------');
 
-print('Room List :${roomList}');
-print('-------------------------------------------------');
+// print('Room List :${roomList}');
+// print('-------------------------------------------------');
 
   // Kiểm tra xem danh sách có trống hay không
   if (roomList.isEmpty) {
@@ -122,17 +130,36 @@ print('-------------------------------------------------');
                    
                     DateTime today = DateTime.now();
                     print(room['user']);
-                    room['user'].isNotEmpty?targetDate= DateTime.parse(room['user']['start']):print('hh');
+                    print(room['user'].isEmpty);
+                    print(room['user']!=null);
+                    
+                    
+                    room['user'].isNotEmpty&&room['user']!=null?targetDate= DateTime.parse(room['user'].first['start']):print('hh');
                     print(targetDate);
-                    print(!room['user'].isEmpty&&(DateTime.parse(req['end']).isBefore(DateTime.parse(room['user']['start']))));
+                    room['user'].isEmpty?print('${room['number']}\n'+'Trống'):
+                    print('${room['number']}\n'+
+                    'start:${datetodate(room['user'].first['start'])}\n'
+                    +'end:${datetodate(room['user'].first['end'])
+                    }');
+                    var earliestUser;
+                    if(!room['user'].isEmpty){
+                        earliestUser = room['user'].reduce((a, b) {
+                      DateTime startA = DateTime.parse(a['start']);
+                      DateTime startB = DateTime.parse(b['start']);
+                      return startA.isBefore(startB) ? a : b;
+                      
+                    });
+                    
+                    }
+
                 return Container(
                   width: 150, 
                   height: 100, 
                   margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: getColor(room, req),
-                    border: Border.all(
+                    color: getSTT(room, req)!?Colors.blue:Colors.white,
+                    border: Border.all(     
                       width: 1, 
                       color: Colors.grey
                     )
@@ -142,8 +169,8 @@ print('-------------------------------------------------');
                     
                     room['user'].isEmpty?'${room['number']}\n'+'Trống':
                     '${room['number']}\n'+
-                    'start:${datetodate(room['user']['start'])}\n'
-                    +'end:${datetodate(room['user']['end'])
+                    'start:${datetodate(earliestUser['start'])}\n'
+                    +'end:${datetodate(earliestUser['end'])
                     }',
                     
                     
@@ -154,21 +181,28 @@ print('-------------------------------------------------');
                     onTap: () {
                       print(roomSnapshot.docs[index].id);
                       // Xử lý chọn phòng
-                      if(getSTT(room, req)){
-                        Navigator.of(context).pop(); 
-                        req['roomNumber']=room['number'];
+                      if(!getSTT(room, req)!){
+                        print('success');
+                        print(req);
+                        print(room);
+                          Navigator.of(context).pop(); 
+                        req['numberRoom']=room['number'];
+                        print(req['numberRoom']);
                       createBill(req);
+                      print('success create bill');
                       Map<String,dynamic> user =({
-                        'idUser':req['idUser'],
+                        'idUser':req['idUser'],   
                         'nameUser':req['nameUser'],
                         'start':req['start'],
                         'end':req['end'],
-                        'phone':req['phoneUser'],
+                        'phone':req['phoneNumber'],
                         'email':req['emailUser'],
                         'idRoom':room['id'],
 
                       });
-                      updateUserToRoom(user, roomSnapshot.docs[index].id);
+                      room['user'].isEmpty||room['user']==null?updateUserToRoom([], roomSnapshot.docs[index].id,user):
+                      updateUserToRoom(room['user'], roomSnapshot.docs[index].id,user );
+                      _databaseService.deleteReq('request '+req['id']); 
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Arranged successfull')),
                       );
@@ -234,16 +268,15 @@ Future<void> createBill(Map<String,dynamic> req) async {
         print('fail create bill ${e}');
       }
 }
-Future<void> updateUserToRoom(Map<String, dynamic> user, String doc) async {
+Future<void> updateUserToRoom(List<dynamic> user, String doc,  Map<String,dynamic> a) async {
   final CollectionReference _roomCollection =
       FirebaseFirestore.instance.collection('Room');
-
-  
+      user.add(a);
  
   try {
-    print(user['idRoom']);
+    print(a['idRoom']);
     QuerySnapshot roomSnapshot = await _roomCollection
-        .where('id', isEqualTo: user['idRoom'])
+        .where('id', isEqualTo: a['idRoom'])
         .get();
         
     if (roomSnapshot.docs.isNotEmpty) {
@@ -255,7 +288,7 @@ Future<void> updateUserToRoom(Map<String, dynamic> user, String doc) async {
       });  
       
     } else {
-      print('No room found with idRoom: ${user['idRoom']}');
+      print('No room found with idRoom: ${a['idRoom']}');
     }
   } catch (e) {
     print('Fail to update room: ${e}');
@@ -273,7 +306,7 @@ Future<void> showTableDialog(
   List<String> roomList =
       roomSnapshot.docs.map((doc) => doc['number'] as String).toList();
       print('-------------------------------------------------');
-print('Room List :${roomList}');
+// print('Room List :${roomList}');
 print('-------------------------------------------------');       
 
   // Kiểm tra xem danh sách có trống hay không

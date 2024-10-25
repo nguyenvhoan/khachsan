@@ -56,6 +56,9 @@ dependencies:
   http: ^1.2.2
   image_cropper: ^8.0.2
   sprintf: ^7.0.0
+  syncfusion_flutter_charts: ^27.1.53
+  flutter_image_slider: ^0.0.2
+  another_carousel_pro: ^1.0.2
 
 dev_dependencies:
   flutter_test:

@@ -410,15 +410,15 @@ class Type extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.all(10),
-            child: PopupMenuButton<String>(
-              onSelected: (value) async {
-                if (value == 'Select Room') {
+            child:      PopupMenuButton<String>(
+              onSelected: ( value) async {
+                  if (value == 'Select Room') {
                   print('------------------------------------------------');
-                  print(thisItem);
+                  print('this items  : +${thisItem}');
                   print('------------------------------------------------');
 
                   // Sử dụng ID yêu cầu từ thisItem
-                  await showRoomSelectionDialog(
+                      await showRoomSelectionDialog(
                     context,
                     
                     thisItem // Thay 'requestId' bằng tên trường thực tế

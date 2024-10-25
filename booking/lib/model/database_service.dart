@@ -70,6 +70,9 @@ Future<void> signIn(BuildContext context, String email,String password)async{
         String? userId = await getUserIdByEmail(email);
       print('User ID: $userId');
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        print('-------------------------------------------------------------------');
+        print('Đăng nhập thành công với id : ${userId}');
+        print('-------------------------------------------------------------------');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:const Text( 'Đăng nhập thành công',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18, ),
@@ -83,7 +86,10 @@ Future<void> signIn(BuildContext context, String email,String password)async{
           ),
           
           );
-          
+          print('-------------------------------------------------------------------');
+          print('Đang đăng nhập ............');
+          print('-------------------------------------------------------------------');
+
         Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationMenu(account: userId,)));
         
 
@@ -335,10 +341,53 @@ Future<int?> getUsedScore(String email) async {
     print('Error getting user score: $e');
     return null; // Xử lý lỗi
   }
+  
 }
 
 
-   
+Future<void> deleteExpiredUsers() async {
+  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('Room');
+
+  try {
+    // Lấy tất cả tài liệu trong collection
+    QuerySnapshot snapshot = await usersCollection.get();
+    
+    // Lặp qua từng tài liệu
+    for (var doc in snapshot.docs) {
+      if(!doc['user'].isEmpty)
+      {
+        List<dynamic> u = doc['user'];
+      // Giả sử 'end' là một chuỗi định dạng ISO 8601
+      for(int i=0;i<doc['user'].length;i++)
+      {
+      DateTime endDateTime = DateTime.parse(u[i]['end']);
+      
+      
+      if (endDateTime.isBefore(DateTime.now()) || endDateTime.isAtSameMomentAs(DateTime.now())) {
+        u.removeAt(i);
+        // Xóa tài liệu
+        await usersCollection.doc(doc.id).update({
+          'user':u,
+        });
+        print('Đã xóa tài liệu: ${doc.id}');
+      }
+      }
+      }
+    }
+  } catch (e) {
+    print('Lỗi khi xóa tài liệu: $e');
+  }
+}
+   Future<void> deleteReq(String id) async {
+      final CollectionReference usersCollection = FirebaseFirestore.instance.collection('Request');
+
+    try {
+      await usersCollection.doc(id).delete();
+      print('Đã xóa rì quét ${id}');
+    } catch (e) {
+      print('Lỗi khi xóa rì quét: $e');
+    }
+  }
 
 }
 

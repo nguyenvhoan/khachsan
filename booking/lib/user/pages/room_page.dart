@@ -88,7 +88,8 @@ Future<void> fetchServices() async {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,                           
                                     children: [
-                                      Container(                                      
+                                      Container(      
+                                        margin: EdgeInsets.only(top: 10,left: 10,right: 10),                                
                                           width : size.width / 1.3, 
                                         
                                           height:size.height/6,
