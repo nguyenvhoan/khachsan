@@ -25,6 +25,7 @@ class DatabaseService {
             'img':'',
             'score':'',
             'scoreUsed':'',
+            'lstBooking':'' as List<dynamic>,
 
           }
         );
@@ -388,6 +389,21 @@ Future<void> deleteExpiredUsers() async {
       print('Lỗi khi xóa rì quét: $e');
     }
   }
+   Future<void> createBookingHis(List<dynamic> booking, String account,  Map<String,dynamic> a) async {
+  
+      booking.add(a);
+ 
+  try {
+    print(a['idRoom']);
+        
+    await FirebaseFirestore.instance.collection('user').doc(account).update({
+        'lstBooking': booking,
+        
+      });
+  } catch (e) {
+    print('Fail to create lstBooking: ${e}');
+  }
+}
 
 }
 

@@ -19,9 +19,10 @@ class PaymentPage extends StatefulWidget {
   State<PaymentPage> createState() => _PaymentPageState();
 }
 
+
 class _PaymentPageState extends State<PaymentPage> {
   DatabaseService _databaseService = DatabaseService();
-
+Map<String,dynamic>? user;
   void _handlePaymentSuccess() {
     print("Navigating to TransactionDetail...");
     Navigator.pushReplacement(
@@ -31,7 +32,29 @@ class _PaymentPageState extends State<PaymentPage> {
       print("Navigated to TransactionDetail");
     });
   }
+  List<dynamic> booking =[];
+  Future<void> getUserById(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot = await db.collection('user').doc(id).get();
 
+      if (documentSnapshot.exists) {
+        setState(() {
+          user = documentSnapshot.data() as Map<String, dynamic>?; 
+         user?['lstBooking'].isEmpty ?booking=user!['lstBooking'] as List<dynamic>:booking=[];
+        });
+      } else {
+        print('Tài liệu không tồn tại');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy dữ liệu: $e');
+    }
+  } 
+  @override
+  void initState() {
+    super.initState();
+    getUserById(widget.account);
+  }
+  
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
@@ -94,6 +117,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
                     // Cập nhật dữ liệu
                     await _databaseService.createReq(widget.req);
+                    await _databaseService.createBookingHis(booking, widget.account, widget.req);
                     await _databaseService.updateScore(widget.account, widget.req['price']);
 
 

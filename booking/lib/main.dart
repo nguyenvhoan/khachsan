@@ -28,11 +28,7 @@ void main(List<String> args) async {
     projectId: "ksan-12952",
     storageBucket: "ksan-12952.appspot.com",
     )
-    
 
-    
-       
-  
   );
   }
 

@@ -8,7 +8,7 @@ bool checkDay(DateTime a, DateTime target){
   }
   else return false;
 }
-
+List<dynamic> booking =[];
 bool? getSTT(Map<String, dynamic> room, Map<String, dynamic> req) {
   if (!room['user'].isEmpty) {
     for(int i =0; i<room['user'].length;i++){
@@ -189,6 +189,7 @@ String doc=roomSnapshot.docs.first.id;
                         req['numberRoom']=room['number'];
                         print(req['numberRoom']);
                       createBill(req);
+                      createHistoryCustomer(req);
                       print('success create bill');
                       Map<String,dynamic> user =({
                         'idUser':req['idUser'],   
@@ -200,6 +201,8 @@ String doc=roomSnapshot.docs.first.id;
                         'idRoom':room['id'],
 
                       });
+                      getNotifyUser(user['idUser']);
+                      createNotify(booking, user['idUser'], req);
                       room['user'].isEmpty||room['user']==null?updateUserToRoom([], roomSnapshot.docs[index].id,user):
                       updateUserToRoom(room['user'], roomSnapshot.docs[index].id,user );
                       _databaseService.deleteReq('request '+req['id']); 
@@ -250,6 +253,22 @@ String doc=roomSnapshot.docs.first.id;
   },
 );
 }
+Future<void> getNotifyUser(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('user').doc(id).get();
+      Map<String,dynamic>? user;
+      if (documentSnapshot.exists) {
+        
+          user = documentSnapshot.data() as Map<String, dynamic>?; 
+         user?['notify'].isEmpty ? booking=user!['notify'] as List<dynamic>:booking=[];
+       
+      } else {
+        print('Tài liệu không tồn tại');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy dữ liệu: $e');
+    }
+  } 
 Future<void> changeStatusRoomEndDate()async {
   final CollectionReference _roomCollection =
       FirebaseFirestore.instance.collection('Room');
@@ -257,8 +276,7 @@ Future<void> changeStatusRoomEndDate()async {
         
   
   }
-
-Future<void> createBill(Map<String,dynamic> req) async {
+  Future<void> createBill(Map<String,dynamic> req) async {
   final CollectionReference _roomCollection =
       FirebaseFirestore.instance.collection('Bill');
       try{
@@ -267,6 +285,32 @@ Future<void> createBill(Map<String,dynamic> req) async {
       catch(e){
         print('fail create bill ${e}');
       }
+}
+Future<void> createHistoryCustomer(Map<String,dynamic> req) async {
+  final CollectionReference _roomCollection =
+      FirebaseFirestore.instance.collection('HistoryCustomer');
+      try{
+        _roomCollection.doc('bill '+req['id']).set(req);
+      }
+      catch(e){
+        print('fail create bill ${e}');
+      }
+}
+
+Future<void> createNotify(List<dynamic> notify, String account,  Map<String,dynamic> a) async {
+  
+      notify.add(a);
+ 
+  try {
+    print(a['idRoom']);
+        
+    await FirebaseFirestore.instance.collection('user').doc(account).update({
+        'notify': notify,
+        
+      });
+  } catch (e) {
+    print('Fail to create notify: ${e}');
+  }
 }
 Future<void> updateUserToRoom(List<dynamic> user, String doc,  Map<String,dynamic> a) async {
   final CollectionReference _roomCollection =
