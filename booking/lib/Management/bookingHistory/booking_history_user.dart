@@ -2,16 +2,16 @@ import 'package:booking/Management/Order/room_selection_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class OrderScreen extends StatefulWidget {
-  const OrderScreen({super.key});
+class BookingHistoryUser extends StatefulWidget {
+  const BookingHistoryUser({super.key});
 
   @override
-  State<OrderScreen> createState() => _OrderScreenState();
+  State<BookingHistoryUser> createState() => _BookingHistoryUserState();
 }
 
-class _OrderScreenState extends State<OrderScreen> {
+class _BookingHistoryUserState extends State<BookingHistoryUser> {
   final CollectionReference _item =
-      FirebaseFirestore.instance.collection('Request');
+      FirebaseFirestore.instance.collection('HistoryCustomer');
   Stream<QuerySnapshot>? _stream;
   List<Map<String, dynamic>> _requestData = [];
 
@@ -62,7 +62,6 @@ Widget build(BuildContext context) {
           QuerySnapshot querySnapshot = snapshot.data!;
           List<QueryDocumentSnapshot> documents = querySnapshot.docs;
 
-          
           List<Widget> children = [];
            children.add(const Center(child: Padding(
             padding: EdgeInsets.only(top: 20),

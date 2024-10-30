@@ -1,4 +1,5 @@
   import 'package:another_carousel_pro/another_carousel_pro.dart';
+import 'package:booking/user/pages/notify_page.dart';
   import 'package:booking/user/pages/room_page.dart';
   import 'package:cloud_firestore/cloud_firestore.dart';
   import 'package:flutter/foundation.dart';
@@ -33,6 +34,11 @@
               ),
               // Biểu tượng nằm ở góc phải
               GestureDetector(
+                onTap: (){
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => NotifyPage(account: account,))
+                );                },
                 child: Container(
                   color: Colors.white,
                   child: Image.asset(

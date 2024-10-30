@@ -69,7 +69,7 @@ class _PointUserState extends State<PointUser> {
                 ),
               ),
       ),
-      body: Container(
+      body:user!=null ? Container(
         decoration:const  BoxDecoration(
           gradient: LinearGradient(
                 colors: [
@@ -405,7 +405,10 @@ class _PointUserState extends State<PointUser> {
         
           ]
         ),
-      ),
+      ):Center(
+                      child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
+
+      )
     );
   }
 }

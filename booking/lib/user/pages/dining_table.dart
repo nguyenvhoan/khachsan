@@ -16,6 +16,8 @@ class _DiningTableState extends State<DiningTable> {
   void initState() {
     super.initState();
     getUserById(widget.account);
+        getBooking(widget.account);
+
           
   }
   Timestamp now = Timestamp.now();
@@ -24,6 +26,23 @@ class _DiningTableState extends State<DiningTable> {
   int quantity=1; 
     final FirebaseFirestore db = FirebaseFirestore.instance;
   Map<String,dynamic>? user;
+  List<dynamic> booking =[];
+  Future<void> getBooking(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot = await db.collection('user').doc(id).get();
+
+      if (documentSnapshot.exists) {
+        setState(() {
+          user = documentSnapshot.data() as Map<String, dynamic>?; 
+         !user?['lstBooking'].isEmpty ?booking=user!['lstBooking'] as List<dynamic>:booking=[];
+        });
+      } else {
+        print('Tài liệu không tồn tại');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy dữ liệu: $e');
+    }
+  } 
   Future<void> _selectedStartDate() async{
     DateTime? _picked=await showDatePicker(
       context: context,
@@ -468,7 +487,7 @@ class _DiningTableState extends State<DiningTable> {
                                   'requestType':'table'
                                  });
                                  print(req);
-                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'],account: widget.account, req: req, idVoucher: 'idVoucher')));
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'],account: widget.account, req: req, idVoucher: 'idVoucher', booking: booking,)));
                             
                           
                         },

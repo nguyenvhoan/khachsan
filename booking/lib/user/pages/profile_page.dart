@@ -5,6 +5,7 @@ import 'package:booking/user/pages/Test.dart';
 import 'package:booking/user/pages/booking_history.dart';
 import 'package:booking/user/pages/intro_page.dart';
 import 'package:booking/user/pages/edit_personal_page.dart';
+import 'package:booking/user/pages/notify_page.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -234,21 +235,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                const Padding(
+                                 Padding(
                                   padding: EdgeInsets.only(bottom: 10),
-                                  child: Row(
-                                    
-                                    children: [
-                                      SizedBox(width: 10,),
-                                      Icon(Icons.notification_add),
-                                      SizedBox(width: 10,),
-                                      Text('Notification', 
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                      ),
-                                    ],
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>NotifyPage(account: widget.account)));
+
+                                    },
+                                    child:const Row(
+                                      
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.notification_add),
+                                        SizedBox(width: 10,),
+                                        Text('Notification', 
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                  Padding(

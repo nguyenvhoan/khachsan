@@ -10,9 +10,10 @@ import 'package:one_context/one_context.dart';
 const String transactionDetailUrl = '/transaction_detail';
 
 class PaymentPage extends StatefulWidget {
-  PaymentPage({super.key, required this.codeRoom, this.account, required this.req, required this.idVoucher});
+  PaymentPage({super.key, required this.codeRoom, this.account, required this.req, required this.idVoucher, required this.booking});
   var codeRoom, account;
   var idVoucher;
+  var booking;
   Map<String, dynamic> req;
 
   @override
@@ -32,37 +33,18 @@ Map<String,dynamic>? user;
       print("Navigated to TransactionDetail");
     });
   }
-  List<dynamic> booking =[];
-  Future<void> getUserById(String id) async {
-    try {
-      DocumentSnapshot documentSnapshot = await db.collection('user').doc(id).get();
-
-      if (documentSnapshot.exists) {
-        setState(() {
-          user = documentSnapshot.data() as Map<String, dynamic>?; 
-         user?['lstBooking'].isEmpty ?booking=user!['lstBooking'] as List<dynamic>:booking=[];
-        });
-      } else {
-        print('Tài liệu không tồn tại');
-      }
-    } catch (e) {
-      print('Lỗi khi lấy dữ liệu: $e');
-    }
-  } 
-  @override
-  void initState() {
-    super.initState();
-    getUserById(widget.account);
-  }
+  
   
   final FirebaseFirestore db = FirebaseFirestore.instance;
-
+  
   @override
   Widget build(BuildContext context) {
     print('--------------------------------------------');
     print('Đang thanh toán với id tài khoản :${widget.account}');
     print('Mã giảm giá ${widget.idVoucher}');
+    print('Booking : ${widget.booking}');
     print('--------------------------------------------');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment'),
@@ -117,7 +99,7 @@ Map<String,dynamic>? user;
 
                     // Cập nhật dữ liệu
                     await _databaseService.createReq(widget.req);
-                    await _databaseService.createBookingHis(booking, widget.account, widget.req);
+                    await _databaseService.createBookingHis(widget.booking, widget.account, widget.req);
                     await _databaseService.updateScore(widget.account, widget.req['price']);
 
 

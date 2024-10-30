@@ -181,6 +181,55 @@ Future<void> signIn(BuildContext context, String email,String password)async{
   return services;
 }
 
+Future<List<Map<String, dynamic>>> getHistoryBooking(String account,String type) async {
+  List<Map<String, dynamic>> services = []; // Khởi tạo danh sách kiểu Map
+
+  try {
+    DocumentSnapshot docSnapshot = await FirebaseFirestore.instance.collection('user').doc(account).get();
+    
+    if (docSnapshot.exists) {
+      // Lấy danh sách dịch vụ từ trường 'lstBooking'
+      // Giả sử 'lstBooking' là một danh sách các map
+      List<dynamic> serviceList = docSnapshot['lstBooking'] ?? [];
+
+      for (var service in serviceList) {
+        // Kiểm tra xem service có phải là Map không
+        if (service is Map<String, dynamic>) {
+          service['requestType']==type?services.add(service):[];
+        }
+      }
+    }
+  } catch (e) {
+    print("Error fetching booking history: ${e.toString()}");
+  }
+  
+  return services;
+}
+Future<List<Map<String, dynamic>>> getNotify(String account) async {
+  List<Map<String, dynamic>> services = []; // Khởi tạo danh sách kiểu Map
+
+  try {
+    DocumentSnapshot docSnapshot = await FirebaseFirestore.instance.collection('user').doc(account).get();
+    
+    if (docSnapshot.exists) {
+      // Lấy danh sách dịch vụ từ trường 'lstBooking'
+      // Giả sử 'lstBooking' là một danh sách các map
+      List<dynamic> serviceList = docSnapshot['notify'] ?? [];
+
+      for (var service in serviceList) {
+        // Kiểm tra xem service có phải là Map không
+        if (service is Map<String, dynamic>) {
+          services.add(service);
+        }
+      }
+    }
+  } catch (e) {
+    print("Error fetching notify : ${e.toString()}");
+  }
+  
+  return services;
+}
+
 
  Future<void> createReq(Map<String,dynamic> req) async {
       try {
@@ -352,6 +401,7 @@ Future<void> deleteExpiredUsers() async {
   try {
     // Lấy tất cả tài liệu trong collection
     QuerySnapshot snapshot = await usersCollection.get();
+   
     
     // Lặp qua từng tài liệu
     for (var doc in snapshot.docs) {
@@ -384,6 +434,7 @@ Future<void> deleteExpiredUsers() async {
 
     try {
       await usersCollection.doc(id).delete();
+      
       print('Đã xóa rì quét ${id}');
     } catch (e) {
       print('Lỗi khi xóa rì quét: $e');

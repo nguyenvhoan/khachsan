@@ -7,6 +7,8 @@ import 'package:booking/Management/Restaurant/table_screen.dart';
 import 'package:booking/Management/RoomType/room_screen.dart';
 import 'package:booking/Management/Room/roomtype_screen.dart';
 import 'package:booking/Management/Room_type.dart';
+import 'package:booking/Management/ThongKe/ThongKe.dart';
+import 'package:booking/Management/bookingHistory/booking_history_user.dart';
 import 'package:booking/Management/item.dart';
 import 'package:booking/model/database_service.dart';
 import 'package:flutter/foundation.dart';
@@ -288,7 +290,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    OrderScreen(); // Thay thế bằng trang Service của bạn
+                                    BookingHistoryUser(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Thong ke ',
+                            icon: Icons.chalet,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    Thongke(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },

@@ -4,16 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class BookingHistory extends StatefulWidget {
-  BookingHistory({super.key, required this.account, required this.type});
+class NotifyPage extends StatefulWidget {
+  NotifyPage({super.key, required this.account});
   final String account; // Đổi thành final String để rõ ràng hơn
-  final String type;
 
   @override
-  State<BookingHistory> createState() => _BookingHistoryState();
+  State<NotifyPage> createState() => _NotifyPageState();
 }
 
-class _BookingHistoryState extends State<BookingHistory> {
+class _NotifyPageState extends State<NotifyPage> {
   DatabaseService _databaseService = DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   List<Map<String, dynamic>> services = []; // Thay đổi kiểu dữ liệu
@@ -25,7 +24,7 @@ class _BookingHistoryState extends State<BookingHistory> {
   }
 
   Future<void> fetchServices() async {
-    List<Map<String, dynamic>> fetchedServices = await _databaseService.getHistoryBooking(widget.account, widget.type);
+    List<Map<String, dynamic>> fetchedServices = await _databaseService.getNotify(widget.account);
     setState(() {
       services = fetchedServices;
     });
@@ -129,9 +128,9 @@ class _BookingHistoryState extends State<BookingHistory> {
                                          )
                                            ],
                                         ),
-                                        const Text('Successful booking payment',
+                                         Text('Đã có ${services[index]['requestType']}',
                                           textAlign: TextAlign.center,
-                                         style: TextStyle(
+                                         style:const TextStyle(
                                            fontWeight: FontWeight.bold,
                                            color: Color(0xff57A5EC),
                                            fontSize: 19,
@@ -140,7 +139,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                          maxLines: 2,softWrap: true,
                                          ),
                                          SizedBox(height: 5,),
-                                         Text('Room type: ${services[index]['roomType']}',
+                                         Text('Total price: ${services[index]['price']} VND',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10
@@ -148,8 +147,8 @@ class _BookingHistoryState extends State<BookingHistory> {
                                           ),
                                         ),
                                         SizedBox(height: 5,),
-                                         const Text('Quantity: 1',
-                                         style:  TextStyle(
+                                          Text('Number Room: ${services[index]['numberRoom']}',
+                                         style: const TextStyle(
                                            fontWeight: FontWeight.bold,
                                            fontSize: 10
                                     

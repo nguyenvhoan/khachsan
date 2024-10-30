@@ -41,7 +41,26 @@ class _BookingPageState extends State<BookingPage> {
     getDataById(widget.codeRoom);
     getUserById(widget.account);
     getScoreUser(widget.account);
+    getBooking(widget.account);
   }
+  List<dynamic> booking =[];
+  Future<void> getBooking(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot = await db.collection('user').doc(id).get();
+
+      if (documentSnapshot.exists) {
+        setState(() {
+          user = documentSnapshot.data() as Map<String, dynamic>?; 
+         !user?['lstBooking'].isEmpty ?booking=user!['lstBooking'] as List<dynamic>:booking=[];
+        });
+      } else {
+        print('Tài liệu không tồn tại');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy dữ liệu: $e');
+    }
+  } 
+  
   
 
  
@@ -501,7 +520,7 @@ class _BookingPageState extends State<BookingPage> {
                                 
                                 Navigator.push(
                                   context, 
-                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,idVoucher: voucher[index]['id'],))
+                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,idVoucher: voucher[index]['id'],booking: booking,))
                                 );
                                 }
                                 

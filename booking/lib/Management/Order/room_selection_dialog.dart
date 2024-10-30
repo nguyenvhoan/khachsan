@@ -8,7 +8,6 @@ bool checkDay(DateTime a, DateTime target){
   }
   else return false;
 }
-List<dynamic> booking =[];
 bool? getSTT(Map<String, dynamic> room, Map<String, dynamic> req) {
   if (!room['user'].isEmpty) {
     for(int i =0; i<room['user'].length;i++){
@@ -178,7 +177,7 @@ String doc=roomSnapshot.docs.first.id;
                     style: TextStyle(
                         fontSize: 16
                     ),)), 
-                    onTap: () {
+                    onTap: () async {
                       print(roomSnapshot.docs[index].id);
                       // Xử lý chọn phòng
                       if(!getSTT(room, req)!){
@@ -201,7 +200,10 @@ String doc=roomSnapshot.docs.first.id;
                         'idRoom':room['id'],
 
                       });
-                      getNotifyUser(user['idUser']);
+                      List<dynamic> booking =[];
+
+                       booking=await  getNotifyUser(user['idUser']);
+                      
                       createNotify(booking, user['idUser'], req);
                       room['user'].isEmpty||room['user']==null?updateUserToRoom([], roomSnapshot.docs[index].id,user):
                       updateUserToRoom(room['user'], roomSnapshot.docs[index].id,user );
@@ -253,21 +255,24 @@ String doc=roomSnapshot.docs.first.id;
   },
 );
 }
-Future<void> getNotifyUser(String id) async {
+Future<List<dynamic>> getNotifyUser(String id) async {
+  List<dynamic> table =[];
     try {
+      
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('user').doc(id).get();
       Map<String,dynamic>? user;
       if (documentSnapshot.exists) {
         
           user = documentSnapshot.data() as Map<String, dynamic>?; 
-         user?['notify'].isEmpty ? booking=user!['notify'] as List<dynamic>:booking=[];
-       
+         !user?['notify'].isEmpty ? table=user!['notify'] as List<dynamic>:table=[];
+          
       } else {
         print('Tài liệu không tồn tại');
       }
     } catch (e) {
       print('Lỗi khi lấy dữ liệu: $e');
     }
+    return table;
   } 
 Future<void> changeStatusRoomEndDate()async {
   final CollectionReference _roomCollection =
@@ -379,7 +384,7 @@ print('-------------------------------------------------');
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Select Room for Order'),
+        title: Text('Select Table for Order'),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -449,5 +454,242 @@ Future<void> updateRoomStatus(String roomNumber) async {
     });
   } else {
     print('Room not found');
+  }
+  
+}
+Future<void> showTable(
+    BuildContext context, Map<String,dynamic> req) async {
+  final CollectionReference _roomCollection =
+      FirebaseFirestore.instance.collection('Table');
+
+  // Lấy danh sách các phòng thuộc loại phòng đã cho
+  QuerySnapshot roomSnapshot =
+      await _roomCollection.where('tabletype', isEqualTo: req['roomType']).get();
+  List<Map<String, dynamic>> roomList = roomSnapshot.docs.map((doc) {
+  List<dynamic> users = doc['user'] ?? []; // Đảm bảo user là List
+  print('user: ${doc['user']}');
+  // Chỉ trả về thông tin phòng nếu users không rỗng
+  if (users.isEmpty) {
+   return{
+    'Id': doc['Id'] as String,
+    'number': doc['number'] as String,
+    'status': doc['status'] as String,
+    'user':doc['user'] as List<dynamic>,
+   };
+  }
+  
+  return {
+    'Id': doc['Id'] as String,
+    'number': doc['number'] as String,
+    'status': doc['status'] as String,
+    'user':doc['user'] as List<dynamic>,
+
+  };
+}).where((room) => room != null).cast<Map<String, dynamic>>().toList();
+changeStatusRoomEndDate();
+String doc=roomSnapshot.docs.first.id;
+// print('-------------------------------------------------');
+
+// print('Room List :${roomList}');
+// print('-------------------------------------------------');
+
+  // Kiểm tra xem danh sách có trống hay không
+  if (roomList.isEmpty) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('No Rooms Available'),
+          content: Text('No rooms available for the selected room type.'),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng dialog
+              },
+            ),
+          ],
+        );
+      },
+    );    
+    return; // Dừng hàm nếu không có phòng
+  }
+
+    showDialog(
+      
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      title: Text('Select Room for Order'),
+      content: Container(
+        child: SingleChildScrollView( 
+          child: Center(
+            child: Wrap(
+              spacing: 8.0, 
+              runSpacing: 8.0,
+              children: roomList.asMap().entries.map((entry) {
+                int index = entry.key; // Lấy chỉ số của phòng
+                
+               var room = entry.value; 
+               print('id : ${room}');
+               Map<String,dynamic> user ;
+                  DateTime targetDate = DateTime(2024, 10, 8);
+                   
+                    DateTime today = DateTime.now();
+                    print(room['user']);
+                    print(room['user'].isEmpty);
+                    print(room['user']!=null);
+                    
+                    
+                    room['user'].isNotEmpty&&room['user']!=null?targetDate= DateTime.parse(room['user'].first['start']):print('hh');
+                    print(targetDate);
+                    room['user'].isEmpty?print('${room['number']}\n'+'Trống'):
+                    print('${room['number']}\n'+
+                    'start:${datetodate(room['user'].first['start'])}\n'
+                    +'end:${datetodate(room['user'].first['end'])
+                    }');
+                    var earliestUser;
+                    if(!room['user'].isEmpty){
+                        earliestUser = room['user'].reduce((a, b) {
+                      DateTime startA = DateTime.parse(a['start']);
+                      DateTime startB = DateTime.parse(b['start']);
+                      return startA.isBefore(startB) ? a : b;
+                      
+                    });
+                    
+                    }
+
+                return Container(
+                  width: 150, 
+                  height: 100, 
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: getSTT(room, req)!?Colors.blue:Colors.white,
+                    border: Border.all(     
+                      width: 1, 
+                      color: Colors.grey
+                    )
+                  ),
+                  child: ListTile(
+                    title: Center(child: Text(
+                    
+                    room['user'].isEmpty?'${room['number']}\n'+'Trống':
+                    '${room['number']}\n'+
+                    'start:${datetodate(earliestUser['start'])}\n'
+                    +'end:${datetodate(earliestUser['end'])
+                    }',
+                    
+                    
+                    
+                    style: TextStyle(
+                        fontSize: 16
+                    ),)), 
+                    onTap: () async {
+                      print(roomSnapshot.docs[index].id);
+                      // Xử lý chọn phòng
+                      if(!getSTT(room, req)!){
+                        try{
+                          print('success');
+                        print(req);
+                        print(room);
+                          Navigator.of(context).pop(); 
+                        req['numberRoom']=room['number'];
+                        print(req['numberRoom']);
+                      createBill(req);
+                      createHistoryCustomer(req);
+                      print('success create bill');
+                      Map<String,dynamic> user =({
+                        'idUser':req['idUser'],   
+                        'nameUser':req['nameUser'],
+                        'start':req['start'],
+                        'end':req['end'],
+                        'phone':req['phoneNumber'],
+                        'email':req['emailUser'],
+                        'idRoom':room['id'],
+
+                      });
+                      List<dynamic> booking =[];
+
+                      booking= await  getNotifyUser(user['idUser']);
+                      createNotify(booking, user['idUser'], req);
+                      room['user'].isEmpty||room['user']==null?updateUserToTable([], roomSnapshot.docs[index].id,user):
+                      updateUserToTable(room['user'], roomSnapshot.docs[index].id,user );
+                      _databaseService.deleteReq('request '+req['id']); 
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Arranged successfull')),
+                      );
+                        }
+                        catch(e){
+                          print('Error');
+                        }
+                      } 
+                      
+                      
+                      else 
+                      {
+                        showDialog(
+                          context: context,
+                           builder: (context)=>
+                           AlertDialog(
+                          title: const Text('Announcement'),
+                          content: const Text('This room not empty'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                            ),
+                            
+                          ],
+                        )
+                           );
+                                         
+                      }
+                    },
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop(); // Đóng dialog
+          },
+        ),
+      ],
+    );
+  },
+);
+}
+Future<void> updateUserToTable(List<dynamic> user, String doc,  Map<String,dynamic> a) async {
+  final CollectionReference _roomCollection =
+      FirebaseFirestore.instance.collection('Table');
+      user.add(a);
+ 
+  try {
+    print(a['idRoom']);
+    QuerySnapshot roomSnapshot = await _roomCollection
+        .where('Id', isEqualTo: a['idRoom'])
+        .get();
+        
+    if (roomSnapshot.docs.isNotEmpty) {
+      await _roomCollection.doc(doc).update({
+        'status':'servicing'    
+      });  
+      await _roomCollection.doc(doc).update({
+        'user':user
+      });  
+      
+    } else {
+      print('No room found with table: ${a['idRoom']}');
+    }
+  } catch (e) {
+    print('Fail to update table: ${e}');
   }
 }
