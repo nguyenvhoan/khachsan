@@ -1,20 +1,78 @@
 import 'package:booking/Management/ThongKe/resources/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+Map<int, List<double>> yearlyMonthlyTotals = {};
+Future<void> calculateYearlyMonthlyTotal() async {
+  // Khởi tạo Firestore
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-class Thongke extends StatefulWidget {
-  const Thongke({super.key});
+  // Lấy tất cả các tài liệu từ collection 'bill'
+  QuerySnapshot snapshot = await firestore.collection('Bill').get();
+yearlyMonthlyTotals={};
+  // Tạo một Map để lưu tổng giá trị theo năm và tháng
+
+  for (var doc in snapshot.docs) {
+    // Lấy giá trị price
+    double price = doc['price']?.toDouble() ?? 0.0;
+
+    // Lấy giá trị start và kiểm tra kiểu dữ liệu
+    dynamic startValue = doc['start'];
+    DateTime dateTime;
+
+    // Kiểm tra kiểu dữ liệu
+    if (startValue is Timestamp) {
+      dateTime = startValue.toDate(); // Nếu là Timestamp
+    } else if (startValue is String) {
+      dateTime = DateTime.parse(startValue); // Nếu là String, chuyển đổi thành DateTime
+    } else {
+      continue; // Bỏ qua nếu không phải kiểu hợp lệ
+    }
+
+    // Lấy năm và tháng từ dateTime
+    int year = dateTime.year;
+    int monthIndex = dateTime.month - 1; // Chuyển đổi thành chỉ số từ 0 đến 11
+
+    // Khởi tạo danh sách cho năm nếu chưa có
+    if (!yearlyMonthlyTotals.containsKey(year)) {
+      yearlyMonthlyTotals[year] = List<double>.filled(12, 0.0);
+    }
+
+    // Cộng dồn giá trị price cho tháng tương ứng trong năm
+    yearlyMonthlyTotals[year]![monthIndex] += price;
+  }
+
+  // Sắp xếp các năm
+  var sortedYears = yearlyMonthlyTotals.keys.toList()..sort();
+
+  // In ra tổng giá trị theo năm và tháng
+  for (var year in sortedYears) {
+    print('Năm: $year');
+    for (int i = 0; i < yearlyMonthlyTotals[year]!.length; i++) {
+      String month = '${i + 1}'; // Tạo chuỗi tháng (1-12)
+      double total = yearlyMonthlyTotals[year]![i];
+      print('  Tháng: $month, Tổng giá: $total');
+    }
+  }
+
+  
+}
+ final List<String> list = <String>['2021', '2022', '2023', '2024'];
+ String year='2024';
+class Doanhthu extends StatefulWidget {
+  const Doanhthu({super.key});
 
   @override
-  State<Thongke> createState() => _LineChartSample2State();
+  State<Doanhthu> createState() => _DoanhthuState();
 }
 
-class _LineChartSample2State extends State<Thongke> {
+class _DoanhthuState extends State<Doanhthu> {
   List<Color> gradientColors = [
     AppColors.contentColorCyan,
     AppColors.contentColorBlue,
   ];
+ 
 
   bool showAvg = false;
 List<int> lstCount = List<int>.filled(4, 0); // Khởi tạo biến để lưu số lượng người dùng
@@ -23,6 +81,7 @@ List<int> lstCount = List<int>.filled(4, 0); // Khởi tạo biến để lưu s
   void initState() {
     super.initState();
     fetchUserCount();
+    calculateYearlyMonthlyTotal();
     
   }
   Future<int> getUserCount() async {
@@ -66,6 +125,9 @@ Future<int> getTable() async {
   
 }
 
+
+
+
   Future<void> fetchUserCount() async {
     int count = await getUserCount();
     int bk=await getBookingHistory();
@@ -82,6 +144,7 @@ Future<int> getTable() async {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    // print(yearlyMonthlyTotals);
     return Container(
       width:  double.infinity,
       color:  Colors.black,
@@ -89,6 +152,7 @@ Future<int> getTable() async {
         child: Column(
         
           children:[ 
+            
             Container(
               margin:EdgeInsets.only(top: 20),
               child:const Text('Bảng thống kê số liệu hệ thống', 
@@ -98,6 +162,39 @@ Future<int> getTable() async {
                 fontSize: 25
               ),),
             ),
+            
+               Container(
+                margin: EdgeInsets.only(left: size.width/6),
+                child: Row(children:[
+                DropdownMenuExample(),
+                GestureDetector(
+                onTap: (){
+                  setState(() {
+                    
+                    calculateYearlyMonthlyTotal();
+                    
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.white
+                    )
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10,right: 19,top: 3,bottom: 3),
+                    child: Text('  Cập nhật',
+                    style: TextStyle(color: Colors.white),),
+                  ),
+                ),
+                          )
+                          ] 
+                          ),
+              ),
+            
             Container(
             width: size.width/1.5,
             color: Colors.black,
@@ -119,24 +216,20 @@ Future<int> getTable() async {
                     ),
                   ),
                   
-                  // SizedBox(
-                  //   width: 60,
-                  //   height: 34,
-                  //   child: TextButton(
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         showAvg = !showAvg;
-                  //       });
-                  //     },
-                  //     child: Text(
-                  //       'avg',
-                  //       style: TextStyle(
-                  //         fontSize: 12,
-                  //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  SizedBox(
+                    width: 60,
+                    height: 34,
+                    
+                      
+                      child: Text(
+                        'Trăm ngàn',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+                        ),
+                      ),
+                    
+                  ),
                    
                   
                 ],
@@ -276,15 +369,19 @@ Future<int> getTable() async {
                     ),
                   ),
                 ),
+                
               ],
             ),
-          )
+          ),
+          
+          
           ]
         ),
       ),
     );
     
   }
+  
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -294,18 +391,43 @@ Future<int> getTable() async {
     );
     Widget text;
     switch (value.toInt()) {
+      case 0:
+        text = const Text('Jan', style: style);
+        break;
+      case 1:
+        text = const Text('Feb', style: style);
+        break;
       case 2:
-        text = const Text('USER', style: style);
+        text = const Text('Mar', style: style);
+        break;
+      case 3:
+        text = const Text('Apr', style: style);
         break;
       case 4:
-        text = const Text('Booking History', style: style);
+        text = const Text('May', style: style);
+        break;
+      case 5:
+        text = const Text('June', style: style);
         break;
       case 6:
-        text = const Text('Room', style: style);
+        text = const Text('July', style: style);
+        break;
+      case 7:
+        text = const Text('Aug', style: style);
         break;
       case 8:
-        text = const Text('Table', style: style);
+        text = const Text('Sep', style: style);
         break;
+      case 9:
+        text = const Text('Oct', style: style);
+        break;
+      case 10:
+        text = const Text('Nov', style: style);
+        break;
+      case 11:
+        text = const Text('Dec', style: style);
+        break;
+      
       default:
         text = const Text('', style: style);
         break;
@@ -326,16 +448,38 @@ Future<int> getTable() async {
     String text;
     switch (value.toInt()) {
       case 10:
-        text = '10';
+        text = '1';
         break;
       case 20:
-        text = '20';
+        text = '2';
         break;
       case 30:
-        text = '30';
+        text = '3';
         break;
       case 40:
-        text = '40';
+        text = '4';
+      case 50:
+        text = '5';
+      case 60:
+        text = '6';
+      case 70:
+        text = '7';
+      case 80:
+        text = '8';  
+      case 90:
+        text = '9';  
+      case 100:
+        text = '10';  
+      case 110:
+        text = '11';  
+      case 120:
+        text = '12';
+      case 130:
+        text = '13';  
+      case 140:
+        text = '14';  
+      case 150:
+        text = '15';    
         break;
       default:
         return Container();
@@ -396,17 +540,23 @@ Future<int> getTable() async {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 40,
+      maxY: 150,
       lineBarsData: [
         LineChartBarData(
           spots:  [
-            FlSpot(0, 0),
-            FlSpot(2, lstCount[0].toDouble()),
-            FlSpot(4, lstCount[1].toDouble()),
-            FlSpot(6, lstCount[2].toDouble()),
-            FlSpot(8, lstCount[3].toDouble()),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+            FlSpot(0,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![0]/100000:0),
+            FlSpot(1,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![1]/100000:0),
+            FlSpot(2,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![2]/100000:0),
+            FlSpot(3,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![3]/100000:0),
+            FlSpot(4,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![4]/100000:0),
+            FlSpot(5,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![5]/100000:0),
+            FlSpot(6,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![6]/100000:0),
+            FlSpot(7,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![7]/100000:0),
+            FlSpot(8,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![8]/100000:0),
+            FlSpot(9,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![9]/100000:0),
+            FlSpot(10,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year)]![10]/100000:0),
+            FlSpot(11,yearlyMonthlyTotals.containsKey(int.parse(year)) ? yearlyMonthlyTotals[int.parse(year!)]![11]/100000:0),
+            
           ],
           isCurved: true,
           gradient: LinearGradient(
@@ -524,6 +674,37 @@ Future<int> getTable() async {
           ),
         ),
       ],
+    );
+  }
+}
+class DropdownMenuExample extends StatefulWidget {
+  const DropdownMenuExample({super.key});
+
+  @override
+  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
+}
+
+class _DropdownMenuExampleState extends State<DropdownMenuExample> {
+  String dropdownValue = year;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownMenu<String>(
+      textStyle: TextStyle(color: Colors.white),
+     
+      initialSelection: year,
+      onSelected: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+          year=value;   
+        });
+      },
+      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+        return DropdownMenuEntry<String>(value: value, label: value);
+      }).toList(),
+      
+      
     );
   }
 }

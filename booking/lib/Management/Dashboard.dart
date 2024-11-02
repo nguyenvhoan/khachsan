@@ -8,16 +8,19 @@ import 'package:booking/Management/RoomType/room_screen.dart';
 import 'package:booking/Management/Room/roomtype_screen.dart';
 import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/ThongKe/ThongKe.dart';
+import 'package:booking/Management/ThongKe/doanhthu.dart';
 import 'package:booking/Management/bookingHistory/booking_history_user.dart';
 import 'package:booking/Management/item.dart';
+import 'package:booking/Management/role/create_account_admin.dart';
+import 'package:booking/Management/role/create_role.dart';
 import 'package:booking/model/database_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:booking/Management/Service.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
-
+   Dashboard({super.key, required this.role});
+  String role;
   @override
   State<Dashboard> createState() => _DashboardState();
 }
@@ -38,6 +41,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 500),
     );
   }
+void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   void _toggleDrawer() {
     if (_controller.isDismissed) {
@@ -55,12 +66,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
+          automaticallyImplyLeading:false,
           backgroundColor: Colors.transparent,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -172,20 +185,31 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Type Room',
                             icon: Icons.hotel,
                             onTap: () {
-                              setState(() {
-                                _currentPage = const RoomScreen();
-                              });
-                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                               if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const RoomScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); 
+                              // Đóng sidebar sau khi chọn mục
                             },
+                           
                           ),
                           SidebarItem(
                             title: 'Service',
                             icon: Icons.star,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    const Service(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const Service();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -193,21 +217,29 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Room',
                             icon: Icons.king_bed,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    const RoomtypeScreen(); // Thay thế bằng trang Service của bạn
-                              });
-                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const RoomScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer();// Đóng sidebar sau khi chọn mục
                             },
                           ),
                           SidebarItem(
                             title: 'Discount',
                             icon: Icons.discount,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    DiscountListPage(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage =  DiscountListPage();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -217,7 +249,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    const MapScreen(); // Thay thế bằng trang Service của bạn
+                                    MapScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -243,7 +275,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    const Tabletype(); // Thay thế bằng trang Service của bạn
+                                    Tabletype(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -254,7 +286,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    const TableScreen(); // Thay thế bằng trang Service của bạn
+                                    TableScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -279,7 +311,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    const OrderScreen(); // Thay thế bằng trang Service của bạn
+                                    OrderScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -290,7 +322,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    const BookingHistoryUser(); // Thay thế bằng trang Service của bạn
+                                    BookingHistoryUser(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -301,7 +333,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    const Thongke(); // Thay thế bằng trang Service của bạn
+                                    Thongke(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },

@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return OneNotification(
         builder: (_, __) => MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: const Dashboard(),  
+              home: Landing(),  
               // home: Landing(),
               theme: ThemeData(
                   primaryColor: Colors.white,

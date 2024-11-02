@@ -61,6 +61,8 @@ dependencies:
   another_carousel_pro: ^1.0.2
   fl_chart: ^0.69.0
   percent_indicator: ^4.2.3
+  drop_down_list: ^0.0.8
+  flutter_drop_down_menu: ^0.1.0
 
 dev_dependencies:
   flutter_test:
