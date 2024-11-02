@@ -12,7 +12,7 @@ class Roomform extends StatelessWidget {
   final VoidCallback onPickImage;
   final VoidCallback onSubmit;
   const Roomform({
-    Key? key,
+    super.key,
     required this.numberController,
     required this.floorController,
     required this.selectedRoomType,
@@ -20,7 +20,7 @@ class Roomform extends StatelessWidget {
     required this.onRoomTypeChanged,
     required this.onPickImage,
     required this.onSubmit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

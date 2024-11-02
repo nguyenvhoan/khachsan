@@ -6,7 +6,9 @@ bool checkDay(DateTime a, DateTime target){
   if(a.day==target.day&&a.month==target.month&&a.year==target.year){
     return true;
   }
-  else return false;
+  else {
+    return false;
+  }
 }
 bool? getSTT(Map<String, dynamic> room, Map<String, dynamic> req) {
   if (!room['user'].isEmpty) {
@@ -17,9 +19,9 @@ DateTime userStart = DateTime.parse(room['user'][i]['start']);
 DateTime userEnd = DateTime.parse(room['user'][i]['end']);
 DateTime reqStart = DateTime.parse(req['start']);
 DateTime reqEnd = DateTime.parse(req['end']);
-    if(reqEnd.isBefore(userEnd)&&reqEnd.isBefore(userStart))
+    if(reqEnd.isBefore(userEnd)&&reqEnd.isBefore(userStart)) {
       return false;
-    else if (reqStart.isAfter(userEnd)&&reqStart.isAfter(userStart))
+    } else if (reqStart.isAfter(userEnd)&&reqStart.isAfter(userStart))
       return false;
     else if (reqStart.isBefore(userStart)&&reqEnd.isBefore(userEnd)&&reqEnd.isAfter(userStart))
       return true; 
@@ -37,7 +39,10 @@ DateTime reqEnd = DateTime.parse(req['end']);
     }
     
 }
-else return false;
+else {
+    return false;
+  return null;
+  }
 }
 
 
@@ -51,12 +56,12 @@ String datetodate(String date){
 }
 Future<void> showRoomSelectionDialog(
     BuildContext context, Map<String,dynamic> req) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Room');
 
   // Lấy danh sách các phòng thuộc loại phòng đã cho
   QuerySnapshot roomSnapshot =
-      await _roomCollection.where('roomType', isEqualTo: req['roomType']).get();
+      await roomCollection.where('roomType', isEqualTo: req['roomType']).get();
   List<Map<String, dynamic>> roomList = roomSnapshot.docs.map((doc) {
   List<dynamic> users = doc['user'] ?? []; // Đảm bảo user là List
   print('user: ${doc['user']}');
@@ -91,11 +96,11 @@ String doc=roomSnapshot.docs.first.id;
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('No Rooms Available'),
-          content: Text('No rooms available for the selected room type.'),
+          title: const Text('No Rooms Available'),
+          content: const Text('No rooms available for the selected room type.'),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop(); // Đóng dialog
               },
@@ -112,7 +117,7 @@ String doc=roomSnapshot.docs.first.id;
   context: context,
   builder: (BuildContext context) {
     return AlertDialog(
-      title: Text('Select Room for Order'),
+      title: const Text('Select Room for Order'),
       content: Container(
         child: SingleChildScrollView( 
           child: Center(
@@ -123,7 +128,7 @@ String doc=roomSnapshot.docs.first.id;
                 int index = entry.key; // Lấy chỉ số của phòng
                 
                var room = entry.value; 
-               print('id : ${room}');
+               print('id : $room');
                Map<String,dynamic> user ;
                   DateTime targetDate = DateTime(2024, 10, 8);
                    
@@ -135,10 +140,8 @@ String doc=roomSnapshot.docs.first.id;
                     
                     room['user'].isNotEmpty&&room['user']!=null?targetDate= DateTime.parse(room['user'].first['start']):print('hh');
                     print(targetDate);
-                    room['user'].isEmpty?print('${room['number']}\n'+'Trống'):
-                    print('${room['number']}\n'+
-                    'start:${datetodate(room['user'].first['start'])}\n'
-                    +'end:${datetodate(room['user'].first['end'])
+                    room['user'].isEmpty?print('${room['number']}\n''Trống'):
+                    print('${room['number']}\nstart:${datetodate(room['user'].first['start'])}\nend:${datetodate(room['user'].first['end'])
                     }');
                     var earliestUser;
                     if(!room['user'].isEmpty){
@@ -154,7 +157,7 @@ String doc=roomSnapshot.docs.first.id;
                 return Container(
                   width: 150, 
                   height: 100, 
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: getSTT(room, req)!?Colors.blue:Colors.white,
@@ -166,15 +169,13 @@ String doc=roomSnapshot.docs.first.id;
                   child: ListTile(
                     title: Center(child: Text(
                     
-                    room['user'].isEmpty?'${room['number']}\n'+'Trống':
-                    '${room['number']}\n'+
-                    'start:${datetodate(earliestUser['start'])}\n'
-                    +'end:${datetodate(earliestUser['end'])
+                    room['user'].isEmpty?'${room['number']}\n''Trống':
+                    '${room['number']}\nstart:${datetodate(earliestUser['start'])}\nend:${datetodate(earliestUser['end'])
                     }',
                     
                     
                     
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 16
                     ),)), 
                     onTap: () async {
@@ -245,7 +246,7 @@ String doc=roomSnapshot.docs.first.id;
       ),
       actions: [
         TextButton(
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
           onPressed: () {
             Navigator.of(context).pop(); // Đóng dialog
           },
@@ -275,30 +276,30 @@ Future<List<dynamic>> getNotifyUser(String id) async {
     return table;
   } 
 Future<void> changeStatusRoomEndDate()async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Room');
-       QuerySnapshot roomSnapshot = await _roomCollection.get();
+       QuerySnapshot roomSnapshot = await roomCollection.get();
         
   
   }
   Future<void> createBill(Map<String,dynamic> req) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Bill');
       try{
-        _roomCollection.doc('bill '+req['id']).set(req);
+        roomCollection.doc('bill '+req['id']).set(req);
       }
       catch(e){
-        print('fail create bill ${e}');
+        print('fail create bill $e');
       }
 }
 Future<void> createHistoryCustomer(Map<String,dynamic> req) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('HistoryCustomer');
       try{
-        _roomCollection.doc('bill '+req['id']).set(req);
+        roomCollection.doc('bill '+req['id']).set(req);
       }
       catch(e){
-        print('fail create bill ${e}');
+        print('fail create bill $e');
       }
 }
 
@@ -314,25 +315,25 @@ Future<void> createNotify(List<dynamic> notify, String account,  Map<String,dyna
         
       });
   } catch (e) {
-    print('Fail to create notify: ${e}');
+    print('Fail to create notify: $e');
   }
 }
 Future<void> updateUserToRoom(List<dynamic> user, String doc,  Map<String,dynamic> a) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Room');
       user.add(a);
  
   try {
     print(a['idRoom']);
-    QuerySnapshot roomSnapshot = await _roomCollection
+    QuerySnapshot roomSnapshot = await roomCollection
         .where('id', isEqualTo: a['idRoom'])
         .get();
         
     if (roomSnapshot.docs.isNotEmpty) {
-      await _roomCollection.doc(doc).update({
+      await roomCollection.doc(doc).update({
         'status':'servicing'    
       });  
-      await _roomCollection.doc(doc).update({
+      await roomCollection.doc(doc).update({
         'user':user
       });  
       
@@ -340,17 +341,17 @@ Future<void> updateUserToRoom(List<dynamic> user, String doc,  Map<String,dynami
       print('No room found with idRoom: ${a['idRoom']}');
     }
   } catch (e) {
-    print('Fail to update room: ${e}');
+    print('Fail to update room: $e');
   }
 }
 Future<void> showTableDialog(
     BuildContext context, String roomType, String requestId) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Table');
 
   // Lấy danh sách các phòng thuộc loại phòng đã cho
   QuerySnapshot roomSnapshot =
-      await _roomCollection.where('tableType', isEqualTo: roomType).get();
+      await roomCollection.where('tableType', isEqualTo: roomType).get();
 
   List<String> roomList =
       roomSnapshot.docs.map((doc) => doc['number'] as String).toList();
@@ -364,11 +365,11 @@ print('-------------------------------------------------');
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('No table Available'),
-          content: Text('No table available for the selected room type.'),
+          title: const Text('No table Available'),
+          content: const Text('No table available for the selected room type.'),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop(); // Đóng dialog
               },
@@ -384,7 +385,7 @@ print('-------------------------------------------------');
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Select Table for Order'),
+        title: const Text('Select Table for Order'),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -403,7 +404,7 @@ print('-------------------------------------------------');
         ),
         actions: [
           TextButton(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop(); // Đóng dialog
             },
@@ -415,14 +416,14 @@ print('-------------------------------------------------');
 }
 
 Future<void> updateRequestWithRoom(String id, String roomNumber) async {
-  final CollectionReference _requestCollection =
+  final CollectionReference requestCollection =
       FirebaseFirestore.instance.collection('Request');
 
   // In ra ID để kiểm tra
   print('Updating request with ID: $id and room number: $roomNumber');
 
   try {
-    await _requestCollection.doc(id).update({
+    await requestCollection.doc(id).update({
       'roomNumber': roomNumber, // Thêm trường mới roomNumber vào tài liệu
     });
     print('Updated successfully with id: $id');
@@ -438,18 +439,18 @@ Future<void> updateRequestWithRoom(String id, String roomNumber) async {
 
 // Hàm cập nhật trạng thái của phòng
 Future<void> updateRoomStatus(String roomNumber) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Room');
 
   // Tìm tài liệu có 'number' tương ứng với roomNumber
   QuerySnapshot roomSnapshot =
-      await _roomCollection.where('number', isEqualTo: roomNumber).get();
+      await roomCollection.where('number', isEqualTo: roomNumber).get();
 
   if (roomSnapshot.docs.isNotEmpty) {
     String roomId = roomSnapshot.docs.first.id; // Lấy document ID
 
     // Cập nhật trạng thái phòng thành 'full'
-    await _roomCollection.doc(roomId).update({
+    await roomCollection.doc(roomId).update({
       'status': 'servicing',
     });
   } else {
@@ -459,12 +460,12 @@ Future<void> updateRoomStatus(String roomNumber) async {
 }
 Future<void> showTable(
     BuildContext context, Map<String,dynamic> req) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Table');
 
   // Lấy danh sách các phòng thuộc loại phòng đã cho
   QuerySnapshot roomSnapshot =
-      await _roomCollection.where('tabletype', isEqualTo: req['roomType']).get();
+      await roomCollection.where('tabletype', isEqualTo: req['roomType']).get();
   List<Map<String, dynamic>> roomList = roomSnapshot.docs.map((doc) {
   List<dynamic> users = doc['user'] ?? []; // Đảm bảo user là List
   print('user: ${doc['user']}');
@@ -499,11 +500,11 @@ String doc=roomSnapshot.docs.first.id;
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('No Rooms Available'),
-          content: Text('No rooms available for the selected room type.'),
+          title: const Text('No Rooms Available'),
+          content: const Text('No rooms available for the selected room type.'),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop(); // Đóng dialog
               },
@@ -520,7 +521,7 @@ String doc=roomSnapshot.docs.first.id;
   context: context,
   builder: (BuildContext context) {
     return AlertDialog(
-      title: Text('Select Room for Order'),
+      title: const Text('Select Room for Order'),
       content: Container(
         child: SingleChildScrollView( 
           child: Center(
@@ -531,7 +532,7 @@ String doc=roomSnapshot.docs.first.id;
                 int index = entry.key; // Lấy chỉ số của phòng
                 
                var room = entry.value; 
-               print('id : ${room}');
+               print('id : $room');
                Map<String,dynamic> user ;
                   DateTime targetDate = DateTime(2024, 10, 8);
                    
@@ -543,10 +544,8 @@ String doc=roomSnapshot.docs.first.id;
                     
                     room['user'].isNotEmpty&&room['user']!=null?targetDate= DateTime.parse(room['user'].first['start']):print('hh');
                     print(targetDate);
-                    room['user'].isEmpty?print('${room['number']}\n'+'Trống'):
-                    print('${room['number']}\n'+
-                    'start:${datetodate(room['user'].first['start'])}\n'
-                    +'end:${datetodate(room['user'].first['end'])
+                    room['user'].isEmpty?print('${room['number']}\n''Trống'):
+                    print('${room['number']}\nstart:${datetodate(room['user'].first['start'])}\nend:${datetodate(room['user'].first['end'])
                     }');
                     var earliestUser;
                     if(!room['user'].isEmpty){
@@ -562,7 +561,7 @@ String doc=roomSnapshot.docs.first.id;
                 return Container(
                   width: 150, 
                   height: 100, 
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: getSTT(room, req)!?Colors.blue:Colors.white,
@@ -574,15 +573,13 @@ String doc=roomSnapshot.docs.first.id;
                   child: ListTile(
                     title: Center(child: Text(
                     
-                    room['user'].isEmpty?'${room['number']}\n'+'Trống':
-                    '${room['number']}\n'+
-                    'start:${datetodate(earliestUser['start'])}\n'
-                    +'end:${datetodate(earliestUser['end'])
+                    room['user'].isEmpty?'${room['number']}\n''Trống':
+                    '${room['number']}\nstart:${datetodate(earliestUser['start'])}\nend:${datetodate(earliestUser['end'])
                     }',
                     
                     
                     
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 16
                     ),)), 
                     onTap: () async {
@@ -657,7 +654,7 @@ String doc=roomSnapshot.docs.first.id;
       ),
       actions: [
         TextButton(
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
           onPressed: () {
             Navigator.of(context).pop(); // Đóng dialog
           },
@@ -668,21 +665,21 @@ String doc=roomSnapshot.docs.first.id;
 );
 }
 Future<void> updateUserToTable(List<dynamic> user, String doc,  Map<String,dynamic> a) async {
-  final CollectionReference _roomCollection =
+  final CollectionReference roomCollection =
       FirebaseFirestore.instance.collection('Table');
       user.add(a);
  
   try {
     print(a['idRoom']);
-    QuerySnapshot roomSnapshot = await _roomCollection
+    QuerySnapshot roomSnapshot = await roomCollection
         .where('Id', isEqualTo: a['idRoom'])
         .get();
         
     if (roomSnapshot.docs.isNotEmpty) {
-      await _roomCollection.doc(doc).update({
+      await roomCollection.doc(doc).update({
         'status':'servicing'    
       });  
-      await _roomCollection.doc(doc).update({
+      await roomCollection.doc(doc).update({
         'user':user
       });  
       
@@ -690,6 +687,6 @@ Future<void> updateUserToTable(List<dynamic> user, String doc,  Map<String,dynam
       print('No room found with table: ${a['idRoom']}');
     }
   } catch (e) {
-    print('Fail to update table: ${e}');
+    print('Fail to update table: $e');
   }
 }

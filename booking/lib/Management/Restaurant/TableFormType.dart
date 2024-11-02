@@ -9,13 +9,13 @@ class TableTypeForm extends StatefulWidget {
   final VoidCallback onSubmit;
 
   const TableTypeForm({
-    Key? key,
+    super.key,
     required this.priceController,
     required this.tableTypeController,
     required this.onRoomTypeChanged,
     required this.onPickImage,
     required this.onSubmit,
-  }) : super(key: key);
+  });
 
   @override
   _TableFormState createState() => _TableFormState();
@@ -23,13 +23,13 @@ class TableTypeForm extends StatefulWidget {
 
 class _TableFormState extends State<TableTypeForm> {
   Future<void> _selectedStartDate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {});
     }
   }

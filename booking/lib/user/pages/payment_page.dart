@@ -22,7 +22,7 @@ class PaymentPage extends StatefulWidget {
 
 
 class _PaymentPageState extends State<PaymentPage> {
-  DatabaseService _databaseService = DatabaseService();
+  final DatabaseService _databaseService = DatabaseService();
 Map<String,dynamic>? user;
   void _handlePaymentSuccess() {
     print("Navigating to TransactionDetail...");
@@ -47,7 +47,7 @@ Map<String,dynamic>? user;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment'),
+        title: const Text('Payment'),
       ),
       body: Center(
         child: TextButton(
@@ -56,10 +56,10 @@ Map<String,dynamic>? user;
               MaterialPageRoute(
                 builder: (BuildContext context) => UsePaypal(
                   sandboxMode: true,
-                  clientId: "${Constraints.clientId}",
-                  secretKey: "${Constraints.secretKey}",
+                  clientId: Constraints.clientId,
+                  secretKey: Constraints.secretKey,
                   returnURL: transactionDetailUrl,
-                  cancelURL: "${Constraints.cancelURL}",
+                  cancelURL: Constraints.cancelURL,
                   transactions: [
                     {
                       "amount": {

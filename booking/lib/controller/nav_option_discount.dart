@@ -83,10 +83,10 @@ class NavOptionDiscount {
 
   Future<void> create(
     BuildContext context,
-    TextEditingController _nameController,
-    TextEditingController _introduController,
-    TextEditingController _pointController,
-    TextEditingController _priceController,
+    TextEditingController nameController,
+    TextEditingController introduController,
+    TextEditingController pointController,
+    TextEditingController priceController,
   ) async {
     showModalBottomSheet(
       context: context,
@@ -113,7 +113,7 @@ class NavOptionDiscount {
                       child: Text('Create Discount'),
                     ),
                     TextField(
-                      controller: _nameController,
+                      controller: nameController,
                       decoration: const InputDecoration(
                         labelText: 'Name',
                         hintText: 'Name',
@@ -121,7 +121,7 @@ class NavOptionDiscount {
                     ),
                     const SizedBox(height: 10),
                     TextField(
-                      controller: _introduController,
+                      controller: introduController,
                       decoration: const InputDecoration(
                         labelText: 'Introduction',
                         hintText: 'Introduction',
@@ -129,7 +129,7 @@ class NavOptionDiscount {
                     ),
                     const SizedBox(height: 10),
                     TextField(
-                      controller: _pointController,
+                      controller: pointController,
                       decoration: const InputDecoration(
                         labelText: 'Point',
                         hintText: '1000',
@@ -137,7 +137,7 @@ class NavOptionDiscount {
                     ),
                     const SizedBox(height: 10),
                     TextField(
-                      controller: _priceController,
+                      controller: priceController,
                       decoration: const InputDecoration(
                         labelText: 'Price',
                         hintText: '1000 vnd',
@@ -170,10 +170,10 @@ class NavOptionDiscount {
                     Center(
                       child: ElevatedButton(
                         onPressed: () async {
-                          final String name = _nameController.text;
-                          final String introduc = _introduController.text;
-                          final String pointText = _pointController.text;
-                          final String priceText = _priceController.text;
+                          final String name = nameController.text;
+                          final String introduc = introduController.text;
+                          final String pointText = pointController.text;
+                          final String priceText = priceController.text;
                           final int? point = int.tryParse(pointText);
                           final int? price = int.tryParse(priceText);
 
@@ -191,10 +191,10 @@ class NavOptionDiscount {
                               "price": price,
                               "img": imgUrl,
                             });
-                            _nameController.clear();
-                            _introduController.clear();
-                            _pointController.clear();
-                            _priceController.clear();
+                            nameController.clear();
+                            introduController.clear();
+                            pointController.clear();
+                            priceController.clear();
                             Navigator.of(ctx).pop(); // Đóng BottomSheet
                           } else {
                             ScaffoldMessenger.of(ctx).showSnackBar(
@@ -227,10 +227,10 @@ class NavOptionDiscount {
   Future<void> editType(
     String id,
     BuildContext context,
-    TextEditingController _nameController,
-    TextEditingController _introController,
-    TextEditingController _pointController,
-    TextEditingController _priceController,
+    TextEditingController nameController,
+    TextEditingController introController,
+    TextEditingController pointController,
+    TextEditingController priceController,
   ) async {
     showDialog(
       context: context,
@@ -269,7 +269,7 @@ class NavOptionDiscount {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                controller: _nameController,
+                controller: nameController,
                 decoration: const InputDecoration(
                   labelText: 'Name Discount',
                   border: OutlineInputBorder(),
@@ -277,7 +277,7 @@ class NavOptionDiscount {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                controller: _introController,
+                controller: introController,
                 decoration: const InputDecoration(
                   labelText: 'Intro',
                   border: OutlineInputBorder(),
@@ -285,7 +285,7 @@ class NavOptionDiscount {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                controller: _pointController,
+                controller: pointController,
                 decoration: const InputDecoration(
                   labelText: 'Point',
                   border: OutlineInputBorder(),
@@ -293,7 +293,7 @@ class NavOptionDiscount {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                controller: _priceController,
+                controller: priceController,
                 decoration: const InputDecoration(
                   labelText: 'Price',
                   border: OutlineInputBorder(),
@@ -306,10 +306,10 @@ class NavOptionDiscount {
           TextButton(
             onPressed: () async {
               await _item.doc(id).update({
-                "name": _nameController.text,
-                "introduc": _introController.text,
-                "point": int.tryParse(_pointController.text) ?? 0,
-                "price": int.tryParse(_priceController.text)
+                "name": nameController.text,
+                "introduc": introController.text,
+                "point": int.tryParse(pointController.text) ?? 0,
+                "price": int.tryParse(priceController.text)
               });
               Navigator.pop(context);
             },

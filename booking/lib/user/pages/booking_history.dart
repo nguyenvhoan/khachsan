@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class BookingHistory extends StatefulWidget {
-  BookingHistory({super.key, required this.account, required this.type});
+  const BookingHistory({super.key, required this.account, required this.type});
   final String account; // Đổi thành final String để rõ ràng hơn
   final String type;
 
@@ -14,7 +14,7 @@ class BookingHistory extends StatefulWidget {
 }
 
 class _BookingHistoryState extends State<BookingHistory> {
-  DatabaseService _databaseService = DatabaseService();
+  final DatabaseService _databaseService = DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   List<Map<String, dynamic>> services = []; // Thay đổi kiểu dữ liệu
 
@@ -59,12 +59,12 @@ class _BookingHistoryState extends State<BookingHistory> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             Expanded(
               child: services.isEmpty
-                  ? Center(child: Text('Danh sách hiện tại trống.'))
+                  ? const Center(child: Text('Danh sách hiện tại trống.'))
                   : ListView.builder(
                       itemCount: services.length,
                       itemBuilder: (context, index) {
@@ -72,7 +72,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                         DateTime dateTime = timestamp.toDate();
                         String formattedDate = formatDate(dateTime);
                         return Container(
-                          margin: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
+                          margin: const EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
@@ -81,16 +81,16 @@ class _BookingHistoryState extends State<BookingHistory> {
                                 color: Colors.black.withOpacity(0.2),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
                           child: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                                  margin: const EdgeInsets.only(top: 10, bottom: 10),
                                   width: size.width / 2.8,
                                   height: size.height / 6,
                                   decoration: BoxDecoration(
@@ -109,7 +109,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -125,7 +125,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                            ),
                                           ),
                                          GestureDetector(
-                                           child: Icon(Icons.menu),
+                                           child: const Icon(Icons.menu),
                                          )
                                            ],
                                         ),
@@ -139,7 +139,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                          ),overflow: TextOverflow.ellipsis,
                                          maxLines: 2,softWrap: true,
                                          ),
-                                         SizedBox(height: 5,),
+                                         const SizedBox(height: 5,),
                                          Text('Room type: ${services[index]['roomType']}',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                       
                                           ),
                                         ),
-                                        SizedBox(height: 5,),
+                                        const SizedBox(height: 5,),
                                          const Text('Quantity: 1',
                                          style:  TextStyle(
                                            fontWeight: FontWeight.bold,
@@ -155,7 +155,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                     
                                          ),
                                          ),
-                                          SizedBox(height: 5,),
+                                          const SizedBox(height: 5,),
                                            const Text('Click to see more!',
                                            style:  TextStyle(
                                              fontWeight: FontWeight.bold,

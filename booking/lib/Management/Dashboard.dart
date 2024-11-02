@@ -26,7 +26,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   late AnimationController _controller;
   // Biến trạng thái để theo dõi nội dung hiện tại
   Widget _currentPage = const RoomScreen();
-  DatabaseService _databaseService =DatabaseService();
+  final DatabaseService _databaseService =DatabaseService();
 
   @override
   void initState() {  
@@ -158,8 +158,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           // Sidebar items
 
                           const Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: const Text(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
                               'Hotel management',
                               style: TextStyle(
                                 fontFamily: 'Candal',
@@ -195,7 +195,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    RoomtypeScreen(); // Thay thế bằng trang Service của bạn
+                                    const RoomtypeScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -217,7 +217,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    MapScreen(); // Thay thế bằng trang Service của bạn
+                                    const MapScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -226,8 +226,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             height: 10,
                           ),
                           const Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: const Text(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
                               'Restaurant management',
                               style: TextStyle(
                                 fontFamily: 'Candal',
@@ -243,7 +243,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    Tabletype(); // Thay thế bằng trang Service của bạn
+                                    const Tabletype(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -254,7 +254,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    TableScreen(); // Thay thế bằng trang Service của bạn
+                                    const TableScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -263,8 +263,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             height: 10,
                           ),
                           const Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: const Text(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
                               'Manage bookings  ',
                               style: TextStyle(
                                 fontFamily: 'Candal',
@@ -279,7 +279,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    OrderScreen(); // Thay thế bằng trang Service của bạn
+                                    const OrderScreen(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -290,7 +290,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    BookingHistoryUser(); // Thay thế bằng trang Service của bạn
+                                    const BookingHistoryUser(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
@@ -301,7 +301,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             onTap: () {
                               setState(() {
                                 _currentPage =
-                                    Thongke(); // Thay thế bằng trang Service của bạn
+                                    const Thongke(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },

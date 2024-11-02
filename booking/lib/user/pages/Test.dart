@@ -18,8 +18,8 @@ class _PointUserState extends State<PointUser> {
 
   double _pointValue = 0.0;
   double _pointUsed = 0.0;
-  int _currentIndex = 5;
-  DatabaseService _databaseService=DatabaseService();
+  final int _currentIndex = 5;
+  final DatabaseService _databaseService=DatabaseService();
   Future<void> getUserById(String id) async {
     try {
       DocumentSnapshot documentSnapshot = await db.collection('user').doc(id).get();
@@ -101,7 +101,7 @@ class _PointUserState extends State<PointUser> {
               children: 
               [
                  Padding(
-                  padding: EdgeInsets.only(left: 25),
+                  padding: const EdgeInsets.only(left: 25),
                   child:  Text(user!['name'],
                   style:const TextStyle(
                     fontFamily: 'Candal',
@@ -111,7 +111,7 @@ class _PointUserState extends State<PointUser> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 10,horizontal: 25),
+                  margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
                   
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -121,12 +121,12 @@ class _PointUserState extends State<PointUser> {
                       color: Colors.black.withOpacity(0.2), 
                       spreadRadius: 5,
                       blurRadius: 7, 
-                      offset: Offset(0, 3), 
+                      offset: const Offset(0, 3), 
                      ),
                     ],             
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:[ 
@@ -137,7 +137,7 @@ class _PointUserState extends State<PointUser> {
                           fontSize: 18),),
                         ),
                          Padding(
-                          padding: EdgeInsets.only(left: 15),
+                          padding: const EdgeInsets.only(left: 15),
                           child: RichText(
                             text: TextSpan(
                               children: [
@@ -149,7 +149,7 @@ class _PointUserState extends State<PointUser> {
                                 ),
                                 ),
                                   const TextSpan(text:' / 10tr',
-                                style:const TextStyle(
+                                style:TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15
@@ -161,7 +161,7 @@ class _PointUserState extends State<PointUser> {
                         ),
                         Row(
                           children:[ 
-                            Container(
+                            SizedBox(
                               height: 10,
                               width: size.width/1.5,
                            child:  SliderTheme( 
@@ -181,7 +181,7 @@ class _PointUserState extends State<PointUser> {
                           ),
                           ),
                             ),
-                          Icon(Icons.shop, color: Colors.blueAccent,)
+                          const Icon(Icons.shop, color: Colors.blueAccent,)
                           ]
                         ),
                         const Padding(
@@ -191,11 +191,11 @@ class _PointUserState extends State<PointUser> {
                           fontSize: 18),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 15,),
+                          padding: const EdgeInsets.only(left: 15,),
                           child: RichText(
                             text: TextSpan(
                               children: [
-                                TextSpan(text:_pointValue.toInt().toString()+' points',
+                                TextSpan(text:'${_pointValue.toInt()} points',
                                 style:const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,
@@ -209,7 +209,7 @@ class _PointUserState extends State<PointUser> {
                         ),
                         Row(
                           children:[ 
-                            Container(
+                            SizedBox(
                               height: 20,
                               width: size.width/1.5,
                            child:  SliderTheme( 
@@ -236,7 +236,7 @@ class _PointUserState extends State<PointUser> {
                     ),
                   ),
                 ),
-                 SizedBox(height: 20,)
+                 const SizedBox(height: 20,)
         
                 
               ],
@@ -260,11 +260,11 @@ class _PointUserState extends State<PointUser> {
                               child: Column(
                                 children: snapshot.data!.docs.map<Widget>((documentSnapshot) {
                                   
-                                  Map<String, dynamic> thisItem = documentSnapshot.data() as Map<String, dynamic>;
-                                    print('data              '+thisItem!['img']);
+                                  Map<String, dynamic> thisItem = documentSnapshot.data();
+                                    print('data              '+thisItem['img']);
                                     return Container(
                                       
-                                       margin: EdgeInsets.only(right:30,left:30,bottom:10, top:10),
+                                       margin: const EdgeInsets.only(right:30,left:30,bottom:10, top:10),
                                     decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(20),
@@ -273,13 +273,13 @@ class _PointUserState extends State<PointUser> {
                                         color: Colors.black.withOpacity(0.2), 
                                         spreadRadius: 5,
                                         blurRadius: 7, 
-                                        offset: Offset(0, 3), 
+                                        offset: const Offset(0, 3), 
                                       ),
                                     ],                                
                                   ), 
                                   child: Container(                              
                                     child: Padding(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.start,                           
                                         children: [
@@ -316,7 +316,7 @@ class _PointUserState extends State<PointUser> {
                                                   ),overflow: TextOverflow.ellipsis,
                                                   maxLines: 2,softWrap: true,
                                                   ),
-                                                   SizedBox(height: 20,),
+                                                   const SizedBox(height: 20,),
                                                 
                                                   RichText(
                                                     text: TextSpan(
@@ -334,7 +334,7 @@ class _PointUserState extends State<PointUser> {
                                                       children: [
                                                         Image.asset('asset/images/icons/carbon_condition-point.png'),
                                                         Expanded(child: Text(documentSnapshot['point'].toString(),
-                                                        style: TextStyle(fontSize: 13, color: Colors.red, fontWeight: FontWeight.bold),)),
+                                                        style: const TextStyle(fontSize: 13, color: Colors.red, fontWeight: FontWeight.bold),)),
                                                         GestureDetector(
                                                           onTap: (){
                                                             setState(() {
@@ -374,7 +374,7 @@ class _PointUserState extends State<PointUser> {
                                                       ],
                                                     ),
                                                    
-                                                  SizedBox(height: 5,),
+                                                  const SizedBox(height: 5,),
                                                  
                                                 
                                               
@@ -395,7 +395,7 @@ class _PointUserState extends State<PointUser> {
                         }
                         else
                         {
-                         return Center(child: CircularProgressIndicator());
+                         return const Center(child: CircularProgressIndicator());
                         }
                         
                      }
@@ -405,7 +405,7 @@ class _PointUserState extends State<PointUser> {
         
           ]
         ),
-      ):Center(
+      ):const Center(
                       child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
 
       )

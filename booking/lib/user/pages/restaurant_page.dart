@@ -8,7 +8,7 @@ class RestaurantPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         height:   double.infinity ,
         child: Stack(
@@ -54,7 +54,7 @@ class RestaurantPage extends StatelessWidget {
                   ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(58, 143, 145, 130),
                         borderRadius: BorderRadius.circular(20)
@@ -74,7 +74,7 @@ class RestaurantPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style:  TextStyle(fontSize: 16),
                         ),
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                         GestureDetector(
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>TablePage(account: account,)));
@@ -84,7 +84,7 @@ class RestaurantPage extends StatelessWidget {
                             width: 250,
                             height: 50,
                             decoration: BoxDecoration(
-                              color: Color(0xff1A4368),
+                              color: const Color(0xff1A4368),
                               borderRadius: BorderRadius.circular(30)
                             ),
                             child:const Center(

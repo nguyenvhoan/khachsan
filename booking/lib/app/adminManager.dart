@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class Adminmanager extends StatelessWidget {
-   Adminmanager({super.key});
+   const Adminmanager({super.key});
 // final FirebaseFirestore db = FirebaseFirestore.instance;
 // DatabaseService databaseService = DatabaseService();
 
@@ -10,7 +10,7 @@ class Adminmanager extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: Drawer(),
+      drawer: const Drawer(),
       body: GestureDetector(
         onTap: () async {
           // final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -30,7 +30,7 @@ class Adminmanager extends StatelessWidget {
   // }
         },
         child: Container(
-          child: Text('Text')
+          child: const Text('Text')
           ),
       ) 
     );

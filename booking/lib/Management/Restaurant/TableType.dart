@@ -33,7 +33,7 @@ class _TabletypeState extends State<Tabletype> {
     _stream = FirebaseFirestore.instance.collection('TableType').snapshots();
   }
 
-  Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
+  Future<void> _create() async {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,

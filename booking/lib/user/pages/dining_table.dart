@@ -44,15 +44,15 @@ class _DiningTableState extends State<DiningTable> {
     }
   } 
   Future<void> _selectedStartDate() async{
-    DateTime? _picked=await showDatePicker(
+    DateTime? picked=await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 3)),
+      lastDate: DateTime.now().add(const Duration(days: 3)),
     );
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
-        dayStart = _picked.toString().split(" ")[0];
+        dayStart = picked.toString().split(" ")[0];
       });
     }
   }
@@ -75,15 +75,15 @@ class _DiningTableState extends State<DiningTable> {
   }
 
   Future<void> _selectedEndDate() async{
-    DateTime? _picked=await showDatePicker(
+    DateTime? picked=await showDatePicker(
       context: context,
-      initialDate: dayStart==''? DateTime.now().add(Duration(days: 1)):DateTime.parse(dayStart).add(Duration(days: 1)),
-      firstDate: dayStart==''? DateTime.now().add(Duration(days: 1)):DateTime.parse(dayStart).add(Duration(days: 1)),
+      initialDate: dayStart==''? DateTime.now().add(const Duration(days: 1)):DateTime.parse(dayStart).add(const Duration(days: 1)),
+      firstDate: dayStart==''? DateTime.now().add(const Duration(days: 1)):DateTime.parse(dayStart).add(const Duration(days: 1)),
       lastDate: DateTime(2100),
     );
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
-        dayEnd = _picked.toString().split(" ")[0];
+        dayEnd = picked.toString().split(" ")[0];
       });
     }
   }
@@ -116,7 +116,7 @@ class _DiningTableState extends State<DiningTable> {
         
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             Container(
@@ -128,15 +128,15 @@ class _DiningTableState extends State<DiningTable> {
                         color: Colors.black.withOpacity(0.2), 
                         spreadRadius: 1,
                         blurRadius: 7, 
-                        offset: Offset(0, 5), 
+                        offset: const Offset(0, 5), 
                       ),
                     ],
                   ),
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
                     width: size.width/3,
                     height: size.height/6.5 ,
                     decoration: BoxDecoration(
@@ -155,19 +155,19 @@ class _DiningTableState extends State<DiningTable> {
                     :null,
                   ),
                   Padding(
-                    padding:EdgeInsets.all(10),
+                    padding:const EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Row(children: [
                            Text('Table type : ', style:TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                         ]),
-                         Text(widget.table['tabletype'], style:  TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
+                         Text(widget.table['tabletype'], style:  const TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
                        Row(children:[
                            const Text('Giá: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff57A5EC)),
                           ),
-                         SizedBox(height: 50,),
-                          Text(widget.table['price'].toString(),style: TextStyle(fontSize: 19),)
+                         const SizedBox(height: 50,),
+                          Text(widget.table['price'].toString(),style: const TextStyle(fontSize: 19),)
                           ] 
                           ),
                       ],
@@ -177,7 +177,7 @@ class _DiningTableState extends State<DiningTable> {
               ),
             ),
             Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                decoration:BoxDecoration(
                  color: Colors.white,
                    boxShadow: [
@@ -185,7 +185,7 @@ class _DiningTableState extends State<DiningTable> {
                       color: Colors.black.withOpacity(0.1), 
                       spreadRadius: 3,
                        blurRadius: 7, 
-                       offset: Offset(0, 2), 
+                       offset: const Offset(0, 2), 
                       ),
                     ],
                    ),
@@ -195,13 +195,14 @@ class _DiningTableState extends State<DiningTable> {
                       if(value==null||value.isEmpty){
                         return 'Bắt buộc nhập';
                       }
+                      return null;
                     },
                                   
                   // controller: cardNumberController,
                   decoration: const InputDecoration(
                   label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  focusedBorder:const OutlineInputBorder(
+                  focusedBorder:OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -211,16 +212,16 @@ class _DiningTableState extends State<DiningTable> {
                   ),
                 ),
                  Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                decoration:BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                 color: Color(0xffD9D9D9),
+                 color: const Color(0xffD9D9D9),
                    boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1), 
                       spreadRadius: 3,
                        blurRadius: 7, 
-                       offset: Offset(0, 2), 
+                       offset: const Offset(0, 2), 
                       ),
                     ],
                    ),
@@ -230,11 +231,11 @@ class _DiningTableState extends State<DiningTable> {
                       Expanded(
 
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Select date: '),
+                              const Text('Select date: '),
                               Container(
                           
                                 width: 200,
@@ -248,7 +249,7 @@ class _DiningTableState extends State<DiningTable> {
                                   )
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -257,7 +258,7 @@ class _DiningTableState extends State<DiningTable> {
                                         _selectedStartDate();
                           
                                       },
-                                       child: Icon(Icons.calendar_month))
+                                       child: const Icon(Icons.calendar_month))
                                     ],
                                   ),
                                 ),
@@ -270,11 +271,11 @@ class _DiningTableState extends State<DiningTable> {
                        Expanded(
 
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Select end date: '),
+                              const Text('Select end date: '),
                               Container(
                           
                                 width: 200,
@@ -288,7 +289,7 @@ class _DiningTableState extends State<DiningTable> {
                                   )
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -297,7 +298,7 @@ class _DiningTableState extends State<DiningTable> {
                                         _selectedEndDate();
                           
                                       },
-                                       child: Icon(Icons.calendar_month))
+                                       child: const Icon(Icons.calendar_month))
                                     ],
                                   ),
                                 ),
@@ -310,11 +311,11 @@ class _DiningTableState extends State<DiningTable> {
                        Expanded(
 
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Quantity: '),
+                              const Text('Quantity: '),
                               Container(
                           
                                 width: 200,
@@ -328,7 +329,7 @@ class _DiningTableState extends State<DiningTable> {
                                   )
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
@@ -393,22 +394,22 @@ class _DiningTableState extends State<DiningTable> {
                   color: Color(0xff57A5EC)
                 ),),
                 Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                decoration:BoxDecoration(
                  borderRadius: BorderRadius.circular(20),
 
-                 color: Color(0xffD9D9D9),
+                 color: const Color(0xffD9D9D9),
                    boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1), 
                       spreadRadius: 3,
                        blurRadius: 7, 
-                       offset: Offset(0, 2), 
+                       offset: const Offset(0, 2), 
                       ),
                     ],
                    ),
                   child:Padding(
-                    padding: EdgeInsets.all(25),
+                    padding: const EdgeInsets.all(25),
                     child: Column(
                       children: [
                         Row(
@@ -428,7 +429,7 @@ class _DiningTableState extends State<DiningTable> {
                             ),),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
@@ -441,7 +442,7 @@ class _DiningTableState extends State<DiningTable> {
                               fontWeight: FontWeight.bold,
                             ),),
                             Text(
-                                widget.table!['price'].toString() + ' đ',
+                                '${widget.table!['price']} đ',
                                 style:const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -450,15 +451,15 @@ class _DiningTableState extends State<DiningTable> {
                         ),
                         
                   
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
                           mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),),
-                            Text((widget.table!['price']*(day)*quantity).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+                            const Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),),
+                            Text('${widget.table!['price']*(day)*quantity} đ', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
                           ],
                         ),
                       ],
@@ -493,7 +494,7 @@ class _DiningTableState extends State<DiningTable> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Color(0xff1A4368), 
+                            color: const Color(0xff1A4368), 
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: const Padding(

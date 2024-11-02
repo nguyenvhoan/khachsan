@@ -26,7 +26,7 @@ class _RoomTypeState extends State<RoomType> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2A2A40),
+      backgroundColor: const Color(0xFF2A2A40),
       body: _stream == null
           ? const Center(
               child: CircularProgressIndicator(),

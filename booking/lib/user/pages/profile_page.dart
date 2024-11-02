@@ -46,12 +46,12 @@ class _ProfilePageState extends State<ProfilePage> {
     showPhotoOption(){
       showDialog(context: context, builder: (context){
         return AlertDialog(
-          title: Text('Upload Profile Picture'),
+          title: const Text('Upload Profile Picture'),
           content: GestureDetector(
             onTap: (){
               Navigator.pop(context);
               selectImage(ImageSource.gallery);},
-            child: Row(children:[Icon(Icons.photo_album), Text('Select from Gallery')])),
+            child: const Row(children:[Icon(Icons.photo_album), Text('Select from Gallery')])),
         );
       });
     }
@@ -110,18 +110,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       
-      body: user!=null ? Container(
+      body: user!=null ? SizedBox(
         width: double.infinity,
         height:   double.infinity ,
         child: Column(
           children:[ 
             Padding(
-              padding: EdgeInsets.only(bottom: 0),
+              padding: const EdgeInsets.only(bottom: 0),
               child: Stack(
               fit: StackFit.loose,
               children:[
                 Container(
-                  margin: EdgeInsets.only(bottom: 50),
+                  margin: const EdgeInsets.only(bottom: 50),
                 height: 200,
                 width: double.infinity,
                 
@@ -169,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ){
                         showPhotoOption();
                       },
-                    icon: Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                     ),
                   ),
                   ),
@@ -197,25 +197,25 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         ),
                         Container(
-                          margin: EdgeInsets.all(15),
+                          margin: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             boxShadow: [
                                   BoxShadow(
                                   color: Colors.black.withOpacity(0.1), 
                                   spreadRadius: 3,
                                   blurRadius: 7, 
-                                  offset: Offset(0, 2), 
+                                  offset: const Offset(0, 2), 
                                 ),
                               ],
                             color: const Color.fromARGB(255, 242, 236, 236),
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child:  Column(
                               children: [
                                  Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   child: GestureDetector(
                                     onTap: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>EditPersonalDetail(account:widget.account)));
@@ -236,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                  Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   child: GestureDetector(
                                     onTap: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>NotifyPage(account: widget.account)));
@@ -259,7 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                  Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   child: GestureDetector(
                                     onTap: (){
                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account,type: 'room',)));
@@ -280,7 +280,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                  Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   child: GestureDetector(
                                     onTap: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account, type: 'table',)));
@@ -308,21 +308,21 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.all(15),
+                          margin: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             boxShadow: [
                                   BoxShadow(
                                   color: Colors.black.withOpacity(0.1), 
                                   spreadRadius: 3,
                                   blurRadius: 7, 
-                                  offset: Offset(0, 2), 
+                                  offset: const Offset(0, 2), 
                                 ),
                               ],
                             color: const Color.fromARGB(255, 242, 236, 236),
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child:  Column(
                               children: [
                                  
@@ -343,7 +343,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                  Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   child: GestureDetector(
                                     onTap: (){
                                     },
@@ -363,7 +363,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   child: GestureDetector(
                                     onTap: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>PointUser(account: widget.account,)));
@@ -395,7 +395,7 @@ class _ProfilePageState extends State<ProfilePage> {
               
           ]
         ),
-      ):Center(
+      ):const Center(
                       child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
 
       )

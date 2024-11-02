@@ -21,7 +21,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
       appBar: AppBar(
         leading: IconButton(onPressed:(){
           Navigator.push(context,MaterialPageRoute(builder: (context)=>NavigationMenu(account: widget.req['idUser'])));
-        }, icon: Icon(Icons.home)),
+        }, icon: const Icon(Icons.home)),
         title: const Text('   Transaction Details', textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: 'Candal',
@@ -46,7 +46,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.all(30),
+                margin: const EdgeInsets.all(30),
                 width: double.infinity,
                 
                 decoration: BoxDecoration(
@@ -55,10 +55,10 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 ),
                 child: Column(
                   children:[ Container(
-                    margin: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                        border: Border.all(
-                        color: Color(0xff57A5EC), // Màu viền
+                        color: const Color(0xff57A5EC), // Màu viền
                         width: 1, // Độ dày của viền
                       ),
                       borderRadius: BorderRadius.circular(10),
@@ -83,7 +83,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20,right: 20,left: 20),
+                    padding: const EdgeInsets.only(top: 20,right: 20,left: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -92,7 +92,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Color(0xff94E19B),
+                        color: const Color(0xff94E19B),
                     
                       ),
                       child:const Padding(
@@ -118,13 +118,13 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   ),
                   
                    Padding(
-                    padding: EdgeInsets.only(top: 20,right: 20,left: 20),
+                    padding: const EdgeInsets.only(top: 20,right: 20,left: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                     Text('Transaction Code',
+                     const Text('Transaction Code',
                     style: TextStyle(fontSize: 20, color: Colors.grey),),
-                     Text(widget.req['id'],style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
+                     Text(widget.req['id'],style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
           
                     ],
                      ),
@@ -148,7 +148,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 
               ),
               Container(
-                margin: EdgeInsets.only(left: 30, bottom: 10),
+                margin: const EdgeInsets.only(left: 30, bottom: 10),
                 child: const Text('Room information',
                 textAlign: TextAlign.start,
                 style: TextStyle(
@@ -157,7 +157,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 ),),
               ),
               Container(
-                margin: EdgeInsets.only(right: 30,left: 30,bottom: 30),
+                margin: const EdgeInsets.only(right: 30,left: 30,bottom: 30),
                 width: double.infinity,
                 
                 decoration: BoxDecoration(
@@ -168,13 +168,13 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   children:
                   [ 
                    Padding(
-                    padding: EdgeInsets.only(top: 20,right: 20,left: 20),
+                    padding: const EdgeInsets.only(top: 20,right: 20,left: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                      const Text('Room Type',
                     style: TextStyle(fontSize: 20, color: Colors.grey),),
-                     Text(widget.req['roomType'],style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
+                     Text(widget.req['roomType'],style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
           
                     ],
                      ),
@@ -198,7 +198,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                      ),
                   ),
                   Container(
-                margin: EdgeInsets.only(left: 30, bottom: 10),
+                margin: const EdgeInsets.only(left: 30, bottom: 10),
                 child: const Text('Customer infomation',
                 textAlign: TextAlign.start,
                 style: TextStyle(
@@ -207,7 +207,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 ),),
               ),
               Container(
-                margin: EdgeInsets.only(right: 30,left: 30,bottom: 30),
+                margin: const EdgeInsets.only(right: 30,left: 30,bottom: 30),
                 width: double.infinity,
                 
                 decoration: BoxDecoration(
@@ -219,7 +219,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   children:
                   [ 
                      Padding(
-                    padding: EdgeInsets.only(top: 20,right: 20,left: 20),
+                    padding: const EdgeInsets.only(top: 20,right: 20,left: 20),
                     child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -232,7 +232,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                      ),
                   ),
                    Padding(
-                    padding: EdgeInsets.only(top: 20,right: 20,left: 20),
+                    padding: const EdgeInsets.only(top: 20,right: 20,left: 20),
                     child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -240,20 +240,20 @@ class _TransactionDetailState extends State<TransactionDetail> {
                                   children: [
                      const Text('Phone Number',
                     style: TextStyle(fontSize: 20, color: Colors.grey),),
-                     Text(widget.req['phoneNumber'],style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
+                     Text(widget.req['phoneNumber'],style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
           
                     ],
                      ),
                   ),
                    Padding(
-                    padding: EdgeInsets.only(top: 20,right: 20,left: 20, bottom: 20),
+                    padding: const EdgeInsets.only(top: 20,right: 20,left: 20, bottom: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                      const Text('Email',
                     style: TextStyle(fontSize: 20, color: Colors.grey),),
-                     Text(widget.req['emailUser'],style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
+                     Text(widget.req['emailUser'],style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),)
           
                     ],
                      ),

@@ -4,13 +4,15 @@ import 'package:booking/user/widget/signup.dart';
 import 'package:flutter/material.dart';
 
 class Landing extends StatefulWidget {
+  const Landing({super.key});
+
   @override
   _LandingState createState() => _LandingState();
 }
 
 class _LandingState extends State<Landing> {
   int _currentPage = 0;
-  PageController _controller = PageController();
+  final PageController _controller = PageController();
  List<Widget> _pages=[];
   @override
   void initState() {
@@ -40,7 +42,7 @@ class _LandingState extends State<Landing> {
   @override
   Widget build(BuildContext context) {
     
-      return Container(
+      return SizedBox(
         width: double.infinity,
         height: double.infinity,
           
@@ -48,7 +50,7 @@ class _LandingState extends State<Landing> {
           fit: StackFit.loose,
           children:[
               
-              Container(
+              SizedBox(
                 
                 height: MediaQuery.of(context).size.height / 2.2,
                 
@@ -67,7 +69,7 @@ class _LandingState extends State<Landing> {
                   
                   width:  MediaQuery.of(context).size.width,
                   
-                  child: Container(
+                  child: SizedBox(
                 height:MediaQuery.sizeOf(context).height,
                 child: Expanded( 
                   child: Stack(
@@ -88,10 +90,10 @@ class _LandingState extends State<Landing> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List<Widget>.generate(_pages.length, (int index) {
                               return AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 height: 10,
                                 width: (index == _currentPage) ? 30 : 10,
-                                margin: EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+                                margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   color: (index == _currentPage) ? Colors.blue : Colors.blue.withOpacity(0.5),

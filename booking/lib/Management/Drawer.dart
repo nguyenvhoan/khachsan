@@ -58,7 +58,7 @@ class _CustomDrawerState extends State<CustomDrawer>
             children: [
               Container(
                 width: 270, // Set sidebar width
-                color: Color(0xFF1f1d2c),
+                color: const Color(0xFF1f1d2c),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -75,8 +75,8 @@ class _CustomDrawerState extends State<CustomDrawer>
                               height: 200,
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Text(
+                          const SizedBox(width: 10),
+                          const Text(
                             'Employee Management',
                             style: TextStyle(
                               color: Colors.white,
@@ -109,7 +109,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Color(0xFF1f1d2c),
+                      color: const Color(0xFF1f1d2c),
                       border: Border.all(
                         color: Colors.transparent,
                         width: 0,
@@ -122,7 +122,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                       children: [
                         IconButton(
                             onPressed: _toggleDrawer,
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_back_ios_new_rounded,
                               color: Colors.white,
                             )),
@@ -150,7 +150,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: Color(0xFF2A2A40),
+                          color: const Color(0xFF2A2A40),
                           border: Border.all(
                             color: Colors.transparent,
                             width: 0,
@@ -163,7 +163,7 @@ class _CustomDrawerState extends State<CustomDrawer>
                           children: [
                             IconButton(
                                 onPressed: _toggleDrawer,
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.keyboard_double_arrow_right_rounded,
                                   size: 35,
                                   color: Colors.white,

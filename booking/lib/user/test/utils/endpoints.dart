@@ -1,4 +1,4 @@
 class Endpoints {
-  static final String createOrderUrl =
+  static const String createOrderUrl =
       "https://sb-openapi.zalopay.vn/v2/create";
 }

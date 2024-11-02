@@ -8,7 +8,7 @@ class NavOptionRoomType {
       FirebaseFirestore.instance.collection('RoomType');
   final RoomTypeModel _roomType = RoomTypeModel();
   Future<void> create(
-      BuildContext context, TextEditingController _roomTypeController) async {
+      BuildContext context, TextEditingController roomTypeController) async {
     // Sử dụng showModalBottomSheet thay cho showBottomSheet
     showModalBottomSheet(
         context: context,
@@ -28,7 +28,7 @@ class NavOptionRoomType {
                   child: Text('Create Room Type'),
                 ),
                 TextField(
-                  controller: _roomTypeController,
+                  controller: roomTypeController,
                   decoration: const InputDecoration(
                       labelText: 'Type', hintText: 'Junior Suite'),
                 ),
@@ -39,14 +39,14 @@ class NavOptionRoomType {
                   child: ElevatedButton(
                       onPressed: () async {
                         String id = randomAlphaNumeric(10);
-                        final String type = _roomTypeController.text;
+                        final String type = roomTypeController.text;
 
                         if (type.isNotEmpty) {
                           await _item.add({
                             "roomtype": type,
                             "id": id,
                           });
-                          _roomTypeController.clear();
+                          roomTypeController.clear();
                           Navigator.of(context)
                               .pop(); // Đóng Modal Bottom Sheet
                         } else {
@@ -72,7 +72,7 @@ class NavOptionRoomType {
   }
 
   Future<void> editType(String id, BuildContext context,
-          TextEditingController _roomTypetController) =>
+          TextEditingController roomTypetController) =>
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -108,7 +108,7 @@ class NavOptionRoomType {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _roomTypetController,
+                  controller: roomTypetController,
                   decoration: const InputDecoration(
                     labelText: 'Type',
                     border: OutlineInputBorder(),
@@ -120,7 +120,7 @@ class NavOptionRoomType {
           actions: [
             TextButton(
               onPressed: () async {
-                await _roomType.updateType(id, _roomTypetController.text);
+                await _roomType.updateType(id, roomTypetController.text);
                 Navigator.pop(context);
               },
               child: const Text('Save'),

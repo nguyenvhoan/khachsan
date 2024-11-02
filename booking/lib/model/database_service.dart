@@ -72,7 +72,7 @@ Future<void> signIn(BuildContext context, String email,String password)async{
       print('User ID: $userId');
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
         print('-------------------------------------------------------------------');
-        print('Đăng nhập thành công với id : ${userId}');
+        print('Đăng nhập thành công với id : $userId');
         print('-------------------------------------------------------------------');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:const Text( 'Đăng nhập thành công',
           textAlign: TextAlign.center,
@@ -98,7 +98,7 @@ Future<void> signIn(BuildContext context, String email,String password)async{
       on FirebaseAuthException catch (e){
         if(e.code=='user-not-found'){
           print('No User Found For That Email');
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Email không tồn tại hoặc chưa đăng ký',
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text('Email không tồn tại hoặc chưa đăng ký',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18,),
           ),
@@ -114,7 +114,7 @@ Future<void> signIn(BuildContext context, String email,String password)async{
           
         }
         else if(e.code=='wrong-password'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text( 'Mật khẩu không chính xác',
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:const Text( 'Mật khẩu không chính xác',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18, ),
           ),
@@ -435,7 +435,7 @@ Future<void> deleteExpiredUsers() async {
     try {
       await usersCollection.doc(id).delete();
       
-      print('Đã xóa rì quét ${id}');
+      print('Đã xóa rì quét $id');
     } catch (e) {
       print('Lỗi khi xóa rì quét: $e');
     }
@@ -452,7 +452,7 @@ Future<void> deleteExpiredUsers() async {
         
       });
   } catch (e) {
-    print('Fail to create lstBooking: ${e}');
+    print('Fail to create lstBooking: $e');
   }
 }
 

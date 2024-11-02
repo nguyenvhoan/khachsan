@@ -48,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2A2A40),
+      backgroundColor: const Color(0xFF2A2A40),
       body: StreamBuilder<QuerySnapshot>(
         stream: _stream,
         builder: (context, snapshot) {

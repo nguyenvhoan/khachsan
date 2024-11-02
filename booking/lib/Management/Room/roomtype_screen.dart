@@ -50,7 +50,7 @@ class _RoomtypeScreenState extends State<RoomtypeScreen> {
     }
   }
 
-  Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
+  Future<void> _create() async {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -106,7 +106,7 @@ class _RoomtypeScreenState extends State<RoomtypeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2A2A40),
+      backgroundColor: const Color(0xFF2A2A40),
       body: StreamBuilder<QuerySnapshot>(
         stream: _stream,
         builder: (context, snapshot) {

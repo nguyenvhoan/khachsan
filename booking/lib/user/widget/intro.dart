@@ -14,7 +14,7 @@ class Intro extends StatelessWidget {
         decoration:const BoxDecoration(
         
               color: Colors.white   ,
-              borderRadius:const BorderRadius.only(
+              borderRadius:BorderRadius.only(
                 topLeft: Radius.circular(30), 
                 topRight: Radius.circular(30), 
               ),
@@ -34,15 +34,15 @@ class Intro extends StatelessWidget {
               
               child: Container(
                 alignment: Alignment.center,
-                child:  Text('Get Started', textAlign:TextAlign.center,
-                style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
-                ),
                 height: 50,
                 width: 200,
                 decoration: BoxDecoration(
-                  color: Color(0xff1A4368),
+                  color: const Color(0xff1A4368),
                   borderRadius: BorderRadius.circular(25)
                   ),
+                child:  Text('Get Started', textAlign:TextAlign.center,
+                style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                ),
               
                 ),
             ),

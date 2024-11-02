@@ -6,7 +6,7 @@ class AlertUpdateUser{
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: Color(0xffD9D9D9),
+        backgroundColor: const Color(0xffD9D9D9),
         title: const Text('`Are you sure you want to change?`'
         ,maxLines: 1,
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -19,10 +19,10 @@ class AlertUpdateUser{
             children: [
               TextButton(
                 style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xff1A4368)), // Màu nền
-            foregroundColor: MaterialStateProperty.all(Colors.white), 
+              backgroundColor: WidgetStateProperty.all(const Color(0xff1A4368)), // Màu nền
+            foregroundColor: WidgetStateProperty.all(Colors.white), 
             ),
-            child:  Padding(
+            child:  const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text('Cancel')),
             onPressed: () {
@@ -31,10 +31,10 @@ class AlertUpdateUser{
           ),
           TextButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xff1A4368)), // Màu nền
-            foregroundColor: MaterialStateProperty.all(Colors.white), 
+              backgroundColor: WidgetStateProperty.all(const Color(0xff1A4368)), // Màu nền
+            foregroundColor: WidgetStateProperty.all(Colors.white), 
             ),
-            child:  Padding(
+            child:  const Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Text('OK')),
             onPressed: () {
@@ -54,7 +54,7 @@ static Future  <bool?> showConfirmDialogVoucher(BuildContext context) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: Color(0xffD9D9D9),
+        backgroundColor: const Color(0xffD9D9D9),
         title: const Text('`Are you sure you want trade?`'
         ,maxLines: 1,
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -67,10 +67,10 @@ static Future  <bool?> showConfirmDialogVoucher(BuildContext context) async {
             children: [
               TextButton(
                 style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xff1A4368)), // Màu nền
-            foregroundColor: MaterialStateProperty.all(Colors.white), 
+              backgroundColor: WidgetStateProperty.all(const Color(0xff1A4368)), // Màu nền
+            foregroundColor: WidgetStateProperty.all(Colors.white), 
             ),
-            child:  Padding(
+            child:  const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text('Cancel')),
             onPressed: () {
@@ -79,10 +79,10 @@ static Future  <bool?> showConfirmDialogVoucher(BuildContext context) async {
           ),
           TextButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xff1A4368)), // Màu nền
-            foregroundColor: MaterialStateProperty.all(Colors.white), 
+              backgroundColor: WidgetStateProperty.all(const Color(0xff1A4368)), // Màu nền
+            foregroundColor: WidgetStateProperty.all(Colors.white), 
             ),
-            child:  Padding(
+            child:  const Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Text('OK')),
             onPressed: () {

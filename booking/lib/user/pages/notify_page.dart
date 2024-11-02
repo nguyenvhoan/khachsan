@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NotifyPage extends StatefulWidget {
-  NotifyPage({super.key, required this.account});
+  const NotifyPage({super.key, required this.account});
   final String account; // Đổi thành final String để rõ ràng hơn
 
   @override
@@ -13,7 +13,7 @@ class NotifyPage extends StatefulWidget {
 }
 
 class _NotifyPageState extends State<NotifyPage> {
-  DatabaseService _databaseService = DatabaseService();
+  final DatabaseService _databaseService = DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   List<Map<String, dynamic>> services = []; // Thay đổi kiểu dữ liệu
 
@@ -58,12 +58,12 @@ class _NotifyPageState extends State<NotifyPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             Expanded(
               child: services.isEmpty
-                  ? Center(child: Text('Danh sách hiện tại trống.'))
+                  ? const Center(child: Text('Danh sách hiện tại trống.'))
                   : ListView.builder(
                       itemCount: services.length,
                       itemBuilder: (context, index) {
@@ -71,7 +71,7 @@ class _NotifyPageState extends State<NotifyPage> {
                         DateTime dateTime = timestamp.toDate();
                         String formattedDate = formatDate(dateTime);
                         return Container(
-                          margin: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
+                          margin: const EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
@@ -80,16 +80,16 @@ class _NotifyPageState extends State<NotifyPage> {
                                 color: Colors.black.withOpacity(0.2),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3),
+                                offset: const Offset(0, 3),
                               ),
                             ],
                           ),
                           child: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                                  margin: const EdgeInsets.only(top: 10, bottom: 10),
                                   width: size.width / 2.8,
                                   height: size.height / 6,
                                   decoration: BoxDecoration(
@@ -108,7 +108,7 @@ class _NotifyPageState extends State<NotifyPage> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -124,7 +124,7 @@ class _NotifyPageState extends State<NotifyPage> {
                                            ),
                                           ),
                                          GestureDetector(
-                                           child: Icon(Icons.menu),
+                                           child: const Icon(Icons.menu),
                                          )
                                            ],
                                         ),
@@ -138,7 +138,7 @@ class _NotifyPageState extends State<NotifyPage> {
                                          ),overflow: TextOverflow.ellipsis,
                                          maxLines: 2,softWrap: true,
                                          ),
-                                         SizedBox(height: 5,),
+                                         const SizedBox(height: 5,),
                                          Text('Total price: ${services[index]['price']} VND',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -146,7 +146,7 @@ class _NotifyPageState extends State<NotifyPage> {
                                       
                                           ),
                                         ),
-                                        SizedBox(height: 5,),
+                                        const SizedBox(height: 5,),
                                           Text('Number Room: ${services[index]['numberRoom']}',
                                          style: const TextStyle(
                                            fontWeight: FontWeight.bold,
@@ -154,7 +154,7 @@ class _NotifyPageState extends State<NotifyPage> {
                                     
                                          ),
                                          ),
-                                          SizedBox(height: 5,),
+                                          const SizedBox(height: 5,),
                                            const Text('Click to see more!',
                                            style:  TextStyle(
                                              fontWeight: FontWeight.bold,

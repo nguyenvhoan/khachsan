@@ -7,7 +7,7 @@ import 'package:crypto/crypto.dart';
 
 /// Function Format DateTime to String with layout string
 String formatNumber(double value) {
-  final f = new NumberFormat("#,###", "vi_VN");
+  final f = NumberFormat("#,###", "vi_VN");
   return f.format(value);
 }
 
@@ -32,6 +32,6 @@ String getDescription(String apptransid) =>
     "Merchant Demo thanh toán cho đơn hàng  #$apptransid";
 
 String getMacCreateOrder(String data) {
-  var hmac = new Hmac(sha256, utf8.encode(ZaloPayConfig.key1));
+  var hmac = Hmac(sha256, utf8.encode(ZaloPayConfig.key1));
   return hmac.convert(utf8.encode(data)).toString();
 }

@@ -66,7 +66,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
             color: Colors.black.withOpacity(0.2), 
            spreadRadius: 5,
            blurRadius: 7, 
-             offset: Offset(0, 3), 
+             offset: const Offset(0, 3), 
           ),
         ],
       ),
@@ -79,7 +79,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
         currentIndex: myCurrentindex,
         unselectedItemColor: Colors.black,
         backgroundColor: Colors.white,
-        selectedItemColor: Color(0xff57A5EC),
+        selectedItemColor: const Color(0xff57A5EC),
         onTap: (index) {
           setState(() {
             myCurrentindex = index;

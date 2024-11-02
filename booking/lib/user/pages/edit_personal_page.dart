@@ -18,7 +18,7 @@ var account;
 class _EditPersonalDetailState extends State<EditPersonalDetail> {
     Map<String, dynamic>? user; 
     final FirebaseFirestore db = FirebaseFirestore.instance;
-    DatabaseService _databaseService=DatabaseService();
+    final DatabaseService _databaseService=DatabaseService();
     File? imageFile;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController dayController= TextEditingController();
@@ -37,15 +37,15 @@ bool _isReadOnly = true; // Trạng thái chỉ đọc
 
     
 Future<void> _selectedStartDate() async{
-    DateTime? _picked=await showDatePicker(
+    DateTime? picked=await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-    if(_picked!=null){
+    if(picked!=null){
       setState(() {
-        dayController.text=_picked.toString().split(" ")[0];
+        dayController.text=picked.toString().split(" ")[0];
         
       });
     }
@@ -90,19 +90,19 @@ Future<void> _selectedStartDate() async{
     return Scaffold(
       
       
-      body: user!=null ? Container(
+      body: user!=null ? SizedBox(
         width: double.infinity,
         height:   double.infinity ,
         child: SingleChildScrollView(
           child: Column(
             children:[ 
               Padding(
-                padding: EdgeInsets.only(bottom: 0),
+                padding: const EdgeInsets.only(bottom: 0),
                 child: Stack(
                 fit: StackFit.loose,
                 children:[
                   Container(
-                    margin: EdgeInsets.only(bottom: 50),
+                    margin: const EdgeInsets.only(bottom: 50),
                   height: 200,
                   width: double.infinity,
                   
@@ -168,7 +168,7 @@ Future<void> _selectedStartDate() async{
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(top: 30,right: 30,left: 30),          
+                  margin: const EdgeInsets.only(top: 30,right: 30,left: 30),          
                  decoration:BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
@@ -177,25 +177,26 @@ Future<void> _selectedStartDate() async{
                       color: Colors.black.withOpacity(0.1), 
                       spreadRadius: 3,
                        blurRadius: 7, 
-                       offset: Offset(0, 2), 
+                       offset: const Offset(0, 2), 
                         ),
                       ],
                       ),
                       height: 50,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20, top:4),
+                        padding: const EdgeInsets.only(left: 20, top:4),
                         child: TextFormField(
                           readOnly: _isReadOnly,
                         validator: (value){
                         if(value==null||value.isEmpty){
                         return 'Bắt buộc nhập';
                         }
+                        return null;
                         },
                         controller: fullNameController,         
                         decoration:  InputDecoration(
                           suffixIcon: IconButton(onPressed: _toggleEdit
           
-                          ,icon: Icon(Icons.edit)),
+                          ,icon: const Icon(Icons.edit)),
                         border: InputBorder.none,
                         // label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
                          floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -208,7 +209,7 @@ Future<void> _selectedStartDate() async{
                       ),
                ),
                Container(
-                  margin: EdgeInsets.only(top: 30,right: 30,left: 30),          
+                  margin: const EdgeInsets.only(top: 30,right: 30,left: 30),          
                  decoration:BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
@@ -217,19 +218,20 @@ Future<void> _selectedStartDate() async{
                       color: Colors.black.withOpacity(0.1), 
                       spreadRadius: 3,
                        blurRadius: 7, 
-                       offset: Offset(0, 2), 
+                       offset: const Offset(0, 2), 
                         ),
                       ],
                       ),
                       height: 50,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20, top:4),
+                        padding: const EdgeInsets.only(left: 20, top:4),
                         child: TextFormField(
                           readOnly: true,
                         validator: (value){
                         if(value==null||value.isEmpty){
                         return 'Bắt buộc nhập';
                         }
+                        return null;
                         },
                         controller: dayController,         
                         decoration:  InputDecoration(
@@ -237,7 +239,7 @@ Future<void> _selectedStartDate() async{
                               _selectedStartDate();
                           }
           
-                          ,icon: Icon(Icons.calendar_today)),
+                          ,icon: const Icon(Icons.calendar_today)),
                         border: InputBorder.none,
                         // label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
                          floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -250,7 +252,7 @@ Future<void> _selectedStartDate() async{
                       ),
                ),
                Container(
-                  margin: EdgeInsets.only(top: 30,right: 30,left: 30),          
+                  margin: const EdgeInsets.only(top: 30,right: 30,left: 30),          
                  decoration:BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
@@ -259,25 +261,26 @@ Future<void> _selectedStartDate() async{
                       color: Colors.black.withOpacity(0.1), 
                       spreadRadius: 3,
                        blurRadius: 7, 
-                       offset: Offset(0, 2), 
+                       offset: const Offset(0, 2), 
                         ),
                       ],
                       ),
                       height: 50,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20, top:4),
+                        padding: const EdgeInsets.only(left: 20, top:4),
                         child: TextFormField(
                           readOnly: _isReadOnly,
                         validator: (value){
                         if(value==null||value.isEmpty){
                         return 'Bắt buộc nhập';
                         }
+                        return null;
                         },
                         controller: emailController,         
                         decoration:  InputDecoration(
                           suffixIcon: IconButton(onPressed: _toggleEdit
           
-                          ,icon: Icon(Icons.edit)),
+                          ,icon: const Icon(Icons.edit)),
                         border: InputBorder.none,
                         // label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
                          floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -290,7 +293,7 @@ Future<void> _selectedStartDate() async{
                       ),
                ),
                Container(
-                  margin: EdgeInsets.only(top: 30,right: 30,left: 30),          
+                  margin: const EdgeInsets.only(top: 30,right: 30,left: 30),          
                  decoration:BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
@@ -299,26 +302,27 @@ Future<void> _selectedStartDate() async{
                       color: Colors.black.withOpacity(0.1), 
                       spreadRadius: 3,
                        blurRadius: 7, 
-                       offset: Offset(0, 2), 
+                       offset: const Offset(0, 2), 
                         ),
                       ],
                       ),
                       height: 50,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20,bottom: 12),
+                        padding: const EdgeInsets.only(left: 20,bottom: 12),
                         child: TextFormField(
                           readOnly: _isReadOnly,
                         validator: (value){
                         if(value==null||value.isEmpty){
                         return 'Bắt buộc nhập';
                         }
+                        return null;
                         },
                         controller: addressController,         
                         decoration:  InputDecoration(
-                          label: Text('Địa chỉ'),
+                          label: const Text('Địa chỉ'),
                           suffixIcon: IconButton(onPressed: _toggleEdit
           
-                          ,icon: Icon(Icons.edit)),
+                          ,icon: const Icon(Icons.edit)),
                         border: InputBorder.none,
                         // label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
                          floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -337,9 +341,9 @@ Future<void> _selectedStartDate() async{
                     _databaseService.updateUser(widget.account, user, context);
                   },
                   child: Container(
-                    margin: EdgeInsets.only(top: 30),
+                    margin: const EdgeInsets.only(top: 30),
                     decoration: BoxDecoration(
-                      color: Color(0xff1A4368),
+                      color: const Color(0xff1A4368),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Padding(
@@ -354,7 +358,7 @@ Future<void> _selectedStartDate() async{
             ]
           ),
         ),
-      ):Center(
+      ):const Center(
                       child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
 
       )

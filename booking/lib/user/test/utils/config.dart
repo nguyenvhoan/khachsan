@@ -1,4 +1,4 @@
 class AppConfig {
-  static final String appName = "ZaloPay Flutter Demo";
-  static final String version = "v2";
+  static const String appName = "ZaloPay Flutter Demo";
+  static const String version = "v2";
 }

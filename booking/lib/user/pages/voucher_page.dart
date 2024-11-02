@@ -12,7 +12,7 @@ var account;
 }
 
 class _VoucherPageState extends State<VoucherPage> {
-  DatabaseService  _databaseService  =DatabaseService();
+  final DatabaseService  _databaseService  =DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   List<String> services = [];
   @override
@@ -55,7 +55,7 @@ Future<void> fetchServices() async {
           ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15), 
+        padding: const EdgeInsets.all(15), 
         child: Column(
           children: [
             Expanded(
@@ -68,11 +68,11 @@ Future<void> fetchServices() async {
                             child: Column(
                               children: snapshot.data!.docs.map<Widget>((documentSnapshot) {
                                 
-                                Map<String, dynamic> thisItem = documentSnapshot.data() as Map<String, dynamic>;
-                                  print('data              '+thisItem!['img']);
+                                Map<String, dynamic> thisItem = documentSnapshot.data();
+                                  print('data              '+thisItem['img']);
                                   return Container(
                                     
-                                     margin: EdgeInsets.only(right:30,left:30,bottom:10, top:10),
+                                     margin: const EdgeInsets.only(right:30,left:30,bottom:10, top:10),
                                   decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
@@ -81,13 +81,13 @@ Future<void> fetchServices() async {
                                       color: Colors.black.withOpacity(0.2), 
                                       spreadRadius: 5,
                                       blurRadius: 7, 
-                                      offset: Offset(0, 3), 
+                                      offset: const Offset(0, 3), 
                                     ),
                                   ],                                
                                 ), 
                                 child: Container(                              
                                   child: Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,                           
                                       children: [
@@ -123,7 +123,7 @@ Future<void> fetchServices() async {
                                                 ),overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,softWrap: true,
                                                 ),
-                                                 SizedBox(height: 5,),
+                                                 const SizedBox(height: 5,),
                                               
                                               
                                                  Text(documentSnapshot['introduc'],
@@ -136,22 +136,22 @@ Future<void> fetchServices() async {
                                                 maxLines: 2,
                                                 softWrap: true,
                                                 ),
-                                                SizedBox(height: 5,),
+                                                const SizedBox(height: 5,),
                                                 GestureDetector(
                                                   onTap: (){
                                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailVoucher(codeVoucher: documentSnapshot.id, account: widget.account,)));
                                                   },
                                                   child: Container(
                                                     alignment: Alignment.center,
-                                                    child: Text('View More', textAlign:TextAlign.center,
-                                                    style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
-                                                    ),
                                                     height: 26,
                                                     width: 127,
                                                     decoration: BoxDecoration(
-                                                      color: Color(0xff1A4368),
+                                                      color: const Color(0xff1A4368),
                                                       borderRadius: BorderRadius.circular(25)
                                                       ),
+                                                    child: Text('View More', textAlign:TextAlign.center,
+                                                    style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                                                    ),
                                                   
                                                     ),
                                                 ),
@@ -174,7 +174,7 @@ Future<void> fetchServices() async {
                       }
                       else
                       {
-                       return Center(child: CircularProgressIndicator());
+                       return const Center(child: CircularProgressIndicator());
                       }
                       
                    }

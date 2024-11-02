@@ -4,17 +4,19 @@ import 'package:flutter/material.dart';
 
 class DiscountListPage extends StatelessWidget {
   final NavOptionDiscount _navOptionDiscount =
-      NavOptionDiscount(); // Initialize the controller
+      NavOptionDiscount();
+
+  DiscountListPage({super.key}); // Initialize the controller
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2A2A40),
+      backgroundColor: const Color(0xFF2A2A40),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Discount').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           final discounts = snapshot.data!.docs;
@@ -170,8 +172,8 @@ class DiscountListPage extends StatelessWidget {
             TextEditingController(),
           );
         },
-        child: const Icon(Icons.add),
         backgroundColor: Colors.blueGrey,
+        child: const Icon(Icons.add),
       ),
     );
   }

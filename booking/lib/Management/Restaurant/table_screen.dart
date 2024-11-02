@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:random_string/random_string.dart';
 
 class TableScreen extends StatefulWidget {
-  const TableScreen({Key? key}) : super(key: key);
+  const TableScreen({super.key});
 
   @override
   State<TableScreen> createState() => TableScreenState();

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 
 class BookingPage extends StatefulWidget {
-  BookingPage({super.key, required this.codeRoom, required this.account});
+  const BookingPage({super.key, required this.codeRoom, required this.account});
   final String codeRoom;
   final String account;
   @override
@@ -31,7 +31,7 @@ class _BookingPageState extends State<BookingPage> {
       String discount='0'; 
       int index=-1; 
 
-   DatabaseService _databaseService = DatabaseService();
+   final DatabaseService _databaseService = DatabaseService();
    
 
   int? score;
@@ -66,15 +66,15 @@ class _BookingPageState extends State<BookingPage> {
  
 
   Future<void> _selectedStartDate() async{
-    DateTime? _picked=await showDatePicker(
+    DateTime? picked=await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
-        dayRentController.text = _picked.toString().split(" ")[0];
+        dayRentController.text = picked.toString().split(" ")[0];
       });
     }
   }
@@ -84,19 +84,19 @@ class _BookingPageState extends State<BookingPage> {
 
   Future<void> getScoreUser(String account) async {
     score = await _databaseService.getScore(account);
-    print('score  ' + score.toString());
+    print('score  $score');
   }
 
   Future<void> _selectedEndDate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now().add(Duration(days: 1)),
-      firstDate: DateTime.now().add(Duration(days: 1)),
+      initialDate: DateTime.now().add(const Duration(days: 1)),
+      firstDate: DateTime.now().add(const Duration(days: 1)),
       lastDate: DateTime(2100),
     );
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
-        dayEndController.text = _picked.toString().split(" ")[0];
+        dayEndController.text = picked.toString().split(" ")[0];
       });
     }
   }
@@ -168,7 +168,7 @@ class _BookingPageState extends State<BookingPage> {
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25),
+                    padding: const EdgeInsets.only(left: 25, right: 25),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -192,7 +192,7 @@ class _BookingPageState extends State<BookingPage> {
                         Center(
                           child: Text(
                             data?['number'] ?? '',
-                            style: TextStyle(fontFamily: 'Candal', fontSize: 25),
+                            style: const TextStyle(fontFamily: 'Candal', fontSize: 25),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -208,7 +208,7 @@ class _BookingPageState extends State<BookingPage> {
                                       color: Colors.black.withOpacity(0.1),
                                       spreadRadius: 3,
                                       blurRadius: 7,
-                                      offset: Offset(0, 2),
+                                      offset: const Offset(0, 2),
                                     ),
                                   ],
                                 ),
@@ -218,6 +218,7 @@ class _BookingPageState extends State<BookingPage> {
                                     if (value == null || value.isEmpty) {
                                       return 'Bắt buộc nhập';
                                     }
+                                    return null;
                                   },
                                   controller: cardNumberController,
                                   decoration: const InputDecoration(
@@ -228,7 +229,7 @@ class _BookingPageState extends State<BookingPage> {
                                     ),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.never,
-                                    focusedBorder: const OutlineInputBorder(
+                                    focusedBorder: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.grey),
                                     ),
@@ -239,12 +240,12 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               GestureDetector(
                                 onTap: (){
                                   List<dynamic> voucher = user?['voucher'];
                                   print('--------------------------------------------------------------------');
-                                  print('Voucher for ${user?['name']} : ${voucher}');
+                                  print('Voucher for ${user?['name']} : $voucher');
                                    print('---------------------------------------------------------------------');
                                   BottomChooseDis.showBottom(context, voucher, (selectedDiscount) {
                                       setState(() {
@@ -261,14 +262,6 @@ class _BookingPageState extends State<BookingPage> {
                                 },
                                 child: Container(
                                   width: double.infinity,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text('Bạn đã được giảm: ${discount}VND',
-                                    style: TextStyle(
-                                      color: Color(0xffBEBCBC),
-                                      fontSize: 17
-                                    ),),
-                                  ),
                                   decoration:BoxDecoration(
                                     border: Border.all(
                                     width: 1,
@@ -280,15 +273,23 @@ class _BookingPageState extends State<BookingPage> {
                                     color: Colors.black.withOpacity(0.1), 
                                     spreadRadius: 3,
                                     blurRadius: 7, 
-                                    offset: Offset(0, 2), 
+                                    offset: const Offset(0, 2), 
                                   ),
                                 ],
                                   ),
                                   height: 50,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text('Bạn đã được giảm: ${discount}VND',
+                                    style: TextStyle(
+                                      color: Color(0xffBEBCBC),
+                                      fontSize: 17
+                                    ),),
+                                  ),
                                 ),
                               ),
                               
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               Container(
                                 
                                 decoration:BoxDecoration(
@@ -299,7 +300,7 @@ class _BookingPageState extends State<BookingPage> {
                                   color: Colors.black.withOpacity(0.1), 
                                   spreadRadius: 3,
                                   blurRadius: 7, 
-                                  offset: Offset(0, 2), 
+                                  offset: const Offset(0, 2), 
                                   
                                 ),
                               ],
@@ -310,6 +311,7 @@ class _BookingPageState extends State<BookingPage> {
                                     if (value == null || value.isEmpty) {
                                       return 'Bắt buộc nhập';
                                     }
+                                    return null;
                                   },
                                   controller: phoneNumberController,
                                   decoration: const InputDecoration(
@@ -318,7 +320,7 @@ class _BookingPageState extends State<BookingPage> {
                                       style:
                                           TextStyle(color: Color(0xffBEBCBC)),
                                     ),
-                                    focusedBorder: const OutlineInputBorder(
+                                    focusedBorder: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.grey),
                                     ),
@@ -329,7 +331,7 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
@@ -345,7 +347,7 @@ class _BookingPageState extends State<BookingPage> {
                                           color: Colors.black.withOpacity(0.1),
                                           spreadRadius: 3,
                                           blurRadius: 7,
-                                          offset: Offset(0, 2),
+                                          offset: const Offset(0, 2),
                                         ),
                                       ],
                                     ),
@@ -358,6 +360,7 @@ class _BookingPageState extends State<BookingPage> {
                                         if (value == null || value.isEmpty) {
                                           return 'Bắt buộc nhập';
                                         }
+                                        return null;
                                       },
                                       readOnly: true,
                                       controller: dayRentController,
@@ -367,7 +370,7 @@ class _BookingPageState extends State<BookingPage> {
                                           style: TextStyle(
                                               color: Color(0xffBEBCBC)),
                                         ),
-                                        focusedBorder: const OutlineInputBorder(
+                                        focusedBorder: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.grey),
                                         ),
@@ -387,7 +390,7 @@ class _BookingPageState extends State<BookingPage> {
                                           color: Colors.black.withOpacity(0.1),
                                           spreadRadius: 3,
                                           blurRadius: 7,
-                                          offset: Offset(0, 2),
+                                          offset: const Offset(0, 2),
                                         ),
                                       ],
                                     ),
@@ -400,6 +403,7 @@ class _BookingPageState extends State<BookingPage> {
                                         if (value == null || value.isEmpty) {
                                           return 'Bắt buộc nhập';
                                         }
+                                        return null;
                                       },
                                       readOnly: true,
                                       controller: dayEndController,
@@ -409,7 +413,7 @@ class _BookingPageState extends State<BookingPage> {
                                           style: TextStyle(
                                               color: Color(0xffBEBCBC)),
                                         ),
-                                        focusedBorder: const OutlineInputBorder(
+                                        focusedBorder: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.grey),
                                         ),
@@ -422,72 +426,72 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
-                              Text(
+                              const Text(
                                 'Price and summary',
                                 textAlign: TextAlign.start,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                    color: Color(0xffD9D9D9),
+                                    color: const Color(0xffD9D9D9),
                                     borderRadius: BorderRadius.circular(20)),
                                 width: double.infinity,
                                 child: Padding(
-                                  padding: EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(15),
                                   child: Column(
                                     children: [
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Total Discounts:'),
-                                          Text(discount+' VNĐ'),
+                                          const Text('Total Discounts:'),
+                                          Text('$discount VNĐ'),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Total Room Price:'),
+                                          const Text('Total Room Price:'),
                                           Text(
-                                              data!['price'].toString() + ' đ'),
+                                              '${data!['price']} đ'),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Quantity day:'),
-                                          Text(day.toString() + ' Day'),
+                                          const Text('Quantity day:'),
+                                          Text('$day Day'),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
-                                          Text((data!['price']*day-int.parse(discount)).toString()+' đ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                          const Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
+                                          Text('${data!['price']*day-int.parse(discount)} đ', style: const TextStyle(fontWeight: FontWeight.bold)),
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                                GestureDetector(
                               
                               onTap: () {
@@ -528,7 +532,7 @@ class _BookingPageState extends State<BookingPage> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xff1A4368), 
+                                  color: const Color(0xff1A4368), 
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: const Padding(
@@ -549,7 +553,7 @@ class _BookingPageState extends State<BookingPage> {
                 ),
               ],
             )
-          : Center(
+          : const Center(
               child:
                   CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
             ),

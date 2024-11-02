@@ -32,5 +32,5 @@ void main(List<String> args) async {
   );
   }
 
-  OnePlatform.app = () => MyApp();
+  OnePlatform.app = () => const MyApp();
 }

@@ -53,7 +53,7 @@ import 'package:booking/user/pages/notify_page.dart';
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
-              margin: EdgeInsets.all(20 ),
+              margin: const EdgeInsets.all(20 ),
                 height: size.height * 0.2,
                 width: size.width,
                 child: AnotherCarousel(
@@ -72,7 +72,7 @@ import 'package:booking/user/pages/notify_page.dart';
               ),
                 ),
             Container(
-              margin: EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -109,15 +109,15 @@ import 'package:booking/user/pages/notify_page.dart';
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 10, bottom: 10),
+                        padding: const EdgeInsets.only(left: 10, bottom: 10),
                         child: Row(
                             children:
                                 snapshot.data!.docs.map<Widget>((documentSnapshot) {
                           Map<String, dynamic> thisItem =
-                              documentSnapshot.data() as Map<String, dynamic>;
+                              documentSnapshot.data();
           
                           return Container(
-                            margin: EdgeInsets.only(right: 10),
+                            margin: const EdgeInsets.only(right: 10),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
@@ -126,14 +126,14 @@ import 'package:booking/user/pages/notify_page.dart';
                                   color: Colors.black.withOpacity(0.2),
                                   spreadRadius: 1,
                                   blurRadius: 7,
-                                  offset: Offset(0, 5),
+                                  offset: const Offset(0, 5),
                                 ),
                               ],
                             ),
                             width: size.width / 2.3,
                             height: size.height / 3.5,
                             child: Container(
-                              margin: EdgeInsets.all(20),
+                              margin: const EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -156,7 +156,7 @@ import 'package:booking/user/pages/notify_page.dart';
                                         : null,
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(top: 10),
+                                    padding: const EdgeInsets.only(top: 10),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -175,15 +175,14 @@ import 'package:booking/user/pages/notify_page.dart';
                                           children: [
                                             Image.asset(
                                                 'asset/images/icons/Star.png'),
-                                            Text('  4.8')
+                                            const Text('  4.8')
                                           ],
                                         )
                                       ],
                                     ),
                                   ),
                                   Text(
-                                    documentSnapshot['price'].toString() +
-                                        "/ night",
+                                    "${documentSnapshot['price']}/ night",
                                     textAlign: TextAlign.start,
                                     style: const TextStyle(
                                       color: Color(0xff57A5EC),
@@ -199,6 +198,12 @@ import 'package:booking/user/pages/notify_page.dart';
                                     child: Center(
                                       child: Container(
                                         alignment: Alignment.center,
+                                        height: 26,
+                                        width: 127,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xff1A4368),
+                                            borderRadius:
+                                                BorderRadius.circular(25)),
                                         child: Text(
                                           'View More',
                                           textAlign: TextAlign.center,
@@ -206,12 +211,6 @@ import 'package:booking/user/pages/notify_page.dart';
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white),
                                         ),
-                                        height: 26,
-                                        width: 127,
-                                        decoration: BoxDecoration(
-                                            color: Color(0xff1A4368),
-                                            borderRadius:
-                                                BorderRadius.circular(25)),
                                       ),
                                     ),
                                   ),
@@ -223,11 +222,11 @@ import 'package:booking/user/pages/notify_page.dart';
                       ),
                     );
                   } else {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                 }),
                 Container(
-                  margin: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(10),
 
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -237,7 +236,7 @@ import 'package:booking/user/pages/notify_page.dart';
                               color: Colors.black.withOpacity(0.2), 
                               spreadRadius: 5,
                               blurRadius: 7, 
-                              offset: Offset(0, 3), 
+                              offset: const Offset(0, 3), 
                             ),
                           ],
                   ),

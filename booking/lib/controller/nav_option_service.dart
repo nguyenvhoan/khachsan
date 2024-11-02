@@ -9,7 +9,7 @@ class NavOptionService {
   final ServiceModel _service = ServiceModel();
 
   Future<void> create(
-      BuildContext context, TextEditingController _serviceController) async {
+      BuildContext context, TextEditingController serviceController) async {
     showModalBottomSheet(
         context: context,
         isScrollControlled:
@@ -29,7 +29,7 @@ class NavOptionService {
                   child: Text('Create Service'),
                 ),
                 TextField(
-                  controller: _serviceController,
+                  controller: serviceController,
                   decoration: const InputDecoration(
                       labelText: 'Service', hintText: 'Wifi'),
                 ),
@@ -40,13 +40,13 @@ class NavOptionService {
                   child: ElevatedButton(
                       onPressed: () async {
                         String Id = randomAlphaNumeric(10);
-                        final String service = _serviceController.text;
+                        final String service = serviceController.text;
                         if (service.isNotEmpty) {
                           await _item.add({
                             "service": service,
                             "id": Id,
                           });
-                          _serviceController.text = '';
+                          serviceController.text = '';
                           Navigator.of(context)
                               .pop(); // Đóng Modal Bottom Sheet
                         } else {
@@ -67,7 +67,7 @@ class NavOptionService {
   }
 
   Future<void> editType(String id, BuildContext context,
-          TextEditingController _serviceController) =>
+          TextEditingController serviceController) =>
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -103,7 +103,7 @@ class NavOptionService {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _serviceController,
+                  controller: serviceController,
                   decoration: const InputDecoration(
                     labelText: 'service',
                     border: OutlineInputBorder(),
@@ -115,7 +115,7 @@ class NavOptionService {
           actions: [
             TextButton(
               onPressed: () async {
-                await _service.updateService(id, _serviceController.text);
+                await _service.updateService(id, serviceController.text);
                 Navigator.pop(context);
               },
               child: const Text('Save'),

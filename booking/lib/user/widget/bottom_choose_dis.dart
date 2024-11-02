@@ -24,7 +24,7 @@ class BottomChooseDis {
             itemCount: voucher.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.only(top: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -34,7 +34,7 @@ class BottomChooseDis {
                         color: Colors.black.withOpacity(0.2),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -42,7 +42,7 @@ class BottomChooseDis {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         width: 100,
                         height: 100,
                         decoration: BoxDecoration(
@@ -73,7 +73,7 @@ class BottomChooseDis {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                               voucher[index]['introduc'],
                               style: const TextStyle(
@@ -84,7 +84,7 @@ class BottomChooseDis {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                               '${formatNumber(voucher[index]['point'])} VND',
                               style: const TextStyle(
@@ -99,7 +99,7 @@ class BottomChooseDis {
                                 indexs(index); 
                                 if (selectedIndex != null && selectedIndex == index) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Đã chọn voucher')),
+                                    const SnackBar(content: Text('Đã chọn voucher')),
                                   );
                                 } else {
                                   onDiscountSelected(voucher[index]['point'].toString());
@@ -109,20 +109,20 @@ class BottomChooseDis {
                               },
                               child: Container(
                                 alignment: Alignment.center,
+                                height: 26,
+                                width: 127,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff1A4368),
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
                                 child: Text(
                                   select==index?'Selected':'Select',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                                 ),
-                                height: 26,
-                                width: 127,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff1A4368),
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
                               ),
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                           ],
                         ),
                       ),

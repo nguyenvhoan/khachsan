@@ -17,7 +17,7 @@ class _ServiceState extends State<Service> {
   Stream<QuerySnapshot>? _stream;
   final ServiceModel _service = ServiceModel();
 
-  NavOptionService _navOptionService = NavOptionService();
+  final NavOptionService _navOptionService = NavOptionService();
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _ServiceState extends State<Service> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2A2A40),
+      backgroundColor: const Color(0xFF2A2A40),
       body: _stream == null
           ? const Center(
               child: CircularProgressIndicator(),

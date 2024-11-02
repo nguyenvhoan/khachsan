@@ -11,7 +11,7 @@ var account;
 }
 
 class _RoomPageState extends State<RoomPage> {
-  DatabaseService  _databaseService  =DatabaseService();
+  final DatabaseService  _databaseService  =DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   List<String> services = [];
   @override
@@ -54,7 +54,7 @@ Future<void> fetchServices() async {
           ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15), 
+        padding: const EdgeInsets.all(15), 
         child: Column(
           children: [
             Expanded(
@@ -67,11 +67,11 @@ Future<void> fetchServices() async {
                             child: Column(
                               children: snapshot.data!.docs.map<Widget>((documentSnapshot) {
                                 
-                                Map<String, dynamic> thisItem = documentSnapshot.data() as Map<String, dynamic>;
-                                  print('data              '+thisItem!['img']);
+                                Map<String, dynamic> thisItem = documentSnapshot.data();
+                                  print('data              '+thisItem['img']);
                                   return Container(
                                     
-                                     margin: EdgeInsets.all(25),
+                                     margin: const EdgeInsets.all(25),
                                   decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
@@ -80,7 +80,7 @@ Future<void> fetchServices() async {
                                       color: Colors.black.withOpacity(0.2), 
                                       spreadRadius: 5,
                                       blurRadius: 7, 
-                                      offset: Offset(0, 3), 
+                                      offset: const Offset(0, 3), 
                                     ),
                                   ],                                
                                 ), 
@@ -89,7 +89,7 @@ Future<void> fetchServices() async {
                                     mainAxisAlignment: MainAxisAlignment.start,                           
                                     children: [
                                       Container(      
-                                        margin: EdgeInsets.only(top: 10,left: 10,right: 10),                                
+                                        margin: const EdgeInsets.only(top: 10,left: 10,right: 10),                                
                                           width : size.width / 1.3, 
                                         
                                           height:size.height/6,
@@ -109,7 +109,7 @@ Future<void> fetchServices() async {
                                               : null,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10),
+                                          padding: const EdgeInsets.only(top: 10),
                                           child: Row(
                                             mainAxisAlignment:MainAxisAlignment.center,
                                             children: [
@@ -129,7 +129,7 @@ Future<void> fetchServices() async {
                                           const SizedBox(height: 10,),
               
                                          Padding(
-                                              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                                              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
@@ -139,8 +139,8 @@ Future<void> fetchServices() async {
                                                       child: Row(
                                                         children: services.map((service) {
                                                           return Container(
-                                                            margin: EdgeInsets.symmetric(horizontal: 5),
-                                                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                                                             decoration: BoxDecoration(
                                                               color: Colors.black,
                                                               borderRadius: BorderRadius.circular(20),
@@ -148,7 +148,7 @@ Future<void> fetchServices() async {
                                                             child: Text(
                                                               service,
                                                               overflow: TextOverflow.ellipsis, // Đảm bảo chữ không bị tràn
-                                                              style: TextStyle(color: Colors.white),
+                                                              style: const TextStyle(color: Colors.white),
                                                             ),
                                                           );
                                                         }).toList(),
@@ -161,33 +161,33 @@ Future<void> fetchServices() async {
                                           ),
                                           GestureDetector(
                                             onTap:  (){
-                                              print('Số phòng :'+documentSnapshot.id);
+                                              print('Số phòng :${documentSnapshot.id}');
                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(codeRoom: documentSnapshot.id,account: widget.account,),));
                                             },
                                               child: Center(
                                                 child: Container(
                                                   alignment: Alignment.center,
-                                                  child: Text('View More', textAlign:TextAlign.center,
-                                                  style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
-                                                  ),
                                                   height: 26,
                                                   width: 127,
                                                   decoration: BoxDecoration(
-                                                    color: Color(0xff1A4368),
+                                                    color: const Color(0xff1A4368),
                                                     borderRadius: BorderRadius.circular(25)
                                                     ),
+                                                  child: Text('View More', textAlign:TextAlign.center,
+                                                  style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                                                  ),
                                                 
                                                   ),
                                               ),
                                             ),
-                                            SizedBox(height: 5,),
+                                            const SizedBox(height: 5,),
                                         Container(
                                           height: 1,
                                           width: size.width/1.6,
                                           color: Colors.grey
                                         ),
                                          Padding(
-                                          padding: EdgeInsets.only( left: 20,right: 20),
+                                          padding: const EdgeInsets.only( left: 20,right: 20),
                                            child: Row(          
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                                              children: [
@@ -202,7 +202,7 @@ Future<void> fetchServices() async {
                                                 ),
                                                 
                                                 ),
-                                                Text('/ night', style: TextStyle(color: Colors.grey,fontFamily: 'Cantral', fontSize: 20),)
+                                                const Text('/ night', style: TextStyle(color: Colors.grey,fontFamily: 'Cantral', fontSize: 20),)
               
                                                 ] 
                                               ),
@@ -210,7 +210,7 @@ Future<void> fetchServices() async {
                                                 crossAxisAlignment: CrossAxisAlignment.center   ,
                                                 children: [
                                                   Image.asset('asset/images/icons/Star.png'),
-                                                  Text('  4.8')
+                                                  const Text('  4.8')
                                                 ],
                                               )
                                              ]
@@ -229,7 +229,7 @@ Future<void> fetchServices() async {
                       }
                       else
                       {
-                       return Center(child: CircularProgressIndicator());
+                       return const Center(child: CircularProgressIndicator());
                       }
                       
                    }

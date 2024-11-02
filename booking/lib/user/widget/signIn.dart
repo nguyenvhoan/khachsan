@@ -11,9 +11,9 @@ final VoidCallback  onGetStarted;
 
 class _SigninState extends State<Signin> {
   bool _obscureText = true;
-  TextEditingController _emailController =TextEditingController();
-  TextEditingController _passwordController =TextEditingController();
-  DatabaseService _databaseService =DatabaseService();
+  final TextEditingController _emailController =TextEditingController();
+  final TextEditingController _passwordController =TextEditingController();
+  final DatabaseService _databaseService =DatabaseService();
    final _formkey = GlobalKey<FormState>();
    bool _isLoading = false;
   @override
@@ -32,12 +32,12 @@ class _SigninState extends State<Signin> {
                   ),
                 ),
           child: Container(
-            margin: EdgeInsets.only(top:70, left: 15,right: 15),
+            margin: const EdgeInsets.only(top:70, left: 15,right: 15),
             child: Form(
               key: _formkey,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 5),
                   child: Column(
                     
                     children: [
@@ -57,6 +57,7 @@ class _SigninState extends State<Signin> {
                         if(value==null||value.isEmpty){
                           return 'Hãy nhập gmail';
                         }
+                        return null;
                       },
                             controller: _emailController,
                             style: const TextStyle(
@@ -83,13 +84,14 @@ class _SigninState extends State<Signin> {
                             
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                         TextFormField(
                           obscureText: _obscureText,
                       validator: (value){
                         if(value==null||value.isEmpty){
                           return 'Hãy nhập password';
                         }
+                        return null;
                       },
                             controller: _passwordController,
                             
@@ -114,7 +116,7 @@ class _SigninState extends State<Signin> {
                                 color: Colors.black,
                               ),
                               suffixIcon:  IconButton(    
-                               icon: Icon(Icons.visibility),
+                               icon: const Icon(Icons.visibility),
                                 color: Colors.black,
                                 onPressed: (){
                                   setState(() {
@@ -124,11 +126,11 @@ class _SigninState extends State<Signin> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           const Text('Forgot Password?',textAlign: TextAlign.end, style: TextStyle(
                               color: Colors.grey
                           ),),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                           GestureDetector(
                            onTap: () {
                                 if(_formkey.currentState!.validate()){   
@@ -146,19 +148,19 @@ class _SigninState extends State<Signin> {
                               },
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text('Sign In', textAlign:TextAlign.center,
-                          style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
-                          ),
                           height: 50,
                           width: 200,
                           decoration: BoxDecoration(
-                            color: Color(0xff1A4368),
+                            color: const Color(0xff1A4368),
                             borderRadius: BorderRadius.circular(25)
                             ),
+                          child: Text('Sign In', textAlign:TextAlign.center,
+                          style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                          ),
                         
                           ),
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                        Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

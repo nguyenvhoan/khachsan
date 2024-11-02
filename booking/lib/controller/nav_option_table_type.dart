@@ -8,7 +8,7 @@ class NavOptionTableType {
       FirebaseFirestore.instance.collection('TableType');
   final TableTypeModel _tableTypeModel = TableTypeModel();
   Future<void> create(
-      BuildContext context, TextEditingController _tableTypeController) async {
+      BuildContext context, TextEditingController tableTypeController) async {
     // Sử dụng showModalBottomSheet thay vì showBottomSheet
     showModalBottomSheet(
         context: context,
@@ -34,7 +34,7 @@ class NavOptionTableType {
                     child: Text('Create Table Type'),
                   ),
                   TextField(
-                    controller: _tableTypeController,
+                    controller: tableTypeController,
                     decoration: const InputDecoration(
                         labelText: 'Type', hintText: 'Table for two people'),
                   ),
@@ -45,14 +45,14 @@ class NavOptionTableType {
                     child: ElevatedButton(
                         onPressed: () async {
                           String id = randomAlphaNumeric(10);
-                          final String type = _tableTypeController.text;
+                          final String type = tableTypeController.text;
 
                           if (type.isNotEmpty) {
                             await _item.add({
                               "tabletype": type,
                               "id": id,
                             });
-                            _tableTypeController.clear();
+                            tableTypeController.clear();
                             Navigator.of(context)
                                 .pop(); // Đóng Modal Bottom Sheet
                           } else {
@@ -80,7 +80,7 @@ class NavOptionTableType {
   }
 
   Future<void> editType(String id, BuildContext context,
-          TextEditingController _roomTypetController) =>
+          TextEditingController roomTypetController) =>
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -116,7 +116,7 @@ class NavOptionTableType {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _roomTypetController,
+                  controller: roomTypetController,
                   decoration: const InputDecoration(
                     labelText: 'Type',
                     border: OutlineInputBorder(),
@@ -128,7 +128,7 @@ class NavOptionTableType {
           actions: [
             TextButton(
               onPressed: () async {
-                await _tableTypeModel.updateType(id, _roomTypetController.text);
+                await _tableTypeModel.updateType(id, roomTypetController.text);
                 Navigator.pop(context);
               },
               child: const Text('Save'),

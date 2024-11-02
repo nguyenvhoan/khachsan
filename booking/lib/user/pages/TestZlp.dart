@@ -15,7 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 class Dashboard1 extends StatefulWidget {
   final String title;
   final String version;
-  Dashboard1({required this.title,required this.version});
+  const Dashboard1({super.key, required this.title,required this.version});
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -54,14 +54,14 @@ class _DashboardState extends State<Dashboard1> {
 class HomeZaloPay extends StatefulWidget {
   final String title;
 
-  HomeZaloPay(this.title);
+  const HomeZaloPay(this.title, {super.key});
 
   @override
   _HomeZaloPayState createState() => _HomeZaloPayState();
 }
 
 class _HomeZaloPayState extends State<HomeZaloPay> {
-  final textStyle = TextStyle(color: Colors.black54);
+  final textStyle = const TextStyle(color: Colors.black54);
   
   String zpTransToken = "";
   String payResult = "";
@@ -90,7 +90,7 @@ Widget _btnCreateOrder(String value) => Padding(
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return Center(
+            return const Center(
               
             );
           },
@@ -123,7 +123,7 @@ Widget _btnCreateOrder(String value) => Padding(
         borderRadius: BorderRadius.circular(8.0),
         color: Colors.blue, // Thêm màu nền để dễ nhìn hơn
       ),
-      child: Text(
+      child: const Text(
         "Create Order",
         style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
@@ -167,7 +167,7 @@ Widget _btnCreateOrder(String value) => Padding(
                 // color: AppColor.primaryColor,
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: Text("Pay",
+              child: const Text("Pay",
                   style: TextStyle(color: Colors.red, fontSize: 50.0))),
         ),
       ));
@@ -199,11 +199,11 @@ Widget _btnCreateOrder(String value) => Padding(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Visibility(
+              visible: showResult,
               child: Text(
                 "zptranstoken:",
                 style: textStyle,
               ),
-              visible: showResult,
             ),
           ),
           Container(
@@ -217,8 +217,8 @@ Widget _btnCreateOrder(String value) => Padding(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Visibility(
-                child: Text("Transaction status:", style: TextStyle(color: Colors.red)),
-                visible: showResult),
+                visible: showResult,
+                child: Text("Transaction status:", style: TextStyle(color: Colors.red))),
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -246,7 +246,7 @@ Widget _quickConfig = Container(
         children: <Widget>[
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text("AppID: 2553"),
+            child: const Text("AppID: 2553"),
           ),
         ],
       ),

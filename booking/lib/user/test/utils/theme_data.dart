@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppColor {
   /// Fill Color
   static const Color primaryColor = Colors.deepOrange;
-  static const Color accentColor = const Color(0xFF168EED);
+  static const Color accentColor = Color(0xFF168EED);
 
   /// Text Color
   static const Color textPrimaryColor = Colors.deepOrange;
@@ -12,7 +12,7 @@ class AppColor {
 }
 
 /// Text Theme for app
-TextTheme _textTheme = TextTheme(
+TextTheme _textTheme = const TextTheme(
  
 );
 

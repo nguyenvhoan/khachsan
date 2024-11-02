@@ -53,7 +53,7 @@ class _DetailPageState extends State<DetailPage> {
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25),
+                    padding: const EdgeInsets.only(left: 25, right: 25),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -77,7 +77,7 @@ class _DetailPageState extends State<DetailPage> {
                         Center(
                           child: Text(
                             data?['number'] ?? '',
-                            style: TextStyle(fontFamily: 'Candal', fontSize: 25),
+                            style: const TextStyle(fontFamily: 'Candal', fontSize: 25),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -117,8 +117,8 @@ class _DetailPageState extends State<DetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: services.map((service) {
                             return Container(
-                              margin: EdgeInsets.symmetric(vertical: 1, horizontal: 5),
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                              margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                               decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(20),
@@ -127,7 +127,7 @@ class _DetailPageState extends State<DetailPage> {
                                 service,
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
                             );
                           }).toList(),
@@ -149,14 +149,14 @@ class _DetailPageState extends State<DetailPage> {
                           color: Colors.black.withOpacity(0.2), 
                           spreadRadius: 5,
                           blurRadius: 7, 
-                          offset: Offset(0, 3), 
+                          offset: const Offset(0, 3), 
                         ),
                       ],
                     ),
                     height: 60,
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 25, right: 25),
+                        padding: const EdgeInsets.only(left: 25, right: 25),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -187,7 +187,7 @@ class _DetailPageState extends State<DetailPage> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xff1A4368), 
+                                  color: const Color(0xff1A4368), 
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: const Padding(
@@ -207,7 +207,7 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ],
             )
-          : Center(
+          : const Center(
               child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
             ),
     );

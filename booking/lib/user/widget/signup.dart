@@ -14,10 +14,10 @@ final VoidCallback  onGetStarted;
 }
 
 class _SignUpState extends State<SignUp> {
-  TextEditingController _nameController=TextEditingController();
-  TextEditingController _emailController=TextEditingController();
-  TextEditingController _passwordController=TextEditingController();
-  TextEditingController _repasswordController=TextEditingController();
+  final TextEditingController _nameController=TextEditingController();
+  final TextEditingController _emailController=TextEditingController();
+  final TextEditingController _passwordController=TextEditingController();
+  final TextEditingController _repasswordController=TextEditingController();
   bool _obscureText = true;
   final _formkey = GlobalKey<FormState>();
 
@@ -25,7 +25,7 @@ class _SignUpState extends State<SignUp> {
       FirebaseFirestore.instance.collection('User');
   
   String email="",name="",password="", userId="";
-  DatabaseService _databaseService = DatabaseService();
+  final DatabaseService _databaseService = DatabaseService();
    bool _isLoading = false;
 
   @override
@@ -38,7 +38,7 @@ class _SignUpState extends State<SignUp> {
           decoration:const BoxDecoration(
             
                   color: Colors.white,
-                  borderRadius:const BorderRadius.only(
+                  borderRadius:BorderRadius.only(
                     topLeft: Radius.circular(30), 
                     topRight: Radius.circular(30), 
                   ),
@@ -49,7 +49,7 @@ class _SignUpState extends State<SignUp> {
               key: _formkey,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 5),
                   child: Column(        
                     children: [   
                       if (_isLoading) 
@@ -76,6 +76,7 @@ class _SignUpState extends State<SignUp> {
                              if(value.length<7){
                               return 'Tài khoản phải lớn hơn 7 kí tự';
                             }
+                             return null;
                           },
                         controller: _nameController,                                       
                             style: const TextStyle(
@@ -100,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                             
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           TextFormField(
                             validator: (value){
                                 if(value==null||value.isEmpty){
@@ -110,6 +111,7 @@ class _SignUpState extends State<SignUp> {
                                 if (!emailRegex.hasMatch(value)) {
                                   return 'Email phải có đuôi "@gmail.com"';
                                 }
+                                return null;
                               },  
                             controller: _emailController  ,                                      
                             style: const TextStyle(
@@ -134,7 +136,7 @@ class _SignUpState extends State<SignUp> {
                             
                             ),
                           ),
-                          SizedBox(height: 10,),  
+                          const SizedBox(height: 10,),  
                       TextFormField( 
                             validator: (value){
                             if(value==null||value.isEmpty){
@@ -143,6 +145,7 @@ class _SignUpState extends State<SignUp> {
                              if(value.length<7){  
                               return 'Mật khẩu phải lớn hơn 7 kí tự';
                             }
+                             return null;
                           },
                         controller: _passwordController,
                             obscureText: _obscureText, 
@@ -166,7 +169,7 @@ class _SignUpState extends State<SignUp> {
                                 color: Colors.black,
                               ),
                               suffixIcon:  IconButton(    
-                               icon: Icon(Icons.visibility),
+                               icon: const Icon(Icons.visibility),
                                 color: Colors.black,
                                 onPressed: (){
                                   setState(() {
@@ -182,6 +185,7 @@ class _SignUpState extends State<SignUp> {
                               if(value==null||value!=_passwordController.text){
                                 return 'Mật khẩu không khớp';
                               }
+                              return null;
                             },
                             controller: _repasswordController,
                             obscureText: _obscureText, 
@@ -205,7 +209,7 @@ class _SignUpState extends State<SignUp> {
                                 color: Colors.black,
                               ),
                               suffixIcon:  IconButton(    
-                               icon: Icon(Icons.visibility),
+                               icon: const Icon(Icons.visibility),
                                 color: Colors.black,
                                 onPressed: (){
                                   setState(() {
@@ -219,7 +223,7 @@ class _SignUpState extends State<SignUp> {
                           const Text('Forgot Password?',textAlign: TextAlign.end, style: TextStyle(
                               color: Colors.grey
                           ),),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
            
                           GestureDetector(
                             onTap: () async{
@@ -250,15 +254,15 @@ class _SignUpState extends State<SignUp> {
                             },
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text('Sign In', textAlign:TextAlign.center,
-                          style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
-                          ),
                           height: 50,
                           width: 200,
                           decoration: BoxDecoration(
-                            color: Color(0xff1A4368),
+                            color: const Color(0xff1A4368),
                             borderRadius: BorderRadius.circular(25)
                             ),
+                          child: Text('Sign In', textAlign:TextAlign.center,
+                          style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                          ),
                         
                           ),
                       ),

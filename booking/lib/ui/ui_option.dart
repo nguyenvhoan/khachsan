@@ -13,7 +13,7 @@ class UiOption {
         return AlertDialog(
           title: Text(title),
           content: Text(message),
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
           actions: [
@@ -21,7 +21,7 @@ class UiOption {
               onPressed: () {
                 Navigator.of(context).pop(); // Đóng dialog
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -43,7 +43,7 @@ class UiOption {
             onPressed: (){
               Navigator.push(ctx, MaterialPageRoute(builder: (ctx)=>TransactionDetail(req: req)));
             },
-            child: Text('ok')))
+            child: const Text('ok')))
         ],
       );
     });

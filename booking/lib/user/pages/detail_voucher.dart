@@ -49,18 +49,18 @@ class _DetailVoucherState extends State<DetailVoucher> {
 
     return Scaffold(
       
-      body:data!=null? Container(
+      body:data!=null? SizedBox(
         width: double.infinity,
         height:   double.infinity ,
         child: Column(
           children:[ 
             Padding(
-              padding: EdgeInsets.only(bottom: 0),
+              padding: const EdgeInsets.only(bottom: 0),
               child: Stack(
               fit: StackFit.loose,
               children:[
                 Container(
-                  margin: EdgeInsets.only(bottom: 50),
+                  margin: const EdgeInsets.only(bottom: 50),
                 height: 200,
                 width: double.infinity,
                 
@@ -107,7 +107,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
                       child: IconButton(onPressed: (){
                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>VoucherPage(account: widget.account)));
                         Navigator.pop(context);
-                      }, icon: Icon(Icons.undo,
+                      }, icon: const Icon(Icons.undo,
                       color: Colors.white,)
                       ),
                     ),
@@ -125,7 +125,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 50,right: 50),
+                          padding: const EdgeInsets.only(left: 50,right: 50),
                           child: Text(data!['name'],
                           textAlign: TextAlign.center,
                            style:const TextStyle(
@@ -137,13 +137,13 @@ class _DetailVoucherState extends State<DetailVoucher> {
                         ),
                           Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children:[
-                             const Text('Discount:', style:const TextStyle(
+                             const Text('Discount:', style:TextStyle(
                             color: Colors.black,
                             fontFamily: 'Cabin',
                             fontSize: 30
                             ),
                             ),
-                               Text(formatNumber(data!['point']).toString()+'đ', style:const TextStyle(
+                               Text('${formatNumber(data!['point'])}đ', style:const TextStyle(
                             color: Colors.red,
                             fontFamily: 'Cabin',
                             fontSize: 30
@@ -153,27 +153,27 @@ class _DetailVoucherState extends State<DetailVoucher> {
                             ]
                           ),
                           Container(
-                            margin: EdgeInsets.all(15),
+                            margin: const EdgeInsets.all(15),
                             decoration: BoxDecoration(
                               boxShadow: [
                                     BoxShadow(
                                     color: Colors.black.withOpacity(0.1), 
                                     spreadRadius: 3,
                                     blurRadius: 7, 
-                                    offset: Offset(0, 2), 
+                                    offset: const Offset(0, 2), 
                                   ),
                                 ],
                               color: const Color.fromARGB(255, 242, 236, 236),
                               borderRadius: BorderRadius.circular(20)
                             ),
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
                               child:  Column(
                                 children: [
                                    Padding(
-                                    padding: EdgeInsets.only(bottom: 10),
+                                    padding: const EdgeInsets.only(bottom: 10),
                                     child: Text(data!['introduc'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black
@@ -196,7 +196,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
               
           ]
         ),
-      ):Center(
+      ):const Center(
               child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi
       )
     );

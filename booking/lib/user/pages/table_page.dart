@@ -14,7 +14,7 @@ class TablePage extends StatefulWidget {
 class _TablePageState extends State<TablePage> {
   @override
   Widget build(BuildContext context) {
-    DatabaseService  _databaseService  =DatabaseService();
+    DatabaseService  databaseService  =DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Size size = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -33,9 +33,9 @@ class _TablePageState extends State<TablePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: snapshot.data!.docs.map<Widget>((documentSnapshot){
                    Map<String, dynamic> thisItem =
-                                documentSnapshot.data() as Map<String, dynamic>;
+                                documentSnapshot.data();
                      return  Container(
-                      margin:EdgeInsets.all(15),
+                      margin:const EdgeInsets.all(15),
                       height: 150,
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -46,7 +46,7 @@ class _TablePageState extends State<TablePage> {
                                     color: Colors.black.withOpacity(0.2), 
                                     spreadRadius: 1,
                                     blurRadius: 7, 
-                                    offset: Offset(0, 5), 
+                                    offset: const Offset(0, 5), 
                                   ),
                                 ],
                       ),
@@ -56,12 +56,12 @@ class _TablePageState extends State<TablePage> {
                                 MaterialPageRoute(builder: (context)=>DiningTable(table: thisItem,account: widget.account,)));
                               },
                         child: Container(
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           child: Row(
                             children: [
                               
                                  Container(
-                                          margin: EdgeInsets.only(right: 10),
+                                          margin: const EdgeInsets.only(right: 10),
                                             width: size.width/3,
                                             height:size.height/7,
                                             decoration: BoxDecoration(
@@ -89,12 +89,12 @@ class _TablePageState extends State<TablePage> {
                                     const Row(children: [
                                       Text('Table type : ', style:TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
                                     ]),
-                                    Text(documentSnapshot['tabletype'], style:  TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
+                                    Text(documentSnapshot['tabletype'], style:  const TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
                                     Row(children:[
                                      const Text('Giá: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff57A5EC)),
                                       ),
-                                      SizedBox(height: 50,),
-                                      Text(documentSnapshot['price'].toString(),style: TextStyle(fontSize: 19),)
+                                      const SizedBox(height: 50,),
+                                      Text(documentSnapshot['price'].toString(),style: const TextStyle(fontSize: 19),)
                                     ] 
                                     ),
                                   ],
@@ -111,7 +111,7 @@ class _TablePageState extends State<TablePage> {
             );
             }
             else{
-              return Center(child: CircularProgressIndicator(),);
+              return const Center(child: CircularProgressIndicator(),);
             }
           }),
       )
