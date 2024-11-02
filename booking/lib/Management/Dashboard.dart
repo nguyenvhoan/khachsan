@@ -8,16 +8,19 @@ import 'package:booking/Management/RoomType/room_screen.dart';
 import 'package:booking/Management/Room/roomtype_screen.dart';
 import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/ThongKe/ThongKe.dart';
+import 'package:booking/Management/ThongKe/doanhthu.dart';
 import 'package:booking/Management/bookingHistory/booking_history_user.dart';
 import 'package:booking/Management/item.dart';
+import 'package:booking/Management/role/create_account_admin.dart';
+import 'package:booking/Management/role/create_role.dart';
 import 'package:booking/model/database_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:booking/Management/Service.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
-
+   Dashboard({super.key, required this.role});
+  String role;
   @override
   State<Dashboard> createState() => _DashboardState();
 }
@@ -38,6 +41,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 500),
     );
   }
+void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   void _toggleDrawer() {
     if (_controller.isDismissed) {
@@ -55,12 +66,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
+          automaticallyImplyLeading:false,
           backgroundColor: Colors.transparent,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -172,20 +185,31 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Type Room',
                             icon: Icons.hotel,
                             onTap: () {
-                              setState(() {
-                                _currentPage = const RoomScreen();
-                              });
-                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                               if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const RoomScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); 
+                              // Đóng sidebar sau khi chọn mục
                             },
+                           
                           ),
                           SidebarItem(
                             title: 'Service',
                             icon: Icons.star,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    const Service(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const Service();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -193,21 +217,29 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Room',
                             icon: Icons.king_bed,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    RoomtypeScreen(); // Thay thế bằng trang Service của bạn
-                              });
-                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const RoomScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer();// Đóng sidebar sau khi chọn mục
                             },
                           ),
                           SidebarItem(
                             title: 'Discount',
                             icon: Icons.discount,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    DiscountListPage(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage =  DiscountListPage();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -215,10 +247,43 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Map Room',
                             icon: Icons.map,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    MapScreen(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const MapScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Role',
+                            icon: Icons.map,
+                            onTap: () {
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const CreateRole();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),SidebarItem(
+                            title: 'Create Account',
+                            icon: Icons.map,
+                            onTap: () {
+                              if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const CreateAccountAdmin();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -241,10 +306,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Table Type',
                             icon: Icons.table_bar,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    Tabletype(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'owner'|| widget.role=='Thủ quỹ' ) {
+                                setState(() {
+                                  _currentPage = const Tabletype();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -252,10 +321,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Table ',
                             icon: Icons.table_restaurant_outlined,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    TableScreen(); // Thay thế bằng trang Service của bạn
-                              });
+                             if (widget.role == 'owner'|| widget.role=='Thủ quỹ' ) {
+                                setState(() {
+                                  _currentPage = const TableScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -277,10 +350,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'Order ',
                             icon: Icons.shopping_cart_outlined,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    OrderScreen(); // Thay thế bằng trang Service của bạn
-                              });
+                             if (widget.role == 'owner'|| widget.role=='Thủ quỹ' ) {
+                                setState(() {
+                                  _currentPage = const OrderScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -288,21 +365,44 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             title: 'The booking has been arranged ',
                             icon: Icons.list_alt,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    BookingHistoryUser(); // Thay thế bằng trang Service của bạn
-                              });
-                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              if (widget.role == 'owner'|| widget.role=='Thủ quỹ' ) {
+                                setState(() {
+                                  _currentPage = const BookingHistoryUser();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer();// Đóng sidebar sau khi chọn mục
                             },
                           ),
                           SidebarItem(
                             title: 'Thong ke ',
                             icon: Icons.chalet,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    Thongke(); // Thay thế bằng trang Service của bạn
-                              });
+                             if (widget.role == 'owner'|| widget.role=='Thủ quỹ' ) {
+                                setState(() {
+                                  _currentPage = const Thongke();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Thong ke doanh thu ',
+                            icon: Icons.chalet,
+                            onTap: () {
+                             if (widget.role == 'owner'|| widget.role=='Thủ quỹ' ) {
+                                setState(() {
+                                  _currentPage = const Doanhthu ();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),

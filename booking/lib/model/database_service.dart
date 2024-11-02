@@ -1,3 +1,4 @@
+import 'package:booking/Management/Dashboard.dart';
 import 'package:booking/user/pages/home_page.dart';
 import 'package:booking/user/pages/personal_detail.dart';
 import 'package:booking/user/widget/alert_update_profile.dart';
@@ -65,10 +66,27 @@ class DatabaseService {
       }
        
  }
+ Future<String> getRole(String account) async {
+  String role = '';
+
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Admin').where('username', isEqualTo: account).get();
+    
+    if (querySnapshot.docs.isNotEmpty) {
+      role = querySnapshot.docs.first['role'];
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+  
+  return role;
+}
 
 Future<void> signIn(BuildContext context, String email,String password)async{
       try{
-        String? userId = await getUserIdByEmail(email);
+        String role = await getRole(email);
+        if(role==''){
+ String? userId = await getUserIdByEmail(email);
       print('User ID: $userId');
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
         print('-------------------------------------------------------------------');
@@ -92,6 +110,11 @@ Future<void> signIn(BuildContext context, String email,String password)async{
           print('-------------------------------------------------------------------');
 
         Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationMenu(account: userId,)));
+        }
+        else 
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard(role: role,)));
+
+       
         
 
       }

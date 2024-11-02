@@ -48,9 +48,7 @@ Future<void> fetchServices() async {
                   color: Color(0xff3CA0B6),
                   fontSize: 35,
                 ),
-              ),
-              
-               
+              ),  
             ],
           ),
       ),
