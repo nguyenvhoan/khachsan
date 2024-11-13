@@ -14,6 +14,8 @@ import 'package:booking/Management/item.dart';
 import 'package:booking/Management/role/create_account_admin.dart';
 import 'package:booking/Management/role/create_role.dart';
 import 'package:booking/model/database_service.dart';
+import 'package:booking/user/pages/intro_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:booking/Management/Service.dart';
@@ -34,6 +36,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   @override
   void initState() {  
     _databaseService.deleteExpiredUsers();
+    _databaseService.deleteExpiredtable();
     super.initState();
     
     _controller = AnimationController(
@@ -165,6 +168,27 @@ void _showSnackBar(BuildContext context, String message) {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueAccent,
+                                    borderRadius: BorderRadius.circular(20)
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () async{
+                                     try {
+                                        await FirebaseAuth.instance.signOut();
+                                        print("Đăng xuất thành công");
+                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Landing()));
+                                      } catch (e) {
+                                        print("Lỗi đăng xuất: $e");
+                                     }
+                                  
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5, right: 10,left: 10),
+                                      child: Text('Log Out')),
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -243,6 +267,7 @@ void _showSnackBar(BuildContext context, String message) {
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
+                          
                           SidebarItem(
                             title: 'Map Room',
                             icon: Icons.map,
@@ -253,6 +278,51 @@ void _showSnackBar(BuildContext context, String message) {
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
+                              'Account Management',
+                              style: TextStyle(
+                                fontFamily: 'Candal',
+                                color: Color(0xff3CA0B6),
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          SidebarItem(
+                            title: 'Create Account',
+                            icon: Icons.account_balance,
+                            onTap: () {
+                               if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const CreateAccountAdmin();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); 
+                              // Đóng sidebar sau khi chọn mục
+                            },
+                           
+                          ),
+                          SidebarItem(
+                            title: 'Role',
+                            icon: Icons.roller_shades,
+                            onTap: () {
+                               if (widget.role == 'owner' ) {
+                                setState(() {
+                                  _currentPage = const CreateRole();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); 
+                              // Đóng sidebar sau khi chọn mục
+                            },
+                           
                           ),
                           const SizedBox(
                             height: 10,
@@ -334,6 +404,17 @@ void _showSnackBar(BuildContext context, String message) {
                               setState(() {
                                 _currentPage =
                                     Thongke(); // Thay thế bằng trang Service của bạn
+                              });
+                              _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                            },
+                          ),
+                          SidebarItem(
+                            title: 'Thong ke ',
+                            icon: Icons.chalet,
+                            onTap: () {
+                              setState(() {
+                                _currentPage =
+                                    Doanhthu(); // Thay thế bằng trang Service của bạn
                               });
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },

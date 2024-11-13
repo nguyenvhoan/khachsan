@@ -30,6 +30,7 @@ class _BookingPageState extends State<BookingPage> {
   List<dynamic> voucher= [];
       String discount='0'; 
       int index=-1; 
+      String idvoucher='';
 
    final DatabaseService _databaseService = DatabaseService();
    
@@ -256,7 +257,10 @@ class _BookingPageState extends State<BookingPage> {
                                         index=indexs;
                                       });
                                     },
-                                    index
+                                    index,(id){
+                                      idvoucher=id;
+                                    }
+
                                     );
                                   
                                 },
@@ -281,7 +285,7 @@ class _BookingPageState extends State<BookingPage> {
                                   child: Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text('Bạn đã được giảm: ${discount}VND',
-                                    style: TextStyle(
+                                    style:const TextStyle(
                                       color: Color(0xffBEBCBC),
                                       fontSize: 17
                                     ),),
@@ -497,7 +501,7 @@ class _BookingPageState extends State<BookingPage> {
                               onTap: () {
                                 setState(() {
                                   if(_formkey.currentState!.validate()){   
-                                  
+                                  print(booking);
                                 String id = randomAlphaNumeric(10);
                                  Map<String, dynamic> req =({
                                   'id':id,
@@ -518,13 +522,13 @@ class _BookingPageState extends State<BookingPage> {
                                   'score':score,
                                   'time': now,     
                                   'numberRoom':null,
-                                  'requestType':'room'
+                                  'requestType':'room',
                                   
                                  });
-                                
+                                print(req);
                                 Navigator.push(
                                   context, 
-                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,idVoucher: voucher[index]['id'],booking: booking,))
+                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,booking: booking,))
                                 );
                                 }
                                 

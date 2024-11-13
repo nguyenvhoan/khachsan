@@ -10,9 +10,9 @@ import 'package:one_context/one_context.dart';
 const String transactionDetailUrl = '/transaction_detail';
 
 class PaymentPage extends StatefulWidget {
-  PaymentPage({super.key, required this.codeRoom, this.account, required this.req, required this.idVoucher, required this.booking});
+  PaymentPage({super.key, required this.codeRoom, this.account, required this.req,  required this.booking});
   var codeRoom, account;
-  var idVoucher;
+
   var booking;
   Map<String, dynamic> req;
 
@@ -41,7 +41,6 @@ Map<String,dynamic>? user;
   Widget build(BuildContext context) {
     print('--------------------------------------------');
     print('Đang thanh toán với id tài khoản :${widget.account}');
-    print('Mã giảm giá ${widget.idVoucher}');
     print('Booking : ${widget.booking}');
     print('--------------------------------------------');
 

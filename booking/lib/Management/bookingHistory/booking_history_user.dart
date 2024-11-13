@@ -342,7 +342,7 @@ class Type extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: "${thisItem['roomNumber']} ",
+                            text: "${thisItem['numberRoom']} ",
                             style: const TextStyle(
                               fontFamily: 'Courier',
                               fontSize: 20,

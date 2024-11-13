@@ -21,13 +21,15 @@ class DatabaseService {
             'name':name,
             'email':email,
             'password':password ,
+            
             'address':'',
             'day':'',
             'img':'',
-            'score':'',
-            'scoreUsed':'',
-            'lstBooking':'' as List<dynamic>,
-
+            'score':0,
+            'scoreUsed':0,
+            'lstBooking':[] as List<dynamic>,
+            'notify':[] as List<dynamic>,
+            'voucher':[] as List<dynamic>,
           }
         );
         ScaffoldMessenger.of(context).showSnackBar(
@@ -66,14 +68,18 @@ class DatabaseService {
       }
        
  }
- Future<String> getRole(String account) async {
+ Future<String> getRole(String account, String password, BuildContext context) async {
   String role = '';
 
   try {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Admin').where('username', isEqualTo: account).get();
     
     if (querySnapshot.docs.isNotEmpty) {
-      role = querySnapshot.docs.first['role'];
+        if(account==(querySnapshot.docs.first['username'])&&password==querySnapshot.docs.first['password']){
+            role = querySnapshot.docs.first['role'];
+        }
+        
+        
     }
   } catch (e) {
     print(e.toString());
@@ -84,7 +90,7 @@ class DatabaseService {
 
 Future<void> signIn(BuildContext context, String email,String password)async{
       try{
-        String role = await getRole(email);
+        String role = await getRole(email,password, context);
         if(role==''){
  String? userId = await getUserIdByEmail(email);
       print('User ID: $userId');
@@ -336,6 +342,20 @@ Future<void> updateScore(String email, int newScore) async {
     print('Error updating user score: $e');
   }
 }
+Future<void> deleteDiscount(String account, String idVoucher) async {
+  try {
+
+    
+
+      await FirebaseFirestore.instance.collection('user').doc(account).
+      collection('voucher').where('id', isEqualTo: idVoucher).
+      get();
+        
+    
+  } catch (e) {
+    print('Error updating user score: $e');
+  }
+}
 
 Future<List<Map<String, dynamic>>> getRequestsByUserEmail(String email) async {
     try {
@@ -367,7 +387,14 @@ Future<void> exchangePoint(String email, int newScore,List<Map<String, dynamic>>
 
     if (currentScore != null) {
       if (newScore > currentScore) {
-        print('New score exceeds current score. Cannot update.');
+        ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Có đủ điểm đâu mà đổi'),
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
         return; 
       }
 
@@ -420,6 +447,40 @@ Future<int?> getUsedScore(String email) async {
 
 Future<void> deleteExpiredUsers() async {
   final CollectionReference usersCollection = FirebaseFirestore.instance.collection('Room');
+
+  try {
+    // Lấy tất cả tài liệu trong collection
+    QuerySnapshot snapshot = await usersCollection.get();
+   
+    
+    // Lặp qua từng tài liệu
+    for (var doc in snapshot.docs) {
+      if(!doc['user'].isEmpty)
+      {
+        List<dynamic> u = doc['user'];
+      // Giả sử 'end' là một chuỗi định dạng ISO 8601
+      for(int i=0;i<doc['user'].length;i++)
+      {
+      DateTime endDateTime = DateTime.parse(u[i]['end']);
+      
+      
+      if (endDateTime.isBefore(DateTime.now()) || endDateTime.isAtSameMomentAs(DateTime.now())) {
+        u.removeAt(i);
+        // Xóa tài liệu
+        await usersCollection.doc(doc.id).update({
+          'user':u,
+        });
+        print('Đã xóa tài liệu: ${doc.id}');
+      }
+      }
+      }
+    }
+  } catch (e) {
+    print('Lỗi khi xóa tài liệu: $e');
+  }
+}
+Future<void> deleteExpiredtable() async {
+  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('Table');
 
   try {
     // Lấy tất cả tài liệu trong collection

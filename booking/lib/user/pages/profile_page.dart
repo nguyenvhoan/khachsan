@@ -8,6 +8,7 @@ import 'package:booking/user/pages/edit_personal_page.dart';
 import 'package:booking/user/pages/notify_page.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ var account;
 class _ProfilePageState extends State<ProfilePage> {
     Map<String, dynamic>? user; 
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
     File? imageFile;
   TextEditingController fullNameController = TextEditingController();
 
@@ -97,9 +99,6 @@ class _ProfilePageState extends State<ProfilePage> {
       await db.collection('user').doc(widget.account).update({
         'img': downloadUrl, // Thay đổi 'profile_picture' thành tên trường bạn muốn
       });
-      
-      
-
     } catch (e) {
       print('Lỗi khi tải lên: $e');
     }
@@ -382,7 +381,35 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ],
                                     ),
                                   ),
+                                  
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: GestureDetector(
+                                    onTap: () async{
+                                      try {
+                                         await _auth.signOut();
+                                         print("Đăng xuất thành công");
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Landing()));
+                                       } catch (e) {
+                                         print("Lỗi đăng xuất: $e");
+                                      }
+                                    },
+                                    child:const Row(
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Icon(Icons.point_of_sale),
+                                        SizedBox(width: 10,),
+                                        Text('Sign Out', 
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  )
                                 
                               ],
                             ),

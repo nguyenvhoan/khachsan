@@ -1,7 +1,9 @@
 import 'package:booking/Management/RoomType/RoomForm.dart';
+import 'package:booking/Management/RoomType/image_picker_util.dart';
 import 'package:booking/Management/RoomType/room_delete_dialog.dart';
 import 'package:booking/Management/RoomType/room_edit_dialog.dart';
 import 'package:booking/Management/role/widgets/FormCreateAccountAdmin.dart';
+import 'package:booking/Management/role/widgets/formEditAccountAdmin.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:random_string/random_string.dart';
@@ -17,6 +19,7 @@ class _RoomScreenState extends State<CreateAccountAdmin> {
   final TextEditingController fullname = TextEditingController();
   final TextEditingController username =TextEditingController();
   final TextEditingController password= TextEditingController();
+  final TextEditingController role= TextEditingController();
   final CollectionReference _item =
       FirebaseFirestore.instance.collection('Admin');
 
@@ -27,6 +30,7 @@ class _RoomScreenState extends State<CreateAccountAdmin> {
   String? _selectedRole;
   List<String> _selectedServices = [];
   List<String> _roleOptions = [];
+  String img='';
 
   @override
   void initState() {
@@ -65,38 +69,15 @@ class _RoomScreenState extends State<CreateAccountAdmin> {
           onChanged: (String? newValue) {
             setState(() {
               _selectedRole = newValue;
+              print(_selectedRole);
             });
           },
-         
+         img: img,
           onSubmit: () async {
             
-            final String fname = fullname.text;
-            final String uname = username.text;
-            final String pwd = password.text;
-            final String role = _selectedRole ?? 'Unknown';
-            
-            
 
-            await _item.add({
-              "name": randomAlphaNumeric(10),
-              "fullname": fname,
-              "role": role,
-              "password": pwd,
-              "username":uname,
-              // "floor": floor,
-              // "status": "empty",
-              "id": randomString(7),
-              // "roomType": roomType,
-              
-            });
-            fullname.clear();
-            username.clear();
-            password.clear();
-            // // _floorController.clear();
-            // _selectedRoomType = null;
-            _selectedRole = '';
-            Navigator.of(context).pop();
           },
+          
         );
       },
     );
@@ -150,7 +131,7 @@ class _RoomScreenState extends State<CreateAccountAdmin> {
                           borderRadius: BorderRadius.circular(10),
                           image: thisItem['img'] != null
                               ? DecorationImage(
-                                  image: NetworkImage(thisItem['full']),
+                                  image: NetworkImage(thisItem['img']),
                                   fit: BoxFit.cover,
                                 )
                               : null,
@@ -260,7 +241,27 @@ class _RoomScreenState extends State<CreateAccountAdmin> {
                               Icons.edit,
                               color: Color.fromARGB(255, 23, 127, 230),
                             ),
-                            onPressed: (){}
+                            onPressed: (){
+                              print(document.id+' '+thisItem['img']);
+                              
+                              role.text=thisItem['role']!;
+                              String img =thisItem['img'];
+                              showEditDialogAccountAdmin(
+                                context, 
+                                document.id,
+                                thisItem, 
+                                fullname, 
+                                password, 
+                                role, 
+                                username, 
+                                img, 
+                              _roleOptions
+                                );
+                                fullname.clear();
+                                username.clear();
+                                password.clear();
+                                role.clear();
+                            }
                           ),
                           IconButton(
                             icon: const Icon(

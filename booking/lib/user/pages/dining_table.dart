@@ -488,7 +488,7 @@ class _DiningTableState extends State<DiningTable> {
                                   'requestType':'table'
                                  });
                                  print(req);
-                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'],account: widget.account, req: req, idVoucher: 'idVoucher', booking: booking,)));
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'],account: widget.account, req: req, booking: booking,)));
                             
                           
                         },

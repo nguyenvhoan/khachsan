@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class BottomChooseDis {
     static int? selectedIndex; 
 
-  static Future<void> showBottom(BuildContext context, List<dynamic> voucher, Function(String) onDiscountSelected, Function(int) indexs, int  select) async {
+  static Future<void> showBottom(BuildContext context, List<dynamic> voucher, Function(String) onDiscountSelected, Function(int) indexs, int  select, Function(String) idvoucher) async {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // Cho phép điều chỉnh kích thước
@@ -103,6 +103,7 @@ class BottomChooseDis {
                                   );
                                 } else {
                                   onDiscountSelected(voucher[index]['point'].toString());
+                                  idvoucher(voucher[index]['id'].toString());
                                   selectedIndex = index; // Cập nhật selectedIndex
                                 }
                                 Navigator.pop(ctx); // Đóng bottom sheet
