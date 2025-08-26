@@ -118,7 +118,7 @@ Future<void> fetchServices() async {
                                               textAlign: TextAlign.center ,
                                               style:const TextStyle(
                                                 fontFamily: 'Candal',
-                                                fontSize: 18,
+                                                fontSize: 20,
                                                 color: Colors.black
                                               ),),
                                             ],
@@ -167,8 +167,8 @@ Future<void> fetchServices() async {
                                               child: Center(
                                                 child: Container(
                                                   alignment: Alignment.center,
-                                                  height: 26,
-                                                  width: 127,
+                                                  height: 40,
+                                                  width: 180,
                                                   decoration: BoxDecoration(
                                                     color: const Color(0xff1A4368),
                                                     borderRadius: BorderRadius.circular(25)

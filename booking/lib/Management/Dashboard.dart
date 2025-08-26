@@ -10,19 +10,26 @@ import 'package:booking/Management/Room_type.dart';
 import 'package:booking/Management/ThongKe/ThongKe.dart';
 import 'package:booking/Management/ThongKe/doanhthu.dart';
 import 'package:booking/Management/bookingHistory/booking_history_user.dart';
+import 'package:booking/Management/chat_repo/chat_cskh.dart';
+import 'package:booking/Management/customer/Customer.dart';
+import 'package:booking/Management/intro.dart';
 import 'package:booking/Management/item.dart';
+import 'package:booking/Management/profile/profile.dart';
 import 'package:booking/Management/role/create_account_admin.dart';
 import 'package:booking/Management/role/create_role.dart';
 import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/intro_page.dart';
+import 'package:booking/user/widget/intro.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:booking/Management/Service.dart';
 
 class Dashboard extends StatefulWidget {
-   Dashboard({super.key, required this.role});
+   Dashboard({super.key, required this.role, required this.un});
   String role;
+  var un;
   @override
   State<Dashboard> createState() => _DashboardState();
 }
@@ -30,13 +37,17 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   late AnimationController _controller;
   // Biến trạng thái để theo dõi nội dung hiện tại
-  Widget _currentPage = const RoomScreen();
+  Widget _currentPage = const IntroAdmin();
   final DatabaseService _databaseService =DatabaseService();
-
+  Map<String,dynamic>? user;
+   final FirebaseFirestore db = FirebaseFirestore.instance;
   @override
   void initState() {  
     _databaseService.deleteExpiredUsers();
     _databaseService.deleteExpiredtable();
+    getAdminByUname(widget.un);
+    
+
     super.initState();
     
     _controller = AnimationController(
@@ -65,6 +76,23 @@ void _showSnackBar(BuildContext context, String message) {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+  Future<void> getAdminByUname(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await db.collection('Admin').doc(id).get();
+
+      if (documentSnapshot.exists) {
+        setState(() {
+          user = documentSnapshot.data() as Map<String, dynamic>?; 
+          
+        });
+      } else {
+        print('Tài liệu không tồn tại');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy dữ liệu: $e');
+    }
   }
 
   @override
@@ -184,16 +212,93 @@ void _showSnackBar(BuildContext context, String message) {
                                      }
                                   
                                     },
-                                    child: Padding(
+                                    child:const Padding(
                                       padding: EdgeInsets.only(top: 5, bottom: 5, right: 10,left: 10),
-                                      child: Text('Log Out')),
+                                      child: Text('Log Out', style: TextStyle(
+                                        color: Colors.white
+                                      ),)
+                                      ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueAccent,
+                                    borderRadius: BorderRadius.circular(20)
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileAdmin(user: user)));
+                                  
+                                    },
+                                    child :const Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5, right: 10,left: 10),
+                                      child: Text('Profile', style: TextStyle(
+                                        color: Colors.white
+                                      ),)),
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          // Sidebar items
-
+                          SidebarItem(
+                            title: 'Intro',
+                            icon: Icons.hotel,
+                            onTap: () {
+                               
+                                setState(() {
+                                  _currentPage = const IntroAdmin();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              
+                              
+                              // Đóng sidebar sau khi chọn mục
+                            },
+                           
+                          ),
+                             const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text(
+                              'Customer',
+                              style: TextStyle(
+                                fontFamily: 'Candal',
+                                color: Color(0xff3CA0B6),
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          SidebarItem(
+                            title: 'Customer',
+                            icon: Icons.person,
+                            onTap: () {
+                               if (widget.role == 'admin' || widget.role == 'Quản lí'||widget.role=='Kế Toán' ) {
+                                setState(() {
+                                  _currentPage = const Customer();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
+                              _toggleDrawer(); 
+                              // Đóng sidebar sau khi chọn mục
+                            },
+                           
+                          ),
+                          SidebarItem(
+                            title: 'Customer',
+                            icon: Icons.person,
+                            onTap: () {
+                               
+                                setState(() {
+                                  _currentPage =  ChatCskh(nameCSKH: user!['username'].toString(),);
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              
+                              _toggleDrawer(); 
+                              // Đóng sidebar sau khi chọn mục
+                            },
+                           
+                          ),
                           const Padding(
                             padding: EdgeInsets.all(15.0),
                             child: Text(
@@ -209,7 +314,7 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Type Room',
                             icon: Icons.hotel,
                             onTap: () {
-                               if (widget.role == 'owner' ) {
+                               if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
                                 setState(() {
                                   _currentPage = const RoomScreen();
                                 });
@@ -226,7 +331,7 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Service',
                             icon: Icons.star,
                             onTap: () {
-                              if (widget.role == 'owner' ) {
+                               if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
                                 setState(() {
                                   _currentPage = const Service();
                                 });
@@ -241,7 +346,7 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Room',
                             icon: Icons.king_bed,
                             onTap: () {
-                              if (widget.role == 'owner' ) {
+                               if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
                                 setState(() {
                                   _currentPage = const RoomScreen();
                                 });
@@ -256,7 +361,7 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Discount',
                             icon: Icons.discount,
                             onTap: () {
-                              if (widget.role == 'owner' ) {
+                              if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
                                 setState(() {
                                   _currentPage =  DiscountListPage();
                                 });
@@ -271,11 +376,15 @@ void _showSnackBar(BuildContext context, String message) {
                           SidebarItem(
                             title: 'Map Room',
                             icon: Icons.map,
-                            onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    MapScreen(); // Thay thế bằng trang Service của bạn
-                              });
+                             onTap: () {
+                              if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
+                                setState(() {
+                                  _currentPage =  MapScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -294,7 +403,7 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Create Account',
                             icon: Icons.account_balance,
                             onTap: () {
-                               if (widget.role == 'owner' ) {
+                               if (widget.role == 'admin' ) {
                                 setState(() {
                                   _currentPage = const CreateAccountAdmin();
                                 });
@@ -311,7 +420,7 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Role',
                             icon: Icons.roller_shades,
                             onTap: () {
-                               if (widget.role == 'owner' ) {
+                               if (widget.role == 'admin' ) {
                                 setState(() {
                                   _currentPage = const CreateRole();
                                 });
@@ -343,21 +452,29 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Table Type',
                             icon: Icons.table_bar,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    Tabletype(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
+                                setState(() {
+                                  _currentPage =  Tabletype();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
                           SidebarItem(
-                            title: 'Table ',
+                            title: 'Table',
                             icon: Icons.table_restaurant_outlined,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    TableScreen(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
+                                setState(() {
+                                  _currentPage =  TableScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -379,10 +496,14 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Order ',
                             icon: Icons.shopping_cart_outlined,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    OrderScreen(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
+                                setState(() {
+                                  _currentPage =  OrderScreen();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -390,10 +511,14 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'The booking has been arranged ',
                             icon: Icons.list_alt,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    BookingHistoryUser(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'admin' || widget.role == 'Quản lí' ) {
+                                setState(() {
+                                  _currentPage =  BookingHistoryUser();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -401,10 +526,14 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Thong ke ',
                             icon: Icons.chalet,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    Thongke(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'admin' || widget.role == 'Kế Toán' ) {
+                                setState(() {
+                                  _currentPage =  Thongke();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),
@@ -412,10 +541,14 @@ void _showSnackBar(BuildContext context, String message) {
                             title: 'Thong ke ',
                             icon: Icons.chalet,
                             onTap: () {
-                              setState(() {
-                                _currentPage =
-                                    Doanhthu(); // Thay thế bằng trang Service của bạn
-                              });
+                              if (widget.role == 'admin' || widget.role == 'Kế Toán' ) {
+                                setState(() {
+                                  _currentPage =  Doanhthu();
+                                });
+                                _toggleDrawer(); // Đóng sidebar sau khi chọn mục
+                              } else {
+                                _showSnackBar(context, 'Bạn không có quyền truy cập vào mục này.');
+                              }
                               _toggleDrawer(); // Đóng sidebar sau khi chọn mục
                             },
                           ),

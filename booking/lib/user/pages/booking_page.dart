@@ -1,6 +1,7 @@
 import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/booking_page.dart';
 import 'package:booking/user/pages/intro_page.dart';
+import 'package:booking/user/pages/option_payment.dart';
 import 'package:booking/user/pages/payment_page.dart';
 import 'package:booking/user/widget/bottom_choose_dis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -190,6 +191,7 @@ class _BookingPageState extends State<BookingPage> {
                               ? const Icon(Icons.image, size: 10)
                               : null,
                         ),
+                        SizedBox(height: 20,),
                         Center(
                           child: Text(
                             data?['number'] ?? '',
@@ -197,6 +199,7 @@ class _BookingPageState extends State<BookingPage> {
                             textAlign: TextAlign.center,
                           ),
                         ),
+                        SizedBox(height: 20,),
                         Form(
                           key: _formkey,
                           child: Column(
@@ -435,6 +438,10 @@ class _BookingPageState extends State<BookingPage> {
                               ),
                               const Text(
                                 'Price and summary',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                                ),
                                 textAlign: TextAlign.start,
                               ),
                               const SizedBox(
@@ -453,8 +460,16 @@ class _BookingPageState extends State<BookingPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Total Discounts:'),
-                                          Text('$discount VNĐ'),
+                                          const Text('Total Discounts:',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17
+                                          ),),
+                                          Text('$discount VNĐ',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17
+                                          ),),
                                         ],
                                       ),
                                       const SizedBox(
@@ -464,9 +479,16 @@ class _BookingPageState extends State<BookingPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Total Room Price:'),
+                                          const Text('Total Room Price:',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17
+                                          ),),
                                           Text(
-                                              '${data!['price']} đ'),
+                                              '${data!['price']} đ',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17)),
                                         ],
                                       ),
                                       const SizedBox(
@@ -476,8 +498,15 @@ class _BookingPageState extends State<BookingPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Quantity day:'),
-                                          Text('$day Day'),
+                                          const Text('Quantity day:',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17
+                                          ),),
+                                          Text('$day Day',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17)),
                                         ],
                                       ),
                                       const SizedBox(
@@ -487,15 +516,15 @@ class _BookingPageState extends State<BookingPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold),),
-                                          Text('${data!['price']*day-int.parse(discount)} đ', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                          const Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                                          Text('${data!['price']*day-int.parse(discount)} đ', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10,),
+                              const SizedBox(height: 50,),
                                GestureDetector(
                               
                               onTap: () {
@@ -528,21 +557,24 @@ class _BookingPageState extends State<BookingPage> {
                                 print(req);
                                 Navigator.push(
                                   context, 
-                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,booking: booking,))
+                                  MaterialPageRoute(builder: (context) => PaymentPage(codeRoom: widget.codeRoom,account: widget.account,req: req,booking: booking,voucher: idvoucher,))
                                 );
                                 }
                                 
                                 }); 
                               },
                               child: Container(
+                                height: 50,
+                                width: 280,
                                 decoration: BoxDecoration(
                                   color: const Color(0xff1A4368), 
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                                   child: Text(
-                                    'Compplete payment',
+                                    textAlign: TextAlign.center,
+                                    'Complete payment',
                                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                                   ),
                                 ),

@@ -61,7 +61,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
               children:[
                 Container(
                   margin: const EdgeInsets.only(bottom: 50),
-                height: 200,
+                height: 280,
                 width: double.infinity,
                 
                 decoration:const BoxDecoration(
@@ -75,7 +75,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
              
               Positioned(
                 top:100,
-                left: 120  ,
+                left: size.width/3.3 ,
                 
                   child: Container(                                      
                           width: size.width / 2.5, 
@@ -119,7 +119,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
             ),
              Center(
                child: Container(
-                    
+                    margin:  EdgeInsets.only(top: 20),
                     width: double.infinity,
                     color: Colors.white,
                     child: Column(
@@ -153,7 +153,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
                             ]
                           ),
                           Container(
-                            margin: const EdgeInsets.all(15),
+                            margin: const EdgeInsets.all(30),
                             decoration: BoxDecoration(
                               boxShadow: [
                                     BoxShadow(
@@ -167,7 +167,7 @@ class _DetailVoucherState extends State<DetailVoucher> {
                               borderRadius: BorderRadius.circular(20)
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(30),
                               child:  Column(
                                 children: [
                                    Padding(

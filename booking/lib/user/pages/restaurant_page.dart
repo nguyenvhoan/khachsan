@@ -15,24 +15,24 @@ class RestaurantPage extends StatelessWidget {
           fit: StackFit.loose,
           children: [
             Container(
-              child: Image.asset('asset/images/icons/restaurant.png'),
+              child: Image.asset('asset/images/icons/restaurant.png', fit: BoxFit.cover,width: double.infinity,),
             ),
             Positioned(
              top: 300,
             child: Container(
                decoration:const BoxDecoration(
+                
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50), // Bo tròn góc trên bên trái
                     topRight: Radius.circular(50), // Bo tròn góc trên bên phải
                   ),
                 ),
-              height: MediaQuery.sizeOf(context).height/1.8,
+              height: MediaQuery.sizeOf(context).height/1.6,
               width:  MediaQuery.of(context).size.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 20,),
                   const Text(
                     '‘Welcome to Otelia’',
                   style: TextStyle(
@@ -41,6 +41,7 @@ class RestaurantPage extends StatelessWidget {
                     fontSize: 23,
                   ),
                   ),
+                  SizedBox(height: 20,),
                   const Text(
                     'Where high food meets cozy atmosphere!',
                     maxLines: 2,
@@ -53,11 +54,20 @@ class RestaurantPage extends StatelessWidget {
                     
                   ),
                   ),
+                  SizedBox(height: 20,),
                   Container(
-                    margin: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                        color: const Color.fromARGB(58, 143, 145, 130),
-                        borderRadius: BorderRadius.circular(20)
+                        color: Color(0xffDAF4FF),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            offset: const Offset(0, 5)
+                          )
+                        ]
                     ),
                     child: Padding(
                       padding:const  EdgeInsets.all(10),
@@ -66,15 +76,17 @@ class RestaurantPage extends StatelessWidget {
                          const Text("At Otelia, indulge in exquisite dishes made from the freshest, locally sourced ingredients. Our talented chefs combine traditional techniques with modern flair, creating a menu that delights the senses. Experience exceptional dining in a luxurious and cozy setting, perfect for any occasion. Let us make your meal unforgettable.",
                         maxLines: 8,
                         textAlign: TextAlign.center,
-                        style:  TextStyle(fontSize: 16),
+                        style:  TextStyle(fontSize: 17,
+                        fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 20,),
                         const Text("You can adjust the name or any details to better fit your restaurant's style!",
                         maxLines: 8,
                         textAlign: TextAlign.center,
-                        style:  TextStyle(fontSize: 16),
+                        style:  TextStyle(fontSize: 17,
+                        fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(height: 20,),
                         GestureDetector(
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>TablePage(account: account,)));

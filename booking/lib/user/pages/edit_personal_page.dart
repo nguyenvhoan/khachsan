@@ -103,7 +103,7 @@ Future<void> _selectedStartDate() async{
                 children:[
                   Container(
                     margin: const EdgeInsets.only(bottom: 50),
-                  height: 200,
+                  height: 250,
                   width: double.infinity,
                   
                   decoration:const BoxDecoration(
@@ -116,7 +116,7 @@ Future<void> _selectedStartDate() async{
                 ),
                 Positioned(
                   top:100,
-                  left: 130  ,
+                  left: size.width/3,
                   child: ClipOval(
                     child: Container(
                       width: size.width / 3, 
@@ -135,8 +135,8 @@ Future<void> _selectedStartDate() async{
                   ),
                 ),
                   Positioned(
-                    top: 180,
-                    left: 220,
+                    top: 225,
+                    left: size.width/1.7,
                     child: Container(
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 243, 239, 239),
@@ -168,6 +168,7 @@ Future<void> _selectedStartDate() async{
                 ),
               ),
               Container(
+               
                   margin: const EdgeInsets.only(top: 30,right: 30,left: 30),          
                  decoration:BoxDecoration(
                   borderRadius: BorderRadius.circular(20),

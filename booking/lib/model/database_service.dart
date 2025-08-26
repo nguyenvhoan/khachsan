@@ -1,4 +1,5 @@
 import 'package:booking/Management/Dashboard.dart';
+import 'package:booking/user/pages/chatbox/home_chat.dart';
 import 'package:booking/user/pages/home_page.dart';
 import 'package:booking/user/pages/personal_detail.dart';
 import 'package:booking/user/widget/alert_update_profile.dart';
@@ -6,6 +7,7 @@ import 'package:booking/user/widget/navigation_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class DatabaseService {
     final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -87,12 +89,74 @@ class DatabaseService {
   
   return role;
 }
+Future<void> signInWithGoogle(BuildContext context) async {
+  try {
+    // Đăng nhập với Google
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? gAuth = await gUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: gAuth?.accessToken,
+      idToken: gAuth?.idToken,
+    );
+
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    final User? user = userCredential.user;
+    
+
+    if (user == null) {
+      print('User is null after sign in');
+      return;
+    }
+
+    final userId = user.uid;
+    print('Checking account for user ID: $userId');
+    String? userId1 = await getUserIdByEmail(user.email!);
+
+    // Lấy tài liệu từ Firestore
+    final docRef = FirebaseFirestore.instance.collection('user').doc(userId);
+    final docSnapshot = await docRef.get();
+
+    // Kiểm tra sự tồn tại của tài liệu
+    if (!docSnapshot.exists) {
+      // Nếu tài liệu không tồn tại, tạo mới
+      final id = DateTime.now().microsecondsSinceEpoch.toString();
+      await docRef.set({
+        'name': user.displayName,
+        'email': user.email,
+        'password': '',  // Cân nhắc việc lưu trữ mật khẩu
+        'id': id,
+        'day': '',
+        'img': '',
+        'address': '',
+        'score': 0,
+        'scoreUsed': 0,
+        'lstBooking': [],
+        'notify': [],
+        'voucher': [],
+      });
+      print('New account created for user: $userId');
+    } else {
+      // Tài liệu đã tồn tại
+      print('Account already exists for user: $userId');
+    }
+
+    // Chuyển đến màn hình tiếp theo
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationMenu(account: userId1,)));
+
+  } catch (e) {
+    print('Error signing in with Google: $e');
+  }
+}
 
 Future<void> signIn(BuildContext context, String email,String password)async{
       try{
         String role = await getRole(email,password, context);
+         String? adm = await getAdminByUname(email);
+
         if(role==''){
- String? userId = await getUserIdByEmail(email);
+        String? userId = await getUserIdByEmail(email);
+ 
       print('User ID: $userId');
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
         print('-------------------------------------------------------------------');
@@ -116,9 +180,17 @@ Future<void> signIn(BuildContext context, String email,String password)async{
           print('-------------------------------------------------------------------');
 
         Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationMenu(account: userId,)));
+        // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeChat()));
+
         }
-        else 
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard(role: role,)));
+        else {
+                 
+          print('-------------------------------------------------------------------');
+        print('Đăng nhập thành công với id : $adm');
+        print('-------------------------------------------------------------------');
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard(role: role,un:adm)));
+
+        }
 
        
         
@@ -193,6 +265,25 @@ Future<void> signIn(BuildContext context, String email,String password)async{
     return null; // Xử lý lỗi
   }
 }
+Future<String?> getAdminByUname(String email) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Admin') // Tên bộ sưu tập
+        .where('username', isEqualTo: email) // Điều kiện tìm kiếm
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // Nếu tìm thấy tài liệu
+      return querySnapshot.docs.first.id; 
+    } else {
+      print('No user found with that email');
+      return null; // Không tìm thấy người dùng
+    }
+  } catch (e) {
+    print('Error getting user ID: $e');
+    return null; // Xử lý lỗi
+  }
+}
   Future<List<String>> getService() async {
   List<String> services = [];
 
@@ -209,7 +300,52 @@ Future<void> signIn(BuildContext context, String email,String password)async{
   
   return services;
 }
+Future<List<Map<String, dynamic>>> getMyVoucher(String account) async {
+  List<Map<String, dynamic>> services = []; // Khởi tạo danh sách kiểu Map
 
+  try {
+    DocumentSnapshot docSnapshot = await FirebaseFirestore.instance.collection('user').doc(account).get();
+    
+    if (docSnapshot.exists) {
+      // Lấy danh sách dịch vụ từ trường 'lstBooking'
+      // Giả sử 'lstBooking' là một danh sách các map
+      List<dynamic> serviceList = docSnapshot['voucher'] ?? [];
+
+      for (var service in serviceList) {
+        // Kiểm tra xem service có phải là Map không
+        if (service is Map<String, dynamic>) {
+          services.add(service);
+        }
+      }
+    }
+  } catch (e) {
+    print("Error fetching myvoucher: ${e.toString()}");
+  }
+  
+  return services;
+}
+Future<List<Map<String, dynamic>>> getRoomType() async {
+  List<Map<String, dynamic>> services = []; // Khởi tạo danh sách kiểu Map
+
+  try {
+    // Lấy tất cả tài liệu trong collection 'RoomType'
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('RoomType').get();
+    
+    // Duyệt qua tất cả tài liệu trong QuerySnapshot
+    for (var doc in querySnapshot.docs) {
+      // Thêm dữ liệu của từng tài liệu vào danh sách
+      // Kết hợp dữ liệu và ID tài liệu
+      services.add({
+        'id': doc.id, // Lưu ID tài liệu
+        ...doc.data() as Map<String, dynamic>, // Thêm dữ liệu từ tài liệu
+      });
+    }
+  } catch (e) {
+    print("Error fetching room types: ${e.toString()}");
+  }
+  
+  return services;
+}
 Future<List<Map<String, dynamic>>> getHistoryBooking(String account,String type) async {
   List<Map<String, dynamic>> services = []; // Khởi tạo danh sách kiểu Map
 
@@ -325,13 +461,38 @@ Future<int?> getScore(String email) async {
     return null; // Xử lý lỗi
   }
 }
+Future<int?> getSpendingScore(String email) async {
+  try {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(email) // Sử dụng email làm ID tài liệu
+        .get();
+
+    if (documentSnapshot.exists) {
+      var data = documentSnapshot.data() as Map<String, dynamic>?;
+
+      if (data != null && data['scoreUsed'] != null) {
+     
+        return data['scoreUsed'] as int?;
+      } else {
+        print('Score not found for user with email: $email');
+        return null; 
+      }
+    } else {
+      print('No user found with that email');
+      return null; 
+    }
+  } catch (e) {
+    print('Error getting user score: $e');
+    return null; // Xử lý lỗi
+  }
+}
 Future<void> updateScore(String email, int newScore) async {
   try {
     int? currentScore = await getScore(email);
 
     if (currentScore != null) {
-      int updatedScore = currentScore + newScore;
-
+int updatedScore = (currentScore + newScore * 0.1).toInt();
       await FirebaseFirestore.instance.collection('user').doc(email).update({
         'score': updatedScore, 
       });
@@ -342,21 +503,73 @@ Future<void> updateScore(String email, int newScore) async {
     print('Error updating user score: $e');
   }
 }
+// Future<void> plusScore(String email, int newScore) async {
+//   try {
+//     int? currentScore = await getSpendingScore(email);
+
+//     if (currentScore != null) {
+// int updatedScore = (currentScore + newScore).toInt();
+//       await FirebaseFirestore.instance.collection('user').doc(email).update({
+//         'scoreUsed': updatedScore, 
+//       });
+//     } else {
+//       print('Current score is null. Cannot update.');
+//     }
+//   } catch (e) {
+//     print('Error updating user score: $e');
+//   }
+// }
 Future<void> deleteDiscount(String account, String idVoucher) async {
+  final DocumentReference userDoc = FirebaseFirestore.instance.collection('user').doc(account);
+
   try {
+    // Lấy tài liệu người dùng
+    DocumentSnapshot docSnapshot = await userDoc.get();
 
-    
+    // Kiểm tra xem tài liệu người dùng có tồn tại không
+    if (docSnapshot.exists) {
+      // Lấy danh sách voucher từ tài liệu
+      List<dynamic> vouchers = docSnapshot['voucher'];
 
-      await FirebaseFirestore.instance.collection('user').doc(account).
-      collection('voucher').where('id', isEqualTo: idVoucher).
-      get();
+      // Kiểm tra xem có voucher nào trong danh sách không
+      if (vouchers != null && vouchers.isNotEmpty) {
+        // Tìm voucher có id trùng khớp
+        // Giữ nguyên voucher để xóa
+        for(int i =0;i<vouchers.length;i++){
+          if(vouchers[i]['id']==idVoucher){
+            await vouchers.removeAt(i);
+          }
+        }
+        userDoc.update({
+          'voucher':vouchers
+        });
+        // Nếu tìm thấy voucher cần xóa
         
-    
+      } else {
+        print('No vouchers found for the given account.');
+      }
+    } else {
+      print('No user found with the given account.');
+    }
   } catch (e) {
-    print('Error updating user score: $e');
+    print('Error deleting voucher: $e');
   }
 }
+Future<Map<String, dynamic>?> getBookingById(String userId, String bookingId) async {
+  DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('user').doc(userId).get();
 
+  if (userDoc.exists) {
+    List<dynamic> bookings = userDoc['lstBooking'];
+
+    // Tìm booking theo ID
+    for (var booking in bookings) {
+      if (booking['id'] == bookingId) {
+        return booking; // Trả về booking nếu tìm thấy
+      }
+    }
+  }
+  return null; // Trả về null nếu không tìm thấy
+}
 Future<List<Map<String, dynamic>>> getRequestsByUserEmail(String email) async {
     try {
       QuerySnapshot querySnapshot = await db
@@ -384,6 +597,7 @@ Future<void> exchangePoint(String email, int newScore,List<Map<String, dynamic>>
    if(confirm==true){
   try {
     int? currentScore = await getScore(email);
+    int? plusScore = await getSpendingScore(email);
 
     if (currentScore != null) {
       if (newScore > currentScore) {
@@ -397,16 +611,33 @@ Future<void> exchangePoint(String email, int newScore,List<Map<String, dynamic>>
                     );
         return; 
       }
+      else {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Đổi điểm thành công'),
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+      }
 
       int updatedScore = currentScore - newScore;
+      int plus = plusScore! + newScore;
       await FirebaseFirestore.instance.collection('user').doc(email).update({
         'score': updatedScore,
         'voucher': voucher,
+      });
+      await FirebaseFirestore.instance.collection('user').doc(email).update({
+        'scoreUsed': plus,
+        
       });
 
       print('Score updated successfully to $updatedScore.');
     } else {
       print('Current score is null. Cannot update.');
+
     }
   } catch (e) {
     print('Error updating user score: $e');

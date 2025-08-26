@@ -20,7 +20,7 @@ class _RoomScreenState extends State<RoomScreen> {
   final TextEditingController _floorController = TextEditingController();
   final CollectionReference _item =
       FirebaseFirestore.instance.collection('RoomType');
-
+String img='';
   final CollectionReference _service =
       FirebaseFirestore.instance.collection('Service');
   Stream<QuerySnapshot>? _stream;
@@ -77,15 +77,7 @@ class _RoomScreenState extends State<RoomScreen> {
               _selectedServices = values;
             });
           },
-          onPickImage: () async {
-            String tempDocumentId = randomAlphaNumeric(10);
-            String? url = await pickAndUploadImage(tempDocumentId);
-            if (url != null) {
-              setState(() {
-                imageUrl = url;
-              });
-            }
-          },
+          img: img,
           onSubmit: () async {
             if (imageUrl.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -105,8 +97,7 @@ class _RoomScreenState extends State<RoomScreen> {
               "number": number,
               "price": price,
               "intro": introduce,
-              // "floor": floor,
-              // "status": "empty",
+
               "img": imageUrl,
               // "roomType": roomType,
               "services": services,

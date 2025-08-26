@@ -2,6 +2,7 @@ import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/detail_voucher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:random_string/random_string.dart';
 
 class PointUser extends StatefulWidget {
      PointUser({super.key, required this.account});
@@ -344,7 +345,7 @@ class _PointUserState extends State<PointUser> {
                                                                 lst=List<Map<String, dynamic>>.from(dynamicList);
 
                                                             Map<String, dynamic> vou ={
-                                                              'id':documentSnapshot['id'],
+                                                              'id':randomString(7),
                                                               'img':documentSnapshot['img'],
                                                               'introduc':documentSnapshot['introduc'],
                                                               'name':documentSnapshot['name'],
@@ -355,7 +356,6 @@ class _PointUserState extends State<PointUser> {
                                                             (){
                                                               getUserById(widget.account);
                                                             });
-                                                            getUserById(widget.account);
                                                             
                                                           },
                                                           child: Container(

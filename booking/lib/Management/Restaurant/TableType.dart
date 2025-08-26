@@ -23,6 +23,7 @@ class _TabletypeState extends State<Tabletype> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _tableTypeController = TextEditingController();
   Stream<QuerySnapshot>? _stream;
+  String img='';
   final TableTypeModel _tableTypeModel = TableTypeModel();
   final CollectionReference _item =
       FirebaseFirestore.instance.collection('TableType');
@@ -42,21 +43,9 @@ class _TabletypeState extends State<Tabletype> {
           priceController: _priceController,
           tableTypeController: _tableTypeController,
           onRoomTypeChanged: (String? newValue) {},
-          onPickImage: () async {
-            String tempDocumentId = randomAlphaNumeric(10);
-            String? url = await pickAndUploadImage(tempDocumentId);
-            if (url != null) {
-              setState(() {
-                imageUrl = url;
-              });
-            }
-          },
+          img: img,
           onSubmit: () async {
-            if (imageUrl.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please pick an image')));
-              return;
-            }
+            
 
             final int price = int.tryParse(_priceController.text) ?? 0;
             final String tableType = _tableTypeController.text;

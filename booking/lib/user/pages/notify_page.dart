@@ -25,6 +25,11 @@ class _NotifyPageState extends State<NotifyPage> {
 
   Future<void> fetchServices() async {
     List<Map<String, dynamic>> fetchedServices = await _databaseService.getNotify(widget.account);
+    fetchedServices.sort((a, b) {
+    Timestamp timestampA = a['time'];
+    Timestamp timestampB = b['time'];
+    return timestampB.compareTo(timestampA); // Sắp xếp giảm dần
+  });
     setState(() {
       services = fetchedServices;
     });

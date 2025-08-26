@@ -30,7 +30,10 @@ Future<void> showEditDialogAccountAdmin(
         builder: (BuildContext context, StateSetter setState) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            title: const Text('Edit Account Admin'),
+            title:  const Center(child: Text('Edit Account Admin', style: TextStyle(
+            fontFamily: 'Candal',
+            fontSize: 22,
+          ),)),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -170,7 +173,7 @@ Future<void> showEditDialogAccountAdmin(
                         'username': uc.text,
                         'password': pc.text,
                         'role': rc.text,
-                        'img': imageUrl, // Lưu imageUrl mới
+                        'img': imageUrl, 
                       });
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(

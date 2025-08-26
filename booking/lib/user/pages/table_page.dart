@@ -12,10 +12,12 @@ class TablePage extends StatefulWidget {
 }
 
 class _TablePageState extends State<TablePage> {
+  
   @override
   Widget build(BuildContext context) {
     DatabaseService  databaseService  =DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  
   Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(

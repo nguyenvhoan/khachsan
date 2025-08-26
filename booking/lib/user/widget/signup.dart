@@ -1,5 +1,6 @@
 import 'package:booking/model/auth_model.dart';
 import 'package:booking/model/database_service.dart';
+import 'package:booking/ui/button_confirm_landing.dart';
 import 'package:booking/user/widget/signIn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,7 +51,8 @@ class _SignUpState extends State<SignUp> {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: Column(        
+                  child: Column(      
+                    crossAxisAlignment: CrossAxisAlignment.end,  
                     children: [   
                       if (_isLoading) 
                           Positioned.fill(
@@ -83,12 +85,14 @@ class _SignUpState extends State<SignUp> {
                               color: Colors.black ,
                             ),  
                             cursorColor: Colors.black, 
-                            decoration:const InputDecoration(
+                            decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10),
+
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
                               labelText: 'FullName',
                               labelStyle:  TextStyle(
@@ -118,14 +122,15 @@ class _SignUpState extends State<SignUp> {
                               color: Colors.black ,
                             ),  
                             cursorColor: Colors.black, 
-                            decoration:const InputDecoration(
+                            decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
-                              labelText: 'Phone or Gmail',
+                              labelText: 'Gmail',
                               labelStyle:  TextStyle(
                                 color: Color(0xff57A5EC), 
                               ),
@@ -154,11 +159,12 @@ class _SignUpState extends State<SignUp> {
                             ),
                             cursorColor: Colors.black, 
                             decoration: InputDecoration(
-                              enabledBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
                                 focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
                               labelText: 'Password',
                               labelStyle: const TextStyle(
@@ -194,11 +200,12 @@ class _SignUpState extends State<SignUp> {
                             ),
                             cursorColor: Colors.black, 
                             decoration: InputDecoration(
-                              enabledBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
                                 focusedBorder:const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
+                                  borderSide: BorderSide(color: Color(0xff57A5EC), width: 1.5),
                                 ),
                               labelText: 'Confirm Password',
                               labelStyle: const TextStyle(
@@ -219,14 +226,39 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                          const SizedBox(height: 20,),
                           const Text('Forgot Password?',textAlign: TextAlign.end, style: TextStyle(
                               color: Colors.grey
                           ),),
-                          const SizedBox(height: 10,),
+                          const SizedBox(height: 20,),
            
                           GestureDetector(
                             onTap: () async{
+                              Future<void>  createAccountAndNavigateToSignInPage() async {
+                                if (_formkey.currentState!.validate()) {
+                                  setState(() {
+                                    _isLoading = true; 
+                                  });
+        
+                                  String email = _emailController.text;
+                                  String password = _passwordController.text;
+        
+                                  bool success = await _databaseService.registration(
+                                    context,
+                                    email,
+                                    password,
+                                    _nameController.text,
+                                  );
+        
+                                  if (success) {
+                                    widget.onGetStarted(); 
+                                  }
+        
+                                  setState(() {
+                                    _isLoading = false; 
+                                  });
+                                }
+                              }
                               if (_formkey.currentState!.validate()) {
                                 setState(() {
                                   _isLoading = true; 
@@ -250,23 +282,28 @@ class _SignUpState extends State<SignUp> {
                                   _isLoading = false; 
                                 });
                               }
-                               
+                               ButtonConfirmLanding(
+                                onGetStarted: createAccountAndNavigateToSignInPage,
+                                textTitle: 'Sign Up',
+                               );
                             },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff1A4368),
-                            borderRadius: BorderRadius.circular(25)
+                        child: Center(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 55,
+                            width: 250,
+                            decoration: BoxDecoration(
+                              color: const Color(0xff1A4368),
+                              borderRadius: BorderRadius.circular(25)
+                              ),
+                            child: Text('Sign Up', textAlign:TextAlign.center,
+                            style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white,fontSize: 20),
                             ),
-                          child: Text('Sign In', textAlign:TextAlign.center,
-                          style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
-                          ),
-                        
-                          ),
+                          
+                            ),
+                        ),
                       ),
-                      const SizedBox(height: 5,),
+                      const SizedBox(height: 20,),
                        Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

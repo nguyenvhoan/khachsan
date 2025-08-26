@@ -117,396 +117,398 @@ class _DiningTableState extends State<DiningTable> {
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2), 
-                        spreadRadius: 1,
-                        blurRadius: 7, 
-                        offset: const Offset(0, 5), 
-                      ),
-                    ],
-                  ),
-              margin: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    width: size.width/3,
-                    height: size.height/6.5 ,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image:  widget.table['img']!=null
-                      ?DecorationImage(
-                        image: NetworkImage(widget.table['img']),
-                        fit: BoxFit.cover
-                        
-                        )
-                        :null,
-                        color: Colors.transparent,
-                    ),
-                    child: widget.table['img']==null
-                    ?const Icon(Icons.image, size: 50,)
-                    :null,
-                  ),
-                  Padding(
-                    padding:const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(children: [
-                           Text('Table type : ', style:TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                        ]),
-                         Text(widget.table['tabletype'], style:  const TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
-                       Row(children:[
-                           const Text('Giá: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff57A5EC)),
-                          ),
-                         const SizedBox(height: 50,),
-                          Text(widget.table['price'].toString(),style: const TextStyle(fontSize: 19),)
-                          ] 
-                          ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                   color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2), 
+                          spreadRadius: 1,
+                          blurRadius: 7, 
+                          offset: const Offset(0, 5), 
+                        ),
                       ],
-                    ), 
-                    )
-                ],
-              ),
-            ),
-            Container(
-                margin: const EdgeInsets.all(10),
-               decoration:BoxDecoration(
-                 color: Colors.white,
-                   boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1), 
-                      spreadRadius: 3,
-                       blurRadius: 7, 
-                       offset: const Offset(0, 2), 
-                      ),
-                    ],
-                   ),
-                  height: 50,
-                  child: TextFormField(
-                    validator: (value){
-                      if(value==null||value.isEmpty){
-                        return 'Bắt buộc nhập';
-                      }
-                      return null;
-                    },
-                                  
-                  // controller: cardNumberController,
-                  decoration: const InputDecoration(
-                  label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  focusedBorder:OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
                     ),
-                    enabledBorder: OutlineInputBorder(
+                margin: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      width: size.width/3,
+                      height: size.height/6.5 ,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image:  widget.table['img']!=null
+                        ?DecorationImage(
+                          image: NetworkImage(widget.table['img']),
+                          fit: BoxFit.cover
+                          
+                          )
+                          :null,
+                          color: Colors.transparent,
+                      ),
+                      child: widget.table['img']==null
+                      ?const Icon(Icons.image, size: 50,)
+                      :null,
+                    ),
+                    Padding(
+                      padding:const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(children: [
+                             Text('Table type : ', style:TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                          ]),
+                           Text(widget.table['tabletype'], style:  const TextStyle(fontSize: 19, color: Color(0xff1A4368)),),
+                         Row(children:[
+                             const Text('Giá: ', style:TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xff57A5EC)),
+                            ),
+                           const SizedBox(height: 50,),
+                            Text(widget.table['price'].toString(),style: const TextStyle(fontSize: 19),)
+                            ] 
+                            ),
+                        ],
+                      ), 
+                      )
+                  ],
+                ),
+              ),
+              Container(
+                  margin: const EdgeInsets.all(10),
+                 decoration:BoxDecoration(
+                   color: Colors.white,
+                     boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1), 
+                        spreadRadius: 3,
+                         blurRadius: 7, 
+                         offset: const Offset(0, 2), 
+                        ),
+                      ],
+                     ),
+                    height: 50,
+                    child: TextFormField(
+                      validator: (value){
+                        if(value==null||value.isEmpty){
+                          return 'Bắt buộc nhập';
+                        }
+                        return null;
+                      },
+                                    
+                    // controller: cardNumberController,
+                    decoration: const InputDecoration(
+                    label:Text( 'Enter card number *', style:TextStyle(color: Color(0xffBEBCBC)),),
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    focusedBorder:OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                 Container(
-                margin: const EdgeInsets.all(10),
-               decoration:BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                 color: const Color(0xffD9D9D9),
-                   boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1), 
-                      spreadRadius: 3,
-                       blurRadius: 7, 
-                       offset: const Offset(0, 2), 
-                      ),
-                    ],
-                   ),
-                  height: 200,
-                  child: Column(
-                    children: [
-                      Expanded(
-
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Select date: '),
-                              Container(
-                          
-                                width: 200,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.white
-                                  )
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(dayStart),
-                                      GestureDetector(onTap: (){
-                                        _selectedStartDate();
-                          
-                                      },
-                                       child: const Icon(Icons.calendar_month))
-                                    ],
-                                  ),
-                                ),
-                              )
-                             
-                            ],
-                          ),
-                        ),
-                      ),
-                       Expanded(
-
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Select end date: '),
-                              Container(
-                          
-                                width: 200,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.white
-                                  )
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(dayEnd),
-                                      GestureDetector(onTap: (){
-                                        _selectedEndDate();
-                          
-                                      },
-                                       child: const Icon(Icons.calendar_month))
-                                    ],
-                                  ),
-                                ),
-                              )
-                             
-                            ],
-                          ),
-                        ),
-                      ),
-                       Expanded(
-
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Quantity: '),
-                              Container(
-                          
-                                width: 200,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.black
-                                  )
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: (){
-                                         setState(() {
-                                            quantity<=1?quantity=1:quantity--;
-                                         });
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10)
-                                          ),
-                                          child:const Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 10),
-                                            child: Text('-',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold
-                                            ),))),
-                                      ),
-                                      Text(quantity.toString(), textAlign: TextAlign.center,),
-                                      GestureDetector(
-                                        onTap: (){
-                                          setState(() {
-                                            quantity<1?quantity=1:quantity++;
-                                          });
-                                          print(quantity);
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10)
-                                          ),
-                                          child:const Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 10),
-                                            child: Text('+',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold
-                                            ),
-                                            )
-                                            )
-                                            ),
-                                      ),
-                                      
-                                    ],
-                                  ),
-                                ),
-                              )
-                             
-                            ],
-                          ),
-                        ),
-                      ),
-                      
-                    ],
-                  ),
-                  
-                ),
-                const Text('Total Payment',
-                style: TextStyle(
-                  fontFamily: 'Candal',
-                  fontSize: 20,
-                  color: Color(0xff57A5EC)
-                ),),
-                Container(
-                margin: const EdgeInsets.all(10),
-               decoration:BoxDecoration(
-                 borderRadius: BorderRadius.circular(20),
-
-                 color: const Color(0xffD9D9D9),
-                   boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1), 
-                      spreadRadius: 3,
-                       blurRadius: 7, 
-                       offset: const Offset(0, 2), 
-                      ),
-                    ],
-                   ),
-                  child:Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Quantity:',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            ),
-                            Text(quantity.toString(),
-                            style:const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Total table:',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),),
-                            Text(
-                                '${widget.table!['price']} đ',
-                                style:const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),),
-                          ],
-                        ),
-                        
-                  
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),),
-                            Text('${widget.table!['price']*(day)*quantity} đ', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-                          ],
+                   Container(
+                  margin: const EdgeInsets.all(10),
+                 decoration:BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                   color: const Color(0xffD9D9D9),
+                     boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1), 
+                        spreadRadius: 3,
+                         blurRadius: 7, 
+                         offset: const Offset(0, 2), 
                         ),
                       ],
-                    ),
-                  ),
-               ),
-               GestureDetector(      
-                        onTap: () {
-                             String id = randomAlphaNumeric(10);
-
-                            Map<String, dynamic> req =({
-                                  'id':id,
-                                  'idUser':widget.account,
-                                  'nameUser':user!['name'],
-                                  'emailUser':user!['email'],
-                                  'img':widget.table['img'],
-                                  // 'idTable':widget.table['Id'],
-                                  'roomType':widget.table['tabletype'],
-                                  'price':(widget.table['price']*(day)*quantity),
-                                  'day':day  ,
-                                  'start':dayStart,
-                                  'end':dayEnd , 
-                                  'time': now,     
-                                  'phoneNumber':'',
-                                  'numberTable':'null',
-                                  'requestType':'table'
-                                 });
-                                 print(req);
-                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'],account: widget.account, req: req, booking: booking,)));
+                     ),
+                    height: 200,
+                    child: Column(
+                      children: [
+                        Expanded(
+          
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Select date: '),
+                                Container(
                             
-                          
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xff1A4368), 
-                            borderRadius: BorderRadius.circular(20),
+                                  width: 200,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.white
+                                    )
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(dayStart),
+                                        GestureDetector(onTap: (){
+                                          _selectedStartDate();
+                            
+                                        },
+                                         child: const Icon(Icons.calendar_month))
+                                      ],
+                                    ),
+                                  ),
+                                )
+                               
+                              ],
+                            ),
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                            child: Text(
-                              'Compplete payment',
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                         Expanded(
+          
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Select end date: '),
+                                Container(
+                            
+                                  width: 200,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.white
+                                    )
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(dayEnd),
+                                        GestureDetector(onTap: (){
+                                          _selectedEndDate();
+                            
+                                        },
+                                         child: const Icon(Icons.calendar_month))
+                                      ],
+                                    ),
+                                  ),
+                                )
+                               
+                              ],
+                            ),
+                          ),
+                        ),
+                         Expanded(
+          
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Quantity: '),
+                                Container(
+                            
+                                  width: 200,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.black
+                                    )
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                           setState(() {
+                                              quantity<=1?quantity=1:quantity--;
+                                           });
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10)
+                                            ),
+                                            child:const Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              child: Text('-',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold
+                                              ),))),
+                                        ),
+                                        Text(quantity.toString(), textAlign: TextAlign.center,),
+                                        GestureDetector(
+                                          onTap: (){
+                                            setState(() {
+                                              quantity<1?quantity=1:quantity++;
+                                            });
+                                            print(quantity);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(10)
+                                            ),
+                                            child:const Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              child: Text('+',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold
+                                              ),
+                                              )
+                                              )
+                                              ),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                  ),
+                                )
+                               
+                              ],
+                            ),
+                          ),
+                        ),
+                        
+                      ],
+                    ),
+                    
+                  ),
+                  const Text('Total Payment',
+                  style: TextStyle(
+                    fontFamily: 'Candal',
+                    fontSize: 20,
+                    color: Color(0xff57A5EC)
+                  ),),
+                  Container(
+                  margin: const EdgeInsets.all(10),
+                 decoration:BoxDecoration(
+                   borderRadius: BorderRadius.circular(20),
+          
+                   color: const Color(0xffD9D9D9),
+                     boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1), 
+                        spreadRadius: 3,
+                         blurRadius: 7, 
+                         offset: const Offset(0, 2), 
+                        ),
+                      ],
+                     ),
+                    child:Padding(
+                      padding: const EdgeInsets.all(25),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Quantity:',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              ),
+                              Text(quantity.toString(),
+                              style:const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Total table:',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),),
+                              Text(
+                                  '${widget.table!['price']} đ',
+                                  style:const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),),
+                            ],
+                          ),
+                          
+                    
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Total Cost:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),),
+                              Text('${widget.table!['price']*(day)*quantity} đ', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                 ),
+                 GestureDetector(      
+                          onTap: () {
+                               String id = randomAlphaNumeric(10);
+          
+                              Map<String, dynamic> req =({
+                                    'id':id,
+                                    'idUser':widget.account,
+                                    'nameUser':user!['name'],
+                                    'emailUser':user!['email'],
+                                    'img':widget.table['img'],
+                                    // 'idTable':widget.table['Id'],
+                                    'roomType':widget.table['tabletype'],
+                                    'price':(widget.table['price']*(day)*quantity),
+                                    'day':day  ,
+                                    'start':dayStart,
+                                    'end':dayEnd , 
+                                    'time': now,     
+                                    'phoneNumber':'',
+                                    'numberTable':'null',
+                                    'requestType':'table'
+                                   });
+                                   print(req);
+                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(codeRoom: widget.table['Id'],account: widget.account, req: req, booking: booking,voucher: '',)));
+                              
+                            
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xff1A4368), 
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                              child: Text(
+                                'Compplete payment',
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
                     ),
                   ),
-                ),
-                 )
-          ],
+                   )
+            ],
+          ),
         ),
       ),
     );

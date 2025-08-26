@@ -1,4 +1,7 @@
   import 'package:another_carousel_pro/another_carousel_pro.dart';
+import 'package:booking/model/database_service.dart';
+import 'package:booking/user/pages/SearchPage.dart';
+import 'package:booking/user/pages/detail_page.dart';
 import 'package:booking/user/pages/notify_page.dart';
   import 'package:booking/user/pages/room_page.dart';
   import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,11 +9,32 @@ import 'package:booking/user/pages/notify_page.dart';
   import 'package:flutter/material.dart';
   import 'package:flutter_image_slider/carousel.dart';
 
-  class HomePage extends StatelessWidget {
+  class HomePage extends StatefulWidget {
     HomePage({super.key, required this.account, required this.goToRoomTab});
     var account;
     final Function goToRoomTab;
+    
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  DatabaseService _databaseService=DatabaseService();
+  List<Map<String,dynamic>> services=[];
     final FirebaseFirestore db = FirebaseFirestore.instance;
+    @override
+  void initState() {
+    super.initState();
+    fetchServices();
+  }
+  Future<void> fetchServices() async {
+    List<Map<String, dynamic>> fetchedServices = await _databaseService.getRoomType();
+    
+    setState(() {
+      services = fetchedServices;
+    });
+    print(services);
+  }
     @override
     Widget build(BuildContext context) {
       Size size = MediaQuery.sizeOf(context);
@@ -24,39 +48,63 @@ import 'package:booking/user/pages/notify_page.dart';
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Chữ "Otelia" nằm ở góc trái
-              const Text(
-                'Otelia',
-                style: TextStyle(
-                  fontFamily: 'Candal',
-                  color: Color(0xff3CA0B6),
-                  fontSize: 35,
-                ),
-              ),
-              // Biểu tượng nằm ở góc phải
-              GestureDetector(
-                onTap: (){
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(builder: (context) => NotifyPage(account: account,))
-                );                },
-                child: Container(
-                  color: Colors.white,
-                  child: Image.asset(
-                    'asset/images/icons/tb.png',
-                    fit: BoxFit.cover,
+                const Text(
+                  'Otelia',
+                  style: TextStyle(
+                    fontFamily: 'Candal',
+                    color: Color(0xff3CA0B6),
+                    fontSize: 35,
                   ),
                 ),
-              ),
-            ],
+             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: 20),
+                  child: GestureDetector(
+                  onTap: (){
+                      showSearch(context: context, delegate:CustomSearch(services, widget.account));
+                          },
+                  child: Container(
+                    color: Colors.white,
+                    child: Image.asset(
+                      'asset/images/icons/search.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                                ),
+                ),
+                
+                
+                
+                // Biểu tượng nằm ở góc phải
+                GestureDetector(
+                  onTap: (){
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context) => NotifyPage(account: widget.account,))
+                  );                },
+                  child: Container(
+                    color: Colors.white,
+                    child: Image.asset(
+                      'asset/images/icons/tb.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            ]
           ),
         ),
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
               margin: const EdgeInsets.all(20 ),
-                height: size.height * 0.2,
+                height: size.height*0.2 ,
                 width: size.width,
                 child: AnotherCarousel(
+                  boxFit: BoxFit.cover,
                 images: const [
                   AssetImage("asset/images/icons/background.png"),
                   NetworkImage(
@@ -72,17 +120,17 @@ import 'package:booking/user/pages/notify_page.dart';
               ),
                 ),
             Container(
-              margin: const EdgeInsets.all(15),
-              child: const Row(
+              margin: EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 40),
+              child:  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    const Row(
                       children: [
                         Text(
                           'Popular ',
                           style: TextStyle(
                             fontFamily: 'Candal',
-                            fontSize: 20,
+                            fontSize: 25,
                             color: Color(0xff57A5EC),
                           ),
                         ),
@@ -90,15 +138,25 @@ import 'package:booking/user/pages/notify_page.dart';
                           'Room',
                           style: TextStyle(
                             fontFamily: 'Candal',
-                            fontSize: 20,
+                            fontSize: 25,
                             color: Colors.black,
                           ),
                         ),
                       ],
                     ),
-                    Text(
-                      'See All',
-                      style: TextStyle(color: Color(0xff57A5EC), fontSize: 15),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchPage(services: services, account: widget.account,), // Duy trì dịch vụ
+                        ),
+                      );
+                      },
+                      child: Text(
+                        'See All',
+                        style: TextStyle(color: Color(0xff57A5EC), fontSize: 19,fontWeight: FontWeight.bold),
+                      ),
                     )
                   ]),
             ),
@@ -106,6 +164,7 @@ import 'package:booking/user/pages/notify_page.dart';
                 stream: db.collection('RoomType').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
@@ -131,14 +190,14 @@ import 'package:booking/user/pages/notify_page.dart';
                               ],
                             ),
                             width: size.width / 2.3,
-                            height: size.height / 3.5,
+                            height: size.height / 3.4,
                             child: Container(
                               margin: const EdgeInsets.all(20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: size.width / 3,
+                                    width: size.width ,
                                     height: size.height / 9,
                                     decoration: BoxDecoration(
                                       image: thisItem['img'] != null
@@ -167,7 +226,7 @@ import 'package:booking/user/pages/notify_page.dart';
                                             maxLines: 1,
                                             style: const TextStyle(
                                                 fontFamily: 'Candal',
-                                                fontSize: 15,
+                                                fontSize: 18,
                                                 color: Colors.black),
                                           ),
                                         ),
@@ -175,7 +234,10 @@ import 'package:booking/user/pages/notify_page.dart';
                                           children: [
                                             Image.asset(
                                                 'asset/images/icons/Star.png'),
-                                            const Text('  4.8')
+                                            const Text('  4.8', style: TextStyle(
+                                              fontSize: 19,
+                                              fontWeight: FontWeight.bold
+                                            ),)
                                           ],
                                         )
                                       ],
@@ -186,30 +248,33 @@ import 'package:booking/user/pages/notify_page.dart';
                                     textAlign: TextAlign.start,
                                     style: const TextStyle(
                                       color: Color(0xff57A5EC),
+                                      fontSize: 18
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 30,
                                   ),
                                   GestureDetector(
                                     onTap: (){
-                                      goToRoomTab();
+                                      widget.goToRoomTab();
                                     },
                                     child: Center(
                                       child: Container(
                                         alignment: Alignment.center,
-                                        height: 26,
-                                        width: 127,
+                                        
                                         decoration: BoxDecoration(
                                             color: const Color(0xff1A4368),
                                             borderRadius:
                                                 BorderRadius.circular(25)),
-                                        child: Text(
-                                          'View More',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                                          child: Text(
+                                            'View More',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -246,34 +311,38 @@ import 'package:booking/user/pages/notify_page.dart';
                         margin:const EdgeInsets.all(10),
                         child: Image.asset('asset/images/icons/hinhtumlum.png')),
                     const Expanded(
-                      child: Column(
-                      children: [
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                        children: [
+                          Text(
+                          '‘Welcome to Otelia’',
+                        style: TextStyle(
+                          fontFamily:   'Candal',
+                          color: Color(0xff3CA0B6),
+                          fontSize: 20,
+                        ),
+                        ),
                         Text(
-                        '‘Welcome to Otelia’',
-                      style: TextStyle(
-                        fontFamily:   'Candal',
-                        color: Color(0xff3CA0B6),
-                        fontSize: 16,
-                      ),
-                      ),
-                      Text(
-                        'Where high food meets cozy atmosphere!',
-                        maxLines: 2,
-                        textAlign:  TextAlign.center,
-                      style: TextStyle(
-                        fontFamily:   'Candal',
-                        color: Color(0xff1A4368),
-                        fontSize: 16,
-                        
-                        
-                      ),
-                      ),
-                      Text("At Otelia, indulge in exquisite dishes made from the freshest, locally sourced ingredients. Our talented chefs combine traditional techniques with modern flair, creating a menu that delights the senses. Experience exceptional dining in a luxurious and cozy setting, perfect for any occasion. Let us make your meal unforgettable.",
-                            maxLines: 6,
-                            textAlign: TextAlign.center,
-                            style:  TextStyle(fontSize: 13),
-                            ),
-                      ],
+                          'Where high food meets cozy atmosphere!',
+                          maxLines: 2,
+                          textAlign:  TextAlign.center,
+                        style: TextStyle(
+                          fontFamily:   'Candal',
+                          color: Color(0xff1A4368),
+                          fontSize: 20,
+                          
+                          
+                        ),
+                        ),
+                        Text("At Otelia, indulge in exquisite dishes made from the freshest, locally sourced ingredients. Our talented chefs combine traditional techniques with modern flair, creating a menu that delights the senses. Experience exceptional dining in a luxurious and cozy setting, perfect for any occasion. Let us make your meal unforgettable.",
+                              maxLines: 6,
+                              textAlign: TextAlign.center,
+                              style:  TextStyle(fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                              ),
+                        ],
+                        ),
                       )
                     )
                     
@@ -286,4 +355,137 @@ import 'package:booking/user/pages/notify_page.dart';
         ),
       );
     }
+}
+  class CustomSearch extends SearchDelegate{
+    final List<Map<String, dynamic>> services; // Danh sách dịch vụ
+    String account;
+  CustomSearch(this.services, this.account);
+
+  
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    return[
+      IconButton(onPressed: (){
+        query=' ';
+      }, icon: Icon(Icons.clear))
+    ];
   }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    return IconButton(onPressed: (){
+      close(context, null);
+      
+    }, icon: Icon(Icons.arrow_back),);
+  }
+
+  @override
+Widget buildResults(BuildContext context) {
+  List<Map<String, dynamic>> matchQuery = [];
+  
+  for (var item in services) {
+    // Kiểm tra nếu 'number' không null và chứa query
+    if (item['number'] != null && 
+        item['number'].toLowerCase().contains(query.toLowerCase())) {
+      matchQuery.add(item);
+    }
+  }
+
+  return ListView.builder(
+    itemCount: matchQuery.length,
+    itemBuilder: (context, index) {
+      var result = matchQuery[index];
+      return Container(
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: const Color.fromARGB(255, 72, 153, 247),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: Image.network(
+                result['img'],
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(result['number'], style: TextStyle(color: Colors.white, fontSize: 18)),
+                  Text('Giá: ' + result['price'].toString() + 'đ', style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic)),
+                  Text(result['intro'], maxLines: 2, softWrap: true, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.0, color: Colors.white, fontStyle: FontStyle.italic)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+@override
+Widget buildSuggestions(BuildContext context) {
+  List<Map<String, dynamic>> matchedProducts = [];
+
+  for (var item in services) {
+    if (item['number'] != null && 
+        item['number'].toLowerCase().contains(query.toLowerCase())) {
+      matchedProducts.add(item);
+    }
+  }
+
+  return ListView.builder(
+    itemCount: matchedProducts.length,
+    itemBuilder: (context, index) {
+      var result = matchedProducts[index];
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(codeRoom: matchedProducts[index]['id'], account: account)));
+        },
+        child: Container(
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: const Color.fromARGB(255, 83, 58, 58),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Image.network(
+                  result['img'],
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(result['number'], style: TextStyle(color: Colors.white, fontSize: 18)),
+                    Text('Giá: ' + result['price'].toString() + 'đ', style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic)),
+                    Text(result['intro'], maxLines: 2, softWrap: true, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.0, color: Colors.white, fontStyle: FontStyle.italic)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+}
+

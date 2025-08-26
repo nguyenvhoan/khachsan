@@ -1,125 +1,131 @@
-import 'dart:io';
-
-import 'package:booking/user/test/models/create_order_response.dart';
-import 'package:booking/user/test/utils/endpoints.dart';
-import 'package:http/http.dart' as http;
-import 'package:booking/user/test/utils/util.dart' as utils;
-import 'package:sprintf/sprintf.dart';
-import 'dart:async';
 import 'dart:convert';
-import 'package:crypto/crypto.dart';
+import 'package:http/http.dart' as http;
+import 'package:sprintf/sprintf.dart';
+import '../utils/util.dart';
+import '../utils/config.dart';
 
-import 'package:url_launcher/url_launcher.dart';
+class CreateOrderResponse {
+  final String? zpTransToken;
+  final String? orderUrl;
+  final int? returnCode;
+  final String? returnMessage;
 
+  CreateOrderResponse({
+    this.zpTransToken,
+    this.orderUrl,
+    this.returnCode,
+    this.returnMessage,
+  });
 
-class ZaloPayConfig {
-  static const String appId = "2554";
-  static const String key1 = "sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn";
-  static const String key2 = "";
-
-  static const String appUser = "zalopaydemo";
-  static int transIdDefault = 1;
+  factory CreateOrderResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOrderResponse(
+      zpTransToken: json['zp_trans_token'],
+      orderUrl: json['order_url'],
+      returnCode: json['return_code'],
+      returnMessage: json['return_message'],
+    );
+  }
 }
 
 Future<CreateOrderResponse?> createOrder(int price) async {
-  var header = <String, String>{};
-  header["Content-Type"] = "application/x-www-form-urlencoded";
-
-  var body = <String, String>{};
-  body["app_id"] = ZaloPayConfig.appId;
-  body["app_user"] = ZaloPayConfig.appUser;
-  body["app_time"] = DateTime.now().millisecondsSinceEpoch.toString();
-  body["amount"] = price.toStringAsFixed(0);
-  body["app_trans_id"] = utils.getAppTransId();
-  body["embed_data"] = "{}";
-  body["item"] = "[]";
-  body["bank_code"] = utils.getBankCode();
-  body["description"] = utils.getDescription(body["app_trans_id"]!);
-
-  var dataGetMac = sprintf("%s|%s|%s|%s|%s|%s|%s", [
-    body["app_id"],
-    body["app_trans_id"],
-    body["app_user"],
-    body["amount"],
-    body["app_time"],
-    body["embed_data"],
-    body["item"]
-  ]);
-  body["mac"] = utils.getMacCreateOrder(dataGetMac);
-  print("mac: ${body["mac"]}");
-
-  http.Response response = await http.post(
-  Uri.parse(Endpoints.createOrderUrl), // Convert string URL to Uri
-  headers: header,
-  body: body,
-);
-
-  print("body_request: $body");
-  if (response.statusCode != 200) {
-    return null;
-  }
-
-  var data = jsonDecode(response.body);
-  await launchPaymentUrl(data['order_url']);
-  print("data_response: $data}");
-
-  return CreateOrderResponse.fromJson(data);
-}
-Future<void> launchPaymentUrl(String url) async {
   try {
-    if (await canLaunch(url)) {
-      await launch(url);
+    // Header cho request
+    var header = {"Content-Type": "application/x-www-form-urlencoded"};
+
+    // Body của request
+    var body = {
+      "app_id": ZaloPayConfig.appId,
+      "app_user": ZaloPayConfig.appUser,
+      "app_time": DateTime.now().millisecondsSinceEpoch.toString(),
+      "amount": price.toString(),
+      "app_trans_id": getAppTransId(),
+      "embed_data": "{}",
+      "item": "[]",
+      "bank_code": getBankCode(),
+      "description": getDescription(getAppTransId()),
+    };
+
+    // Tạo chữ ký (mac)
+    var dataToSign = sprintf("%s|%s|%s|%s|%s|%s|%s", [
+      body["app_id"],
+      body["app_trans_id"],
+      body["app_user"],
+      body["amount"],
+      body["app_time"],
+      body["embed_data"],
+      body["item"]
+    ]);
+    body["mac"] = getMacCreateOrder(dataToSign);
+
+    print("Payload: $body");
+
+    // Gửi request đến API ZaloPay
+    final response = await http.post(
+      Uri.parse(ZaloPayConfig.createOrderUrl),
+      headers: header,
+      body: body,
+    );
+
+    // Xử lý phản hồi từ API
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print("Response: $data");
+
+      // Kiểm tra mã trả về từ API
+      if (data['return_code'] == 1) {
+        return CreateOrderResponse.fromJson(data);
+      } else {
+        print("Error: ${data['return_message']}");
+        return null;
+      }
     } else {
-      print('Could not launch $url');
-      throw 'Could not launch $url';
+      print("HTTP Error: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+      return null;
     }
   } catch (e) {
-    print('Error launching URL: $e');
+    print("Exception: $e");
+    return null;
   }
 }
+Future<void> checkTransactionStatus(String appTransId) async {
+  try {
+    // Header cho request
+    var header = {"Content-Type": "application/json"};
 
-  Future<http.Response> postCallback(HttpRequest request) async {
-    final Map<String, dynamic> result = {};
-    
-    try {
-      // Read the request body
-      String content = await utf8.decodeStream(request);
-      final Map<String, dynamic> cbdata = json.decode(content);
+    // Body của request
+    var body = {
+      "app_id": ZaloPayConfig.appId,
+      "app_trans_id": appTransId,
+      "mac": getMacCreateOrder("${ZaloPayConfig.appId}|$appTransId|${ZaloPayConfig.key1}"),
+    };
 
-      final String dataStr = cbdata['data'];
-      final String reqMac = cbdata['mac'];
+    print("Payload for status check: $body");
 
-      final String mac = computeHmac(dataStr);
+    // Gửi request đến API ZaloPay
+    final response = await http.post(
+      Uri.parse("https://sb-openapi.zalopay.vn/v2/query"),
+      headers: header,
+      body: jsonEncode(body),
+    );
 
-      print("mac = $mac");
+    // Xử lý phản hồi từ API
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print("Transaction status response: $data");
 
-      // Validate callback (from ZaloPay server)
-      if (reqMac != mac) {
-        // Invalid callback
-        result['return_code'] = -1;
-        result['return_message'] = "mac not equal";
+      if (data['return_code'] == 1) {
+        // Giao dịch thành công
+        print("Giao dịch thành công: ${data['return_message']}");
       } else {
-        // Payment succeeded
-        final Map<String, dynamic> dataJson = json.decode(dataStr);
-        print("update order's status = success where app_trans_id = ${dataJson['app_trans_id']}");
-        
-        result['return_code'] = 1;
-        result['return_message'] = "success";
+        // Giao dịch thất bại hoặc đang chờ xử lý
+        print("Giao dịch thất bại hoặc đang chờ xử lý: ${data['return_message']}");
       }
-    } catch (e) {
-      result['return_code'] = 0; // ZaloPay server will callback again (up to 3 times)
-      result['return_message'] = e.toString();
+    } else {
+      print("HTTP Error: ${response.statusCode}");
+      print("Response Body: ${response.body}");
     }
-
-    // Notify the result to ZaloPay server
-    return http.Response(json.encode(result), HttpStatus.ok);
+  } catch (e) {
+    print("Exception while checking transaction status: $e");
   }
-
-  String computeHmac(String dataStr) {
-    final key = utf8.encode(ZaloPayConfig.key2);
-    final bytes = utf8.encode(dataStr);
-    final hmacSha256 = Hmac(sha256, key);
-    final digest = hmacSha256.convert(bytes);
-    return digest.toString();
-  }
-
+}

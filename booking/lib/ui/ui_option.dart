@@ -28,7 +28,7 @@ class UiOption {
       },
     );
   }
-  static showDialogSuccessPayment(Map<String,dynamic> req){
+  static showDialogSuccessPayment(Map<String,dynamic> req, String account){
     OneContext().showDialog(builder: (ctx)
     {
       return AlertDialog(
@@ -37,13 +37,23 @@ class UiOption {
           
         ),
         actions: [
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(top: 10,bottom: 10),
+              child: Text('Thanh toán thành công đi đến trang bill',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black
+              ),),
+            ),
+          ),
           ElevatedButton(onPressed: (){
             Navigator.of(ctx).pop();
           }, child: TextButton(
             onPressed: (){
-              Navigator.push(ctx, MaterialPageRoute(builder: (ctx)=>TransactionDetail(req: req)));
+              Navigator.push(ctx, MaterialPageRoute(builder: (ctx)=>TransactionDetail(account: account,id: req['id'],)));
             },
-            child: const Text('ok')))
+            child: Center(child: const Text('ok', style: TextStyle(color: Colors.black),))))
         ],
       );
     });

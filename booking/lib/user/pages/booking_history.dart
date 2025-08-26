@@ -1,5 +1,6 @@
 import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/detail_voucher.dart';
+import 'package:booking/user/pages/transaction_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,8 @@ class BookingHistory extends StatefulWidget {
 class _BookingHistoryState extends State<BookingHistory> {
   final DatabaseService _databaseService = DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
-  List<Map<String, dynamic>> services = []; // Thay đổi kiểu dữ liệu
+  List<Map<String, dynamic>> services = [];
+ 
 
   @override
   void initState() {
@@ -26,6 +28,11 @@ class _BookingHistoryState extends State<BookingHistory> {
 
   Future<void> fetchServices() async {
     List<Map<String, dynamic>> fetchedServices = await _databaseService.getHistoryBooking(widget.account, widget.type);
+    fetchedServices.sort((a, b) {
+    Timestamp timestampA = a['time'];
+    Timestamp timestampB = b['time'];
+    return timestampB.compareTo(timestampA); // Sắp xếp giảm dần
+  });
     setState(() {
       services = fetchedServices;
     });
@@ -125,6 +132,9 @@ class _BookingHistoryState extends State<BookingHistory> {
                                            ),
                                           ),
                                          GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TransactionDetail(id: services[index]['id'],account: widget.account,)));
+                                          },
                                            child: const Icon(Icons.menu),
                                          )
                                            ],

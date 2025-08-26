@@ -70,7 +70,7 @@ Future<void> fetchServices() async {
                                   print('data              '+thisItem['img']);
                                   return Container(
                                     
-                                     margin: const EdgeInsets.only(right:30,left:30,bottom:10, top:10),
+                                     margin: const EdgeInsets.only(right:20,left:20,bottom:10, top:10),
                                   decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
@@ -116,7 +116,7 @@ Future<void> fetchServices() async {
                                                 style:const TextStyle(
                                                   fontFamily: 'Candal',
                                                   color: Color(0xff57A5EC),
-                                                  fontSize: 15,
+                                                  fontSize: 19,
                                                   
                                                 ),overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,softWrap: true,
@@ -128,7 +128,7 @@ Future<void> fetchServices() async {
                                                 style:const TextStyle(
                                                   fontWeight: FontWeight.bold,  
                                                   color: Colors.black,
-                                                  fontSize: 12,
+                                                  fontSize: 16,
                                                   
                                                 ),overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
@@ -140,15 +140,16 @@ Future<void> fetchServices() async {
                                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailVoucher(codeVoucher: documentSnapshot.id, account: widget.account,)));
                                                   },
                                                   child: Container(
+                                                    margin: EdgeInsets.only(top:5,right: 5,left: 5),
                                                     alignment: Alignment.center,
-                                                    height: 26,
-                                                    width: 127,
+                                                    height: 40,
+                                                    width: 180,
                                                     decoration: BoxDecoration(
                                                       color: const Color(0xff1A4368),
-                                                      borderRadius: BorderRadius.circular(25)
+                                                      borderRadius: BorderRadius.circular(15)
                                                       ),
                                                     child: Text('View More', textAlign:TextAlign.center,
-                                                    style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                                                    style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white, fontSize: 15),
                                                     ),
                                                   
                                                     ),

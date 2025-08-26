@@ -1,10 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:booking/model/database_service.dart';
 import 'package:booking/user/pages/Test.dart';
+import 'package:booking/user/pages/aboutsystem.dart';
 import 'package:booking/user/pages/booking_history.dart';
+import 'package:booking/user/pages/chatbox/home_chat.dart';
 import 'package:booking/user/pages/intro_page.dart';
 import 'package:booking/user/pages/edit_personal_page.dart';
+import 'package:booking/user/pages/myvoucher.dart';
 import 'package:booking/user/pages/notify_page.dart';
 import 'package:booking/user/widget/navigation_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,6 +28,7 @@ var account;
 
 class _ProfilePageState extends State<ProfilePage> {
     Map<String, dynamic>? user; 
+    DatabaseService _databaseService =DatabaseService();
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
     File? imageFile;
@@ -62,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     getUserById(widget.account);
+
   }
   Future<void> getUserById(String id) async {
     try {
@@ -112,315 +118,355 @@ class _ProfilePageState extends State<ProfilePage> {
       body: user!=null ? SizedBox(
         width: double.infinity,
         height:   double.infinity ,
-        child: Column(
-          children:[ 
-            Padding(
-              padding: const EdgeInsets.only(bottom: 0),
-              child: Stack(
-              fit: StackFit.loose,
-              children:[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 50),
-                height: 200,
-                width: double.infinity,
-                
-                decoration:const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(100), // Bo tròn góc dưới trái
-                    bottomRight: Radius.circular(100),
-                  ),
-                  color: Color(0xff1A4368),
-                ),
-              ),
-              Positioned(
-                top:100,
-                left: 130  ,
-                child: ClipOval(
-                  child: Container(
-                    width: size.width / 3, 
-                   height: size.width / 3,
-                   decoration:BoxDecoration(
-  image: DecorationImage(
-    image: imageFile != null
-        ? FileImage(imageFile!) 
-        : (user!['img'] != null && user!['img'].isNotEmpty
-            ? NetworkImage(user!['img']) 
-            : const AssetImage('asset/images/london-west-hollywood-los-angeles-california-102897-2.jpg') as ImageProvider), 
-    fit: BoxFit.cover,
-  ),
-),
-                )
-                ),
-              ),
-                Positioned(
-                  top: 180,
-                  left: 220,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 243, 239, 239),
-                        borderRadius: BorderRadius.circular(30)
-                    ),
+        child: SingleChildScrollView(
+          child: Column(
+            children:[ 
+              Padding(
+                padding: const EdgeInsets.only(bottom: 0),
+                child: SizedBox(
+                  height: 300,
+                  child: Stack(
+                  fit: StackFit.loose,
+                  children:[
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 50),
+                    height: 250,
+                    width: double.infinity,
                     
-                    child: IconButton(
-                      color: Colors.black,
-                      onPressed: (
-                        
-                      ){
-                        showPhotoOption();
-                      },
-                    icon: const Icon(Icons.edit),
+                    decoration:const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(100), // Bo tròn góc dưới trái
+                        bottomRight: Radius.circular(100),
+                      ),
+                      color: Color(0xff1A4368),
                     ),
                   ),
+                  Positioned(
+                    bottom:0,
+                    left: 0,
+                    right: 0, 
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children:[
+                        ClipOval(
+                        child: Container(
+                          width: size.width / 3, 
+                         height: size.width / 3,
+                         decoration:BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageFile != null
+                              ? FileImage(imageFile!) 
+                              : (user!['img'] != null && user!['img'].isNotEmpty
+                                  ? NetworkImage(user!['img']) 
+                                  : const AssetImage('asset/images/london-west-hollywood-los-angeles-california-102897-2.jpg') as ImageProvider), 
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                      )
+                      ),
+                      ]
+                    ),
                   ),
-                  
-                  
-              ] 
-              ),
-            ),
-          Container(
-                  
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Text(user!['name'], style:const TextStyle(
-                        color: Color(0xff3CA0B6),
-                        fontFamily: 'Candal',
-                        fontSize: 25
+                    Positioned(
+                      bottom: 15,
+                      left: size.width/1.7,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 243, 239, 239),
+                            borderRadius: BorderRadius.circular(30)
                         ),
+                        
+                        child: IconButton(
+                          color: Colors.black,
+                          onPressed: (
+                            
+                          ){
+                            showPhotoOption();
+                          },
+                        icon: const Icon(Icons.edit),
                         ),
-                        Text(user!['email'], style:const TextStyle(
-                        color: Color(0xff3CA0B6),
-                        fontFamily: 'Candal',
-                        fontSize: 15
-                        ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: const Offset(0, 2), 
-                                ),
-                              ],
-                            color: const Color.fromARGB(255, 242, 236, 236),
-                            borderRadius: BorderRadius.circular(20)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child:  Column(
-                              children: [
-                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>EditPersonalDetail(account:widget.account)));
-                                    },
-                                    child:const Row(
-                                      children: [
-                                        SizedBox(width: 10,),
-                                        Icon(Icons.details),
-                                        SizedBox(width: 10,),
-                                        Text('Personal Detail', 
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>NotifyPage(account: widget.account)));
-
-                                    },
-                                    child:const Row(
-                                      
-                                      children: [
-                                        SizedBox(width: 10,),
-                                        Icon(Icons.notification_add),
-                                        SizedBox(width: 10,),
-                                        Text('Notification', 
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account,type: 'room',)));
-                                      },
-                                    child:const Row(
-                                      children: [
-                                        SizedBox(width: 10,),
-                                        Icon(Icons.home),
-                                        SizedBox(width: 10,),
-                                        Text('Booking History', 
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account, type: 'table',)));
-                                    },
-                                    child:const Row(
-                                      children: [
-                                        SizedBox(width: 10,),
-                                        Icon(Icons.restaurant),
-                                        SizedBox(width: 10,),
-                                        Text('Dining Table History', 
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                                  BoxShadow(
-                                  color: Colors.black.withOpacity(0.1), 
-                                  spreadRadius: 3,
-                                  blurRadius: 7, 
-                                  offset: const Offset(0, 2), 
-                                ),
-                              ],
-                            color: const Color.fromARGB(255, 242, 236, 236),
-                            borderRadius: BorderRadius.circular(20)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child:  Column(
-                              children: [
-                                 
-                                 const Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(width: 10,),
-                                      Icon(Icons.question_mark),
-                                      SizedBox(width: 10,),
-                                      Text('Help and Support', 
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                 Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                    },
-                                    child:const  Row(
-                                      children: [
-                                        SizedBox(width: 10,),
-                                        Icon(Icons.dangerous),
-                                        SizedBox(width: 10,),
-                                        Text('About Us', 
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PointUser(account: widget.account,)));
-                                    },
-                                    child:const Row(
-                                      children: [
-                                        SizedBox(width: 10,),
-                                        Icon(Icons.point_of_sale),
-                                        SizedBox(width: 10,),
-                                        Text('Point', 
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: () async{
-                                      try {
-                                         await _auth.signOut();
-                                         print("Đăng xuất thành công");
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Landing()));
-                                       } catch (e) {
-                                         print("Lỗi đăng xuất: $e");
-                                      }
-                                    },
-                                    child:const Row(
-                                      children: [
-                                        SizedBox(width: 10,),
-                                        Icon(Icons.point_of_sale),
-                                        SizedBox(width: 10,),
-                                        Text('Sign Out', 
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                        ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  )
-                                
-                              ],
-                            ),
-                          ),
-                        )
-                    ],
+                      ),
+                      ),
+                      
+                      
+                  ] 
                   ),
                 ),
+              ),
+            Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    width: double.infinity,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Text(user!['name'], style:const TextStyle(
+                          color: Color(0xff3CA0B6),
+                          fontFamily: 'Candal',
+                          fontSize: 26
+                          ),
+                          ),
+                          Text(user!['email'], style:const TextStyle(
+                          color: Color(0xff3CA0B6),
+                          fontFamily: 'Candal',
+                          fontSize: 16
+                          ),
+                          ),
+                          SizedBox(height: 10,),
+                          Container(
+                            margin: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                    BoxShadow(
+                                    color: Colors.black.withOpacity(0.1), 
+                                    spreadRadius: 3,
+                                    blurRadius: 7, 
+                                    offset: const Offset(0, 2), 
+                                  ),
+                                ],
+                              color: const Color.fromARGB(255, 242, 236, 236),
+                              borderRadius: BorderRadius.circular(20)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child:  Column(
+                                children: [
+                                   Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>EditPersonalDetail(account:widget.account)));
+                                      },
+                                      child:const Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.details),
+                                          SizedBox(width: 10,),
+                                          Text('Personal Detail', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                   Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>NotifyPage(account: widget.account)));
+          
+                                      },
+                                      child:const Row(
+                                        
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.notification_add),
+                                          SizedBox(width: 10,),
+                                          Text('Notification', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                   Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account,type: 'room',)));
+                                        },
+                                      child:const Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.home),
+                                          SizedBox(width: 10,),
+                                          Text('Booking History', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                   Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BookingHistory(account: widget.account, type: 'table',)));
+                                      },
+                                      child:const Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.restaurant),
+                                          SizedBox(width: 10,),
+                                          Text('Dining Table History', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+          
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                    BoxShadow(
+                                    color: Colors.black.withOpacity(0.1), 
+                                    spreadRadius: 3,
+                                    blurRadius: 7, 
+                                    offset: const Offset(0, 2), 
+                                  ),
+                                ],
+                              color: const Color.fromARGB(255, 242, 236, 236),
+                              borderRadius: BorderRadius.circular(20)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child:  Column(
+                                children: [
+                                   
+                                    Padding(
+                                    padding: EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeChat()));
+                                      },
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.question_mark),
+                                          SizedBox(width: 10,),
+                                          Text('Help and Support', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                   Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutApp()));
+                                      },
+                                      child:const  Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.dangerous),
+                                          SizedBox(width: 10,),
+                                          Text('About Us', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Myvoucher(account: widget.account,)));
+                                      },
+                                      child:const Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.airplane_ticket),
+                                          SizedBox(width: 10,),
+                                          Text('My Voucher', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PointUser(account: widget.account,)));
+                                      },
+                                      child:const Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.point_of_sale),
+                                          SizedBox(width: 10,),
+                                          Text('Point', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: GestureDetector(
+                                      onTap: () async{
+                                        try {
+                                           await _auth.signOut();
+                                           print("Đăng xuất thành công");
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Landing()));
+                                         } catch (e) {
+                                           print("Lỗi đăng xuất: $e");
+                                        }
+                                      },
+                                      child:const Row(
+                                        children: [
+                                          SizedBox(width: 10,),
+                                          Icon(Icons.sign_language_outlined),
+                                          SizedBox(width: 10,),
+                                          Text('Sign Out', 
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    )
+                                  
+                                ],
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                  
                 
-              
-          ]
+            ]
+          ),
         ),
       ):const Center(
                       child: CircularProgressIndicator(), // Hoặc bạn có thể thay thế bằng một widget khác thông báo lỗi

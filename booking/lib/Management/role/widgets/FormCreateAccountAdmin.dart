@@ -67,10 +67,10 @@ class _FormcreateAccountAdminState extends State<FormcreateAccountAdmin> {
           children: [
             const Padding(
               padding: EdgeInsets.all(10),
-              child: const Center(child: Text('Create Account Admin', style: TextStyle(
-                fontFamily: 'Candal',
-                fontSize: 21
-              ),))),
+              child:  const Center(child: Text('Create Account', style: TextStyle(
+            fontFamily: 'Candal',
+            fontSize: 22,
+          ),)),),
               Center(
                 child: Text('Avatar', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
               ),
@@ -85,15 +85,24 @@ class _FormcreateAccountAdminState extends State<FormcreateAccountAdmin> {
                           }
                         },
                     child: Center(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: widget.img.isNotEmpty
-                            ? NetworkImage(widget.img)
-                            : widget.img != null
-                                ? NetworkImage(widget.img)
-                                : null,
-                        child:
-                            widget.img == null ? const Icon(Icons.image) : null,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(widget.img==''? 'Đang load hình đợi tí':'Load xog rồi'),
+                          ),
+                       CircleAvatar(
+                          radius: 50,
+                          backgroundImage: widget.img.isNotEmpty
+                              ? NetworkImage(widget.img)
+                              : widget.img != null
+                                  ? NetworkImage(widget.img)
+                                  : null,
+                          child:
+                              widget.img == null ? const Icon(Icons.image) : null,
+                        ),
+                        ],
+                        
                       ),
                     ),
                   ),
@@ -198,8 +207,7 @@ class _FormcreateAccountAdminState extends State<FormcreateAccountAdmin> {
             final String uname = widget.username.text;
             final String pwd = widget.password.text;
             final String role =widget.selectedRole ?? 'Unknown';
-            
-            
+
                 if (await isUsernameUnique(uname)) {
              FirebaseFirestore.instance.collection('Admin').add({
               "name": randomAlphaNumeric(10),
@@ -209,6 +217,7 @@ class _FormcreateAccountAdminState extends State<FormcreateAccountAdmin> {
               "username":uname,
               "id": randomString(7),
               "img": widget.img,
+              'phone':''
               
             });
             widget.fullname.clear();

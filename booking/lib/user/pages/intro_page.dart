@@ -1,6 +1,7 @@
 import 'package:booking/user/widget/intro.dart';
 import 'package:booking/user/widget/signIn.dart';
 import 'package:booking/user/widget/signup.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Landing extends StatefulWidget {
@@ -36,12 +37,17 @@ class _LandingState extends State<Landing> {
     });
   }
   void _onGetStarted(int id) {
-    _controller.jumpToPage(id); 
+    setState(() {
+      _controller.jumpToPage(id); 
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    
+    Size size = MediaQuery.of(context).size;
+    setState(() {
+      
+    });
       return SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -50,16 +56,21 @@ class _LandingState extends State<Landing> {
           fit: StackFit.loose,
           children:[
               
-              SizedBox(
+              Container(
+                color:kIsWeb? const Color.fromARGB(255, 185, 157, 157):null,
+                alignment: Alignment.center,
                 
                 height: MediaQuery.of(context).size.height / 2.2,
                 
-                child: Image.asset('asset/images/icons/intro.png', fit: BoxFit.cover,width: MediaQuery.sizeOf(context).width),
+                child: kIsWeb&&size.width>1000? Image.asset('asset/images/icons/banner.png'):Image.asset('asset/images/icons/intro.png', 
+                fit: BoxFit.cover,
+                width:size.width
+                ),
               ),
               
               
               Positioned(
-                top: 320,
+                top: 350,
                 child: Container(
                   
                   decoration: BoxDecoration(  
@@ -86,9 +97,15 @@ class _LandingState extends State<Landing> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List<Widget>.generate(_pages.length, (int index) {
+                              setState(() {
+                                
+                              });
                               return AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
                                 height: 10,
@@ -102,7 +119,7 @@ class _LandingState extends State<Landing> {
                             }),
                           ),
                           
-                          const SizedBox(height: 50),
+                          const SizedBox(height: 80),
                         ],
                       ),
                     ],
